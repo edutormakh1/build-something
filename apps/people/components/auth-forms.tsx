@@ -1,73 +1,263 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { createBrowserSupabase } from "@bs/auth/browser";
-import { hasRealSupabase } from "@bs/auth";
+import { hasRealSupabase, peopleSiteUrl } from "@bs/auth";
 
 const SIZES = ["solo", "2-10", "11-50", "51-200", "201-1000", "1000+"];
 
+function accountUrl() {
+  return `${peopleSiteUrl()}/account`;
+}
+
+async function tryLightweightProfile(
+  supabase: ReturnType<typeof createBrowserSupabase>,
+  userId: string,
+  email: string,
+) {
+  const nick = (email.split("@")[0] || "Member").slice(0, 80);
+  const { error } = await supabase.from("profiles").upsert({
+    id: userId,
+    full_name: nick,
+    status: "pending",
+  });
+  return error;
+}
+
 export function LoginForm({ nextPath, resetUrl }: { nextPath?: string; resetUrl: string }) {
   const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [magic, setMagic] = useState(false);
+
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email") || "");
     if (!hasRealSupabase()) {
-      setMsg("Supabase keys are not configured. Public catalog still works from seed JSON.");
+      setMsg("The gallery is open from seed JSON. Auth waits on real Supabase keys.");
       return;
     }
+    setBusy(true);
     const supabase = createBrowserSupabase();
+    if (magic) {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: accountUrl() },
+      });
+      setBusy(false);
+      setMsg(error ? error.message : "Check your email — a door link is on the way.");
+      return;
+    }
     const { error } = await supabase.auth.signInWithPassword({
-      email: String(fd.get("email")),
+      email,
       password: String(fd.get("password")),
     });
-    setMsg(error ? error.message : "Signed in. Continue to your account.");
-    if (!error && nextPath) window.location.href = nextPath;
+    setBusy(false);
+    if (error) {
+      setMsg(error.message);
+      return;
+    }
+    setMsg("You’re in.");
+    window.location.href = nextPath || "/account";
   }
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="hall-form">
       <label htmlFor="email">Email</label>
-      <input id="email" name="email" type="email" autoComplete="email" required />
-      <label htmlFor="password">Password</label>
-      <input id="password" name="password" type="password" autoComplete="current-password" required />
-      <button type="submit">Log in</button>
-      <p><a href="/forgot-password">Forgot password</a> · reset emails return to {resetUrl}</p>
+      <input id="email" name="email" type="email" autoComplete="email" required placeholder="you@studio.com" />
+      {!magic ? (
+        <>
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="password" autoComplete="current-password" required />
+        </>
+      ) : null}
+      <button type="submit" disabled={busy}>
+        {busy ? "Opening…" : magic ? "Email me a link" : "Enter"}
+      </button>
+      <p className="hall-alt">
+        <button type="button" className="textish" onClick={() => setMagic((v) => !v)}>
+          {magic ? "Use a password instead" : "Prefer a magic link?"}
+        </button>
+        {" · "}
+        <a href="/forgot-password">Forgot password</a>
+      </p>
+      <p className="hall-fine">Reset emails return to {resetUrl}</p>
       {msg ? <p role="status">{msg}</p> : null}
     </form>
   );
 }
 
 export function SignupForm() {
-  const [step, setStep] = useState<1 | 2>(1);
   const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const [magic, setMagic] = useState(false);
+
   async function onAuth(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email") || "");
+    const password = String(fd.get("password") || "");
     if (!hasRealSupabase()) {
-      setMsg("Auth is waiting on real Supabase keys. You can still browse the catalog.");
-      setStep(2);
+      setDone(true);
+      setMsg("Auth is waiting on real Supabase keys. You can still walk the catalog.");
       return;
     }
+    setBusy(true);
     const supabase = createBrowserSupabase();
-    const { error } = await supabase.auth.signUp({
-      email: String(fd.get("email")),
-      password: String(fd.get("password")),
-      options: { emailRedirectTo: "https://buildsomethingpeoplewant.com/account" },
+    if (magic) {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: accountUrl() },
+      });
+      setBusy(false);
+      if (error) {
+        setMsg(error.message);
+        return;
+      }
+      setDone(true);
+      setMsg("Check your email — that link is your seat at the door.");
+      return;
+    }
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: accountUrl() },
     });
-    if (error) { setMsg(error.message); return; }
-    setStep(2);
-    setMsg("Check email if confirmation is required, then complete your business profile. Accounts stay pending until an editor approves.");
+    if (error) {
+      setBusy(false);
+      setMsg(error.message);
+      return;
+    }
+    if (data.user) {
+      await tryLightweightProfile(supabase, data.user.id, email);
+    }
+    setBusy(false);
+    setDone(true);
+    if (data.session) {
+      setMsg("You’re in. The gallery is yours to walk.");
+      window.location.href = "/account";
+      return;
+    }
+    setMsg("Check your email if a confirmation landed. After that you’re in — no paperwork first.");
   }
+
+  if (done) {
+    return (
+      <div className="hall-done">
+        <p role="status">{msg}</p>
+        <p>
+          <Link href="/">Walk the gallery</Link> · <Link href="/login">Log in</Link>
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onAuth} className="hall-form">
+      <label htmlFor="email">Email</label>
+      <input id="email" name="email" type="email" autoComplete="email" required placeholder="you@studio.com" />
+      {!magic ? (
+        <>
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="password" autoComplete="new-password" minLength={8} required />
+        </>
+      ) : null}
+      <button type="submit" disabled={busy}>
+        {busy ? "Making your seat…" : magic ? "Email me a link" : "Come in"}
+      </button>
+      <p className="hall-alt">
+        <button type="button" className="textish" onClick={() => setMagic((v) => !v)}>
+          {magic ? "Use a password instead" : "Prefer a magic link?"}
+        </button>
+        {" · "}
+        <Link href="/login">Already a member?</Link>
+      </p>
+      {msg ? <p role="status">{msg}</p> : null}
+    </form>
+  );
+}
+
+export function ForgotForm() {
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    if (!hasRealSupabase()) {
+      setMsg("Password reset needs real Supabase keys. Redirect URL would be this site.");
+      return;
+    }
+    setBusy(true);
+    const supabase = createBrowserSupabase();
+    const { error } = await supabase.auth.resetPasswordForEmail(String(fd.get("email")), {
+      redirectTo: accountUrl(),
+    });
+    setBusy(false);
+    setMsg(error ? error.message : "If the account exists, a reset email is on the way. It returns to this site, not the agent twin.");
+  }
+  return (
+    <form onSubmit={onSubmit} className="hall-form">
+      <label htmlFor="email">Email</label>
+      <input id="email" name="email" type="email" required autoComplete="email" />
+      <button type="submit" disabled={busy}>
+        {busy ? "Sending…" : "Send reset link"}
+      </button>
+      {msg ? <p role="status">{msg}</p> : null}
+    </form>
+  );
+}
+
+export function SignOutButton() {
+  const [msg, setMsg] = useState("");
+  async function onClick() {
+    if (!hasRealSupabase()) return;
+    const supabase = createBrowserSupabase();
+    await supabase.auth.signOut();
+    setMsg("Signed out.");
+    window.location.href = "/";
+  }
+  return (
+    <p>
+      <button type="button" className="btn ghost" onClick={onClick}>
+        Sign out
+      </button>
+      {msg ? <span role="status"> {msg}</span> : null}
+    </p>
+  );
+}
+
+export function BusinessProfileForm({ purpose }: { purpose: "list" | "review" | "account" }) {
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
   async function onProfile(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const ship = String(fd.get("what_they_ship"));
     const why = String(fd.get("why_belong"));
-    if (ship.length < 400) { setMsg("What you ship must be at least 400 characters."); return; }
-    if (why.length < 280) { setMsg("Why you belong must be at least 280 characters."); return; }
-    if (!hasRealSupabase()) { setMsg("Profile saved locally in spirit only until keys exist. Expected status: pending."); return; }
+    if (ship.length < 400) {
+      setMsg("What you ship must be at least 400 characters — that’s the catalog bar, not the door.");
+      return;
+    }
+    if (why.length < 280) {
+      setMsg("Why you belong must be at least 280 characters.");
+      return;
+    }
+    if (!hasRealSupabase()) {
+      setMsg("Profile saved in spirit only until keys exist. Expected status: pending.");
+      return;
+    }
+    setBusy(true);
     const supabase = createBrowserSupabase();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setMsg("Sign in first."); return; }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setBusy(false);
+      setMsg("Sign in first.");
+      return;
+    }
     const { error } = await supabase.from("profiles").upsert({
       id: user.id,
       full_name: String(fd.get("full_name")),
@@ -80,66 +270,101 @@ export function SignupForm() {
       intended_product: String(fd.get("intended_product")),
       status: "pending",
     });
-    setMsg(error ? error.message : "Profile submitted. Status is pending until an admin approves. You cannot set is_admin.");
+    setBusy(false);
+    setMsg(
+      error
+        ? error.message
+        : "Membership card submitted. Status stays pending until an editor approves listing or reviews. You cannot set is_admin.",
+    );
   }
+
+  const why =
+    purpose === "list"
+      ? "To list a product, editors need the long card. It is not required to walk the gallery."
+      : purpose === "review"
+        ? "To file a review, complete this card. Browsing never required it."
+        : "Optional. Fill this only if you want to list a product or write a review.";
+
   return (
-    <div>
-      {step === 1 ? (
-        <form onSubmit={onAuth}>
-          <h2>Step 1 · Email and password</h2>
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" autoComplete="email" required />
-          <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" autoComplete="new-password" minLength={10} required />
-          <button type="submit">Create login</button>
-        </form>
-      ) : (
-        <form onSubmit={onProfile}>
-          <h2>Step 2 · Business profile</h2>
-          <p>Pending until an editor approves. Matching database constraints: what you ship ≥ 400 characters, why you belong ≥ 280.</p>
-          <label htmlFor="full_name">Full name</label>
-          <input id="full_name" name="full_name" required />
-          <label htmlFor="company_name">Company name</label>
-          <input id="company_name" name="company_name" required />
-          <label htmlFor="company_website">Company website</label>
-          <input id="company_website" name="company_website" type="url" required />
-          <label htmlFor="role_title">Role title</label>
-          <input id="role_title" name="role_title" required />
-          <label htmlFor="company_size">Company size</label>
-          <select id="company_size" name="company_size" required>
-            {SIZES.map((s) => <option key={s}>{s}</option>)}
-          </select>
-          <label htmlFor="intended_product">Intended product</label>
-          <input id="intended_product" name="intended_product" required />
-          <label htmlFor="what_they_ship">What you ship (400+ characters)</label>
-          <textarea id="what_they_ship" name="what_they_ship" rows={8} minLength={400} required />
-          <label htmlFor="why_belong">Why you belong here (280+ characters)</label>
-          <textarea id="why_belong" name="why_belong" rows={6} minLength={280} required />
-          <button type="submit">Submit for review</button>
-        </form>
-      )}
+    <form onSubmit={onProfile} className="hall-form long-form">
+      <h2>Membership card</h2>
+      <p>{why}</p>
+      <label htmlFor="full_name">Full name</label>
+      <input id="full_name" name="full_name" required />
+      <label htmlFor="company_name">Company name</label>
+      <input id="company_name" name="company_name" required />
+      <label htmlFor="company_website">Company website</label>
+      <input id="company_website" name="company_website" type="url" required />
+      <label htmlFor="role_title">Role title</label>
+      <input id="role_title" name="role_title" required />
+      <label htmlFor="company_size">Company size</label>
+      <select id="company_size" name="company_size" required>
+        {SIZES.map((s) => (
+          <option key={s}>{s}</option>
+        ))}
+      </select>
+      <label htmlFor="intended_product">Intended product</label>
+      <input id="intended_product" name="intended_product" required />
+      <label htmlFor="what_they_ship">What you ship (400+ characters)</label>
+      <textarea id="what_they_ship" name="what_they_ship" rows={8} minLength={400} required />
+      <label htmlFor="why_belong">Why you belong here (280+ characters)</label>
+      <textarea id="why_belong" name="why_belong" rows={6} minLength={280} required />
+      <button type="submit" disabled={busy}>
+        {busy ? "Sending…" : "Submit for review"}
+      </button>
       {msg ? <p role="status">{msg}</p> : null}
-    </div>
+    </form>
   );
 }
 
-export function ForgotForm() {
+export function ReviewDraftForm() {
   const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    if (!hasRealSupabase()) { setMsg("Password reset needs real Supabase keys. Redirect URL would be this site."); return; }
+    if (!hasRealSupabase()) {
+      setMsg("Reviews stay pending until keys and an editor exist.");
+      return;
+    }
+    setBusy(true);
     const supabase = createBrowserSupabase();
-    const { error } = await supabase.auth.resetPasswordForEmail(String(fd.get("email")), {
-      redirectTo: "https://buildsomethingpeoplewant.com/account",
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setBusy(false);
+      setMsg("Sign in first.");
+      return;
+    }
+    const { error } = await supabase.from("reviews").insert({
+      product: String(fd.get("product")),
+      title: String(fd.get("title")),
+      body: String(fd.get("body")),
+      kind: "user",
+      status: "pending",
+      author: user.id,
     });
-    setMsg(error ? error.message : "If the account exists, a reset email is on the way. It returns to this site, not the agent twin.");
+    setBusy(false);
+    setMsg(
+      error
+        ? error.message
+        : "Review filed as pending. An editor publishes named user reviews; we never fake UGC.",
+    );
   }
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="email">Email</label>
-      <input id="email" name="email" type="email" required />
-      <button type="submit">Send reset link</button>
+    <form onSubmit={onSubmit} className="hall-form long-form">
+      <h2>File a user review</h2>
+      <p>Approved members with can_review may insert pending reviews. Kind is user. Status starts pending.</p>
+      <label htmlFor="product">Product slug</label>
+      <input id="product" name="product" required placeholder="chatgpt" />
+      <label htmlFor="title">Title</label>
+      <input id="title" name="title" required />
+      <label htmlFor="body">Review</label>
+      <textarea id="body" name="body" rows={8} required minLength={80} />
+      <button type="submit" disabled={busy}>
+        {busy ? "Filing…" : "Submit pending review"}
+      </button>
       {msg ? <p role="status">{msg}</p> : null}
     </form>
   );

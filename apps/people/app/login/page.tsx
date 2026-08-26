@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LoginForm } from "../../components/auth-forms";
+import { HallShell } from "../../components/hall-shell";
 
 export const metadata: Metadata = {
   title: "Log in",
@@ -9,10 +11,17 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <article className="prose">
-      <h1>Log in</h1>
-      <p>Members with approved profiles can submit reviews. The public catalog does not require an account.</p>
+    <HallShell
+      kicker="Members’ hall"
+      title="Come in"
+      lede="One email. One password. Then the gallery is yours. The public catalog never required an account."
+      footer={
+        <p className="hall-fine">
+          New here? <Link href="/signup">Take a seat</Link>. Listing a product is a later, optional card.
+        </p>
+      }
+    >
       <LoginForm nextPath="/account" resetUrl="https://buildsomethingpeoplewant.com/account" />
-    </article>
+    </HallShell>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { allCategories, allProducts, allArticles } from "@bs/db";
-import { TwinScore, JsonLd } from "@bs/ui";
+import { JsonLd } from "@bs/ui";
+import { ProductCard } from "../components/product-card";
 import { itemListJsonLd, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export default function HomePage() {
@@ -11,7 +12,7 @@ export default function HomePage() {
   const cats = allCategories();
   const posts = allArticles().slice(0, 4);
   return (
-    <article className="prose">
+    <article>
       <JsonLd
         data={[
           breadcrumbJsonLd("people", [{ name: "Home", path: "/" }]),
@@ -28,8 +29,18 @@ export default function HomePage() {
           ),
         ]}
       />
-      <p className="kicker">Editorial · Worldwide · English · Edited by Edu Tor</p>
-      <h1>Software scored for the humans who actually use it</h1>
+      <header className="opening">
+        <p className="kicker">Editorial · Worldwide · English · Edited by Edu Tor</p>
+        <h1>Software scored for the humans who actually use it</h1>
+        <p className="standfirst">
+          A worldwide gallery of products people actually want. Twin Scores, named authors, no fake user reviews.
+        </p>
+        <p className="hero-actions">
+          <Link href="/products" className="btn">Walk the gallery</Link>
+          <Link href="/signup" className="btn ghost">Come in</Link>
+        </p>
+      </header>
+      <div className="prose">
       <p>
         Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We publish original Twin Scores, named-author reviews, and research — not crowdsourced star ratings and not invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
       </p>
@@ -45,18 +56,13 @@ export default function HomePage() {
         People and agents do not want the same page. People want prose, comparisons, and a magazine that does not look like purple SaaS. Agents want matrices, SKILL.md, CSV, and OpenAPI. Same graph, two contracts.
       </p>
       <h2>Featured products by human Twin Score</h2>
-      <div className="grid-cards not-prose">
+      </div>
+      <div className="gallery-grid not-prose">
         {products.map((p) => (
-          <article key={p.slug} className="card">
-            <p className="kicker">{p.category}</p>
-            <h3 className="mt-1 text-xl">
-              <Link href={`/products/${p.slug}`}>{p.name}</Link>
-            </h3>
-            <p className="text-sm mt-2">{p.description}</p>
-            <TwinScore human={p.twin.human} agent={p.twin.agent} emphasize="human" />
-          </article>
+          <ProductCard key={p.slug} product={p} />
         ))}
       </div>
+      <div className="prose">
       <h2>Categories</h2>
       <ul>
         {cats.map((c) => (
@@ -81,6 +87,7 @@ export default function HomePage() {
       <p>
         Agents should go to <a href="https://buildsomethingagentswant.com/for-agents">Build Something Agents Want developer resources</a>.
       </p>
+      </div>
     </article>
   );
 }

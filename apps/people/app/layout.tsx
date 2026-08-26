@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Frame } from "../components/chrome";
-import { JsonLd } from "@bs/ui";
+import { BrandFonts, display, sans, JsonLd } from "@bs/ui";
+import { Experience } from "../components/experience";
 import { orgJsonLd, websiteJsonLd } from "@bs/seo";
 import "./globals.css";
+import "./geo-crawler.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://buildsomethingpeoplewant.com"),
@@ -20,22 +21,21 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
+  authors: [{ name: "Edu Tor", url: "https://buildsomethingpeoplewant.com/authors/edu-tor" }],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <head>
+        <BrandFonts />
         <JsonLd data={[orgJsonLd("people"), websiteJsonLd("people")]} />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="https://buildsomethingpeoplewant.com/feed.xml" />
         <link rel="alternate" type="application/atom+xml" title="Atom" href="https://buildsomethingpeoplewant.com/atom.xml" />
+        <link rel="alternate" type="text/plain" title="llms.txt" href="https://buildsomethingpeoplewant.com/llms.txt" />
       </head>
       <body>
-        <Frame>
-          <main id="main" className="wrap py-8">
-            {children}
-          </main>
-        </Frame>
+        <Experience>{children}</Experience>
       </body>
     </html>
   );

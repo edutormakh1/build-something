@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import { SignupForm } from "../../components/auth-forms";
+import { HallShell } from "../../components/hall-shell";
 
 export const metadata: Metadata = {
   title: "Sign up",
-  description: "Create a pending membership. Editors approve before you can review or list.",
+  description: "Create an account with email and password. Business profile is optional, later.",
   robots: { index: false, follow: false },
 };
 
 export default function Page() {
   return (
-    <article className="prose">
-      <h1>Request membership</h1>
-      <p>
-        Signup is deliberately two steps: email and password, then a business profile that matches the database constraints (what you ship ≥ 400 characters, why you belong ≥ 280). Status stays pending until an editor approves. You cannot set is_admin on yourself.
-      </p>
+    <HallShell
+      kicker="The door, not the paperwork"
+      title="Take a seat"
+      lede="Email and a password — or a magic link. After that you can use the site. The long membership card appears only when you want to list a product or write a review."
+    >
       <SignupForm />
-    </article>
+    </HallShell>
   );
 }

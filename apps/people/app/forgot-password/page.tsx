@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ForgotForm } from "../../components/auth-forms";
+import { HallShell } from "../../components/hall-shell";
 
 export const metadata: Metadata = {
   title: "Forgot password",
@@ -9,10 +10,12 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <article className="prose">
-      <h1>Forgot password</h1>
-      <p>Reset links use this site’s origin, not the agent twin, so you land back on the magazine.</p>
+    <HallShell
+      kicker="Members’ hall"
+      title="Lost the key"
+      lede="Reset links use this site’s origin, not the agent twin, so you land back in the gallery."
+    >
       <ForgotForm />
-    </article>
+    </HallShell>
   );
 }

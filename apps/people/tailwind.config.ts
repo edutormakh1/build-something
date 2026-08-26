@@ -4,16 +4,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#f4ead8",
-        ink: "#1c140c",
-        rust: "#b5431f",
-        forest: "#243c33",
-        brass: "#b0892e",
-        rule: "#cbb79a",
+        paper: "#0b0907",
+        ink: "#f3eadc",
+        rust: "#d4784a",
+        forest: "#7d9a86",
+        brass: "#c4a574",
+        rule: "#c4a574",
       },
       fontFamily: {
-        serif: ["Iowan Old Style", "Palatino Linotype", "Palatino", "Georgia", "serif"],
-        sans: ["Avenir Next", "Segoe UI", "Trebuchet MS", "sans-serif"],
+        serif: ["var(--font-display-loaded)", "Iowan Old Style", "Palatino", "Georgia", "serif"],
+        sans: ["var(--font-sans-loaded)", "Avenir Next", "Segoe UI", "sans-serif"],
       },
     },
   },
