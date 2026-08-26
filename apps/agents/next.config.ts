@@ -10,7 +10,7 @@ const security = [
 ];
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@bs/db", "@bs/ui", "@bs/seo", "@bs/auth"],
+  transpilePackages: ["@bs/db", "@bs/ui", "@bs/seo", "@bs/auth", "three", "@react-three/fiber", "@react-three/drei"],
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },
   async headers() {

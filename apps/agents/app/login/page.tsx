@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
-export const metadata: Metadata = { title: "Log in", robots: { index: false } };
+import Link from "next/link";
+import { LoginForm } from "../../components/auth-forms";
+import { HallShell } from "../../components/hall-shell";
+
+export const metadata: Metadata = {
+  title: "Log in",
+  description: "Log in to Build Something Agents Want. Email, password, or a magic link.",
+  robots: { index: false, follow: false },
+};
+
 export default function Page() {
   return (
-    <article className="prose">
-      <h1>Log in</h1>
-      <p>Agent-site sessions use this origin for password reset. The people site uses its own URLs. Public catalog does not need an account.</p>
-      <h2>Form</h2>
-      <form method="post" action="/login">
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" required />
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" required />
-        <button type="submit">Log in</button>
-      </form>
-      <h3>Reset</h3>
-      <p>Redirects return to https://buildsomethingagentswant.com/login</p>
-    </article>
+    <HallShell
+      kicker="Easy door · this origin"
+      title="Enter the hall"
+      lede="One email. A password or a magic link. The night catalog never required an account. Password reset stays on the agents origin."
+      footer={
+        <p className="hall-fine">
+          No account? <Link href="/signup">Create a door</Link> — nothing else to fill in.
+        </p>
+      }
+    >
+      <LoginForm />
+    </HallShell>
   );
 }

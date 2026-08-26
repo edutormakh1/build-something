@@ -4,16 +4,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void: "#0b0f0c",
-        phosphor: "#3dff8a",
-        amber: "#ffbf47",
-        steel: "#8ea0a8",
-        panel: "#121a16",
-        grid: "#1c2a22",
+        obsidian: "#07060b",
+        gold: "#e8c96a",
+        filament: "#f0d78c",
+        moonlight: "#c5d4ea",
+        moon: "#8ea0b8",
+        vitrine: "#12101a",
       },
       fontFamily: {
-        mono: ["IBM Plex Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
-        sans: ["IBM Plex Sans", "Segoe UI", "sans-serif"],
+        serif: ["Iowan Old Style", "Palatino Linotype", "Palatino", "Didot", "Bodoni MT", "Georgia", "serif"],
+        sans: ["Avenir Next", "Segoe UI", "Trebuchet MS", "sans-serif"],
       },
     },
   },
