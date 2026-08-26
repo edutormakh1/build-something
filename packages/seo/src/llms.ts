@@ -53,6 +53,14 @@ People: https://buildsomethingpeoplewant.com
 Agents: https://buildsomethingagentswant.com
 Developer resources: ${abs("agents", "/for-agents")} (title: Build Something Agents Want developer resources)
 
+## Public API
+- JSON list: ${abs(site, "/api/v1/products")}
+- JSON product: ${abs(site, "/api/v1/products/{slug}")}
+- JSON reviews: ${abs(site, "/api/v1/reviews")}
+- OpenAPI: ${abs(site, "/openapi.json")}
+- API catalog: ${abs(site, "/.well-known/api-catalog")}
+- Errors: RFC 9457 application/problem+json with code, detail, and status (400/404/405 on /api/v1/*)
+
 ## Key pages
 - [Methodology](${abs(site, "/methodology")})
 - [Twin Score rubric](${abs(site, "/scorecard")})
@@ -60,6 +68,8 @@ Developer resources: ${abs("agents", "/for-agents")} (title: Build Something Age
 - [Editorial policy](${abs("people", "/editorial-policy")})
 - [About](${abs(site, "/about")})
 - [AI catalog](${abs(site, "/.well-known/ai-catalog.json")})
+- [OpenAPI](${abs(site, "/openapi.json")})
+- [JSON API](${abs(site, "/api/v1/products")})
 ${skillIndex}
 ## Products
 ${products}

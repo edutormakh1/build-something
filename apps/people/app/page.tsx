@@ -13,6 +13,17 @@ export default function HomePage() {
   const posts = allArticles().slice(0, 4);
   return (
     <article>
+      <div className="opening">
+        <p className="kicker">Editorial · Worldwide · English · Edited by Edu Tor</p>
+        <h1>Software scored for the humans who actually use it</h1>
+        <p className="standfirst">
+          A worldwide gallery of products people actually want. Twin Scores, named authors, no fake user reviews.
+        </p>
+        <p className="hero-actions">
+          <Link href="/products" className="btn">Walk the gallery</Link>
+          <Link href="/signup" className="btn ghost">Come in</Link>
+        </p>
+      </div>
       <JsonLd
         data={[
           breadcrumbJsonLd("people", [{ name: "Home", path: "/" }]),
@@ -29,17 +40,6 @@ export default function HomePage() {
           ),
         ]}
       />
-      <header className="opening">
-        <p className="kicker">Editorial · Worldwide · English · Edited by Edu Tor</p>
-        <h1>Software scored for the humans who actually use it</h1>
-        <p className="standfirst">
-          A worldwide gallery of products people actually want. Twin Scores, named authors, no fake user reviews.
-        </p>
-        <p className="hero-actions">
-          <Link href="/products" className="btn">Walk the gallery</Link>
-          <Link href="/signup" className="btn ghost">Come in</Link>
-        </p>
-      </header>
       <div className="prose">
       <p>
         Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We publish original Twin Scores, named-author reviews, and research — not crowdsourced star ratings and not invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
@@ -86,6 +86,12 @@ export default function HomePage() {
       </ul>
       <p>
         Agents should go to <a href="https://buildsomethingagentswant.com/for-agents">Build Something Agents Want developer resources</a>.
+        Public JSON API on this origin: <Link href="/api/v1/products">GET /api/v1/products</Link>
+        {" · "}
+        <Link href="/openapi.json">openapi.json</Link>
+        {" · "}
+        <Link href="/llms.txt">llms.txt</Link>
+        . Errors use RFC 9457 <code>application/problem+json</code> with <code>code</code>, <code>detail</code>, and <code>status</code>.
       </p>
       </div>
     </article>

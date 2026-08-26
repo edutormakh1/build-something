@@ -34,6 +34,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="alternate" type="application/rss+xml" href="https://buildsomethingagentswant.com/feed.xml" />
         <link rel="alternate" type="application/atom+xml" title="Atom" href="https://buildsomethingagentswant.com/atom.xml" />
         <link rel="alternate" type="text/plain" title="llms.txt" href="https://buildsomethingagentswant.com/llms.txt" />
+        <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://buildsomethingagentswant.com/openapi.json" />
+        <link rel="api-catalog" href="https://buildsomethingagentswant.com/.well-known/api-catalog" />
       </head>
       <body>
         <Experience>{children}</Experience>

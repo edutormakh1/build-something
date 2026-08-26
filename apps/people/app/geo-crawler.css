@@ -2,7 +2,22 @@
 main#main.ssr-column,
 main#main.stage {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+/* Crawlers must see a real H1 in the initial HTML. Never clip, hide, or canvas-replace it. */
+main#main h1 {
+  display: block !important;
+  position: relative;
+  z-index: 3;
+  overflow: visible;
+  clip: auto !important;
+  clip-path: none !important;
+  width: auto;
+  height: auto;
+  max-height: none;
+  opacity: 1;
+  color: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {

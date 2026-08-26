@@ -1,11 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { isNextInternalRequest, negotiate, shouldSkipAcceptNegotiation } from "@bs/seo";
+import { apiV1MethodGate, isNextInternalRequest, negotiate, shouldSkipAcceptNegotiation } from "@bs/seo";
 import { catalog } from "@bs/db";
 import { updateSession } from "@bs/auth/middleware";
 
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+  const apiGate = apiV1MethodGate(req.method, path);
+  if (apiGate) {
+    return new NextResponse(apiGate.body, { status: apiGate.status, headers: apiGate.headers });
+  }
   const retired = catalog.retiredSlugs.find((s) => path === `/products/${s}` || path === `/alternatives/${s}`);
   if (retired) {
     const html = `<!doctype html><html lang="en"><head><title>Gone</title></head><body><main id="main"><h1>Gone</h1><p>${retired} is retired from this catalog.</p><h2>Recover</h2><p><a href="/products">All products</a></p><h3>Status</h3><p>HTTP 410</p></main></body></html>`;

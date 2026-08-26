@@ -29,6 +29,7 @@ export function peopleStatic(): UrlEntry[] {
     { path: "/contact", title: "Contact", lastmod: CATALOG_DAY },
     { path: "/scorecard", title: "Twin Score rubric", lastmod: CATALOG_DAY },
     { path: "/for-agents", title: "For agents", lastmod: CATALOG_DAY },
+    { path: "/api", title: "API docs", lastmod: CATALOG_DAY },
     { path: "/submit", title: "Submit a product", lastmod: CATALOG_DAY },
   ];
 }

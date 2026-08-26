@@ -8,6 +8,7 @@ const PEOPLE_LINKS = [
   ["Blog", "/blog"],
   ["Scorecard", "/scorecard"],
   ["Methodology", "/methodology"],
+  ["API", "/api"],
   ["For agents", "/for-agents"],
   ["About", "/about"],
 ];

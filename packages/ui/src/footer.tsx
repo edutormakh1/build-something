@@ -21,7 +21,7 @@ export function Footer({
               </p>
               <p>
                 <a href="/editorial-policy">Editorial policy</a> · <a href="/methodology">Methodology</a> ·{" "}
-                <a href="/contact">Contact</a> · <a href="/feed.xml">RSS</a> · <a href="/llms.txt">llms.txt</a>
+                <a href="/contact">Contact</a> · <a href="/feed.xml">RSS</a> · <a href="/llms.txt">llms.txt</a> · <a href="/api/v1/products">JSON API</a> · <a href="/openapi.json">openapi.json</a>
               </p>
             </>
           ) : (
@@ -33,7 +33,7 @@ export function Footer({
               </p>
               <p>
                 <a href="/for-agents">Build Something Agents Want developer resources</a> · <a href="/llms.txt">llms.txt</a>{" "}
-                · <a href="/openapi.json">openapi.json</a>
+                · <a href="/api/v1/products">JSON API</a> · <a href="/openapi.json">openapi.json</a>
               </p>
             </>
           ))}

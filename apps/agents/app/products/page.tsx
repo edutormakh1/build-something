@@ -14,15 +14,15 @@ export default function Page() {
   const products = allProducts();
   return (
     <article>
+      <div className="piece-head">
+        <p className="kicker">{products.length} entities · same slugs as the people twin</p>
+        <h1>All products (agent view)</h1>
+        <p className="standfirst">Every published entity from the committed seed JSON. Approach a plaque for the capability matrix and SKILL.md. MCP is omitted unless it actually exists.</p>
+      </div>
       <JsonLd data={[
         breadcrumbJsonLd("agents", [{ name: "Home", path: "/" }, { name: "Products", path: "/products" }]),
         itemListJsonLd("agents", "Products", products.map((p) => ({ name: p.name, path: `/products/${p.slug}` }))),
       ]} />
-      <header className="piece-head">
-        <p className="kicker">{products.length} entities · same slugs as the people twin</p>
-        <h1>All products (agent view)</h1>
-        <p className="standfirst">Every published entity from the committed seed JSON. Approach a plaque for the capability matrix and SKILL.md. MCP is omitted unless it actually exists.</p>
-      </header>
       <h2>Index</h2>
       <h3>{products.length} entities</h3>
       <div className="gallery-grid">

@@ -17,7 +17,6 @@ export function Experience({ children }: { children: ReactNode }) {
     <>
       <SkipLink />
       <BrandRuntime />
-      <WorldCanvas />
       {hall ? (
         children
       ) : (
@@ -41,6 +40,7 @@ export function Experience({ children }: { children: ReactNode }) {
           <Footer tone="people" />
         </>
       )}
+      <WorldCanvas />
     </>
   );
 }

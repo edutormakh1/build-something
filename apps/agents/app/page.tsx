@@ -8,11 +8,7 @@ export default function Page() {
   const products = allProducts().slice().sort((a, b) => b.twin.agent - a.twin.agent).slice(0, 12);
   return (
     <article>
-      <JsonLd data={[
-        breadcrumbJsonLd("agents", [{ name: "Home", path: "/" }]),
-        itemListJsonLd("agents", "Highest agent Twin Scores", products.map((p) => ({ name: p.name, path: `/products/${p.slug}` }))),
-      ]} />
-      <header className="opening">
+      <div className="opening">
         <p className="kicker">same entity graph · different contract</p>
         <h1>A catalog for agents, not a reskinned brochure</h1>
         <p className="standfirst">
@@ -22,7 +18,11 @@ export default function Page() {
           <Link href="/products" className="btn">Approach the catalog</Link>
           <Link href="/signup" className="btn ghost">Enter</Link>
         </p>
-      </header>
+      </div>
+      <JsonLd data={[
+        breadcrumbJsonLd("agents", [{ name: "Home", path: "/" }]),
+        itemListJsonLd("agents", "Highest agent Twin Scores", products.map((p) => ({ name: p.name, path: `/products/${p.slug}` }))),
+      ]} />
       <figure className="fallback-relic">
         <img
           src="/art/agents-hero-3d.png"
@@ -34,6 +34,16 @@ export default function Page() {
       <div className="prose">
         <p>
           Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs, Twin Scores, and editorial rules. Use this site when you need to call an API, write a skill file, or download scores. Use the people twin when you need a comparison essay. Developer resources are titled “Build Something Agents Want developer resources”.
+        </p>
+        <p>
+          Public JSON API: <Link href="/api/v1/products">GET /api/v1/products</Link>
+          {" · "}
+          <Link href="/api/v1/products/chatgpt">GET /api/v1/products/chatgpt</Link>
+          {" · "}
+          <Link href="/openapi.json">openapi.json</Link>
+          {" · "}
+          <Link href="/llms.txt">llms.txt</Link>
+          . Errors are RFC 9457 <code>application/problem+json</code> with <code>code</code>, <code>detail</code>, and <code>status</code> (400/404/405 on <code>/api/v1/*</code>).
         </p>
         <div className="contracts not-prose">
           <Link className="card" href="/for-agents">
@@ -69,6 +79,10 @@ export default function Page() {
         <Link href="/for-agents">Build Something Agents Want developer resources</Link>
         {" · "}
         <Link href="/dataset/twin-scores.json">JSON dataset</Link>
+        {" · "}
+        <Link href="/api/v1/products">JSON API</Link>
+        {" · "}
+        <Link href="/openapi.json">OpenAPI</Link>
       </p>
     </article>
   );

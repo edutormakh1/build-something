@@ -1,11 +1,21 @@
-import { problemResponse, productPayload } from "@bs/seo";
-
-export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }> }) {
+import { apiMethodNotAllowed, apiOptionsResponse } from "@bs/seo";
+import { handleGetProduct } from "@bs/seo";
+export async function GET(req: Request, ctx: { params: Promise<{ slug: string }> }) {
   const { slug } = await ctx.params;
-  const data = productPayload(slug);
-  if (!data) {
-    const p = problemResponse(404, "Not Found", `No product '${slug}'`, `/api/v1/products/${slug}`);
-    return Response.json(p.body, p.init);
-  }
-  return Response.json({ data });
+  return handleGetProduct(slug, new URL(req.url).pathname);
+}
+export function OPTIONS() {
+  return apiOptionsResponse();
+}
+export function POST(req: Request) {
+  return apiMethodNotAllowed(new URL(req.url).pathname);
+}
+export function PUT(req: Request) {
+  return apiMethodNotAllowed(new URL(req.url).pathname);
+}
+export function PATCH(req: Request) {
+  return apiMethodNotAllowed(new URL(req.url).pathname);
+}
+export function DELETE(req: Request) {
+  return apiMethodNotAllowed(new URL(req.url).pathname);
 }

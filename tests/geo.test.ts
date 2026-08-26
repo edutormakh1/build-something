@@ -38,6 +38,9 @@ describe("GEO citability", () => {
     expect(txt).toContain("/methodology");
     expect(txt).toContain("Edu Tor");
     expect(txt).toContain("/skills/chatgpt");
+    expect(txt).toContain("/api/v1/products");
+    expect(txt).toContain("/openapi.json");
+    expect(txt).toMatch(/application\/problem\+json/);
     expect(txt).not.toMatch(/\{\{[A-Z_]+\}\}/);
   });
 
