@@ -1,7 +1,16 @@
+"use client";
+
 import type { ReactNode } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { RelicMark } from "./motion/relic-mark";
+import { BrandMarkArt } from "./art";
+import { CanvasErrorBoundary } from "./motion/canvas-error-boundary";
 import type { Tone } from "./motion/tone";
+
+const RelicMark = dynamic(() => import("./motion/relic-mark").then((m) => m.RelicMark), {
+  ssr: false,
+  loading: () => <BrandMarkArt />,
+});
 
 const PEOPLE_LINKS = [
   ["Products", "/products"],
@@ -47,7 +56,9 @@ export function Nav({
     <header className="mast wrap">
       <div className="bs-nav">
         <Link href="/" className="bs-nav-brand">
-          <RelicMark tone={tone} />
+          <CanvasErrorBoundary fallback={<BrandMarkArt />}>
+            <RelicMark tone={tone} />
+          </CanvasErrorBoundary>
           <span>
             <span className="kicker">{kick}</span>
             <span className="bs-nav-wordmark masthead">{word}</span>

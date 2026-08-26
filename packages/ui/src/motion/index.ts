@@ -9,3 +9,5 @@ export { BrandRuntime } from "./brand-runtime";
 export { STILLS, readTone } from "./tone";
 export type { Tone } from "./tone";
 export { QualityContext, useQuality } from "./quality";
+
+export { CanvasErrorBoundary } from "./canvas-error-boundary";

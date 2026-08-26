@@ -17,5 +17,6 @@ export { RelicMark, RelicPlinth } from "./motion/relic-mark";
 export { LoginHall } from "./motion/login-hall";
 export { PageTransition } from "./motion/page-transition";
 export { BrandRuntime } from "./motion/brand-runtime";
+export { CanvasErrorBoundary } from "./motion/canvas-error-boundary";
 export { STILLS, readTone } from "./motion/tone";
 export type { Tone } from "./motion/tone";

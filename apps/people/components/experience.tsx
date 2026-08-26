@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { BrandRuntime, Footer, Nav, SkipLink } from "@bs/ui";
+import { BrandRuntime, CanvasErrorBoundary, Footer, Nav, SkipLink } from "@bs/ui";
 
 const WorldCanvas = dynamic(() => import("./world/canvas"), { ssr: false });
 
@@ -16,7 +16,9 @@ export function Experience({ children }: { children: ReactNode }) {
   return (
     <>
       <SkipLink />
-      <BrandRuntime />
+      <CanvasErrorBoundary>
+        <BrandRuntime />
+      </CanvasErrorBoundary>
       {hall ? (
         children
       ) : (
@@ -40,7 +42,9 @@ export function Experience({ children }: { children: ReactNode }) {
           <Footer tone="people" />
         </>
       )}
-      <WorldCanvas />
+      <CanvasErrorBoundary>
+        <WorldCanvas />
+      </CanvasErrorBoundary>
     </>
   );
 }
