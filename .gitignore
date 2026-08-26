@@ -1,0 +1,11 @@
+node_modules
+.next
+.turbo
+.vercel
+dist
+coverage
+*.log
+.DS_Store
+tsconfig.tsbuildinfo
+hello.txt
+workspace.yaml

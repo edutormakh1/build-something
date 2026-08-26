@@ -1,0 +1,54 @@
+export type MediaType = "text/html" | "text/markdown" | "application/json" | "text/plain";
+
+type Parsed = { type: string; q: number };
+
+function parseAccept(header: string): Parsed[] {
+  return header
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => {
+      const [type, ...params] = part.split(";").map((s) => s.trim());
+      let q = 1;
+      for (const param of params) {
+        const [k, v] = param.split("=").map((s) => s.trim());
+        if (k === "q") q = Number(v);
+      }
+      return { type: type.toLowerCase(), q: Number.isFinite(q) ? q : 1 };
+    })
+    .sort((a, b) => b.q - a.q);
+}
+
+function matches(offered: string, accepted: string): boolean {
+  if (accepted === "*/*") return true;
+  if (accepted === offered) return true;
+  const [aType, aSub] = accepted.split("/");
+  const [oType, oSub] = offered.split("/");
+  if (aType === oType && aSub === "*") return true;
+  return false;
+}
+
+export function negotiate(acceptHeader: string | null | undefined, offered: MediaType[]): MediaType | null {
+  const header = (acceptHeader || "*/*").trim();
+  if (!header) return offered[0] ?? null;
+  const parsed = parseAccept(header);
+  for (const item of parsed) {
+    if (item.q <= 0) continue;
+    const hit = offered.find((o) => matches(o, item.type));
+    if (hit) return hit;
+  }
+  return null;
+}
+
+export function isNextInternalRequest(headers: { get(name: string): string | null }): boolean {
+  return Boolean(
+    headers.get("rsc") ||
+      headers.get("next-router-state-tree") ||
+      headers.get("next-router-prefetch") ||
+      headers.get("next-action"),
+  );
+}
+
+export const MARKDOWN_CONTENT_TYPE = "text/markdown; charset=utf-8";
+export const HTML_CONTENT_TYPE = "text/html; charset=utf-8";
+export const PROBLEM_JSON = "application/problem+json";
