@@ -1,5 +1,5 @@
 import { allArticles, allProducts } from "@bs/db";
-import { abs, ORG_NAME, type SiteId } from "./sites";
+import { abs, ORG_NAME, ORG_TAGLINE, type SiteId } from "./sites";
 import { allCanonical } from "./urls";
 
 export function llmsTxt(site: SiteId): string {
@@ -7,26 +7,46 @@ export function llmsTxt(site: SiteId): string {
   const other = site === "people" ? "https://buildsomethingagentswant.com" : "https://buildsomethingpeoplewant.com";
   const products = allProducts()
     .slice(0, 40)
-    .map((p) => `- [${p.name}](${abs(site, `/products/${p.slug}`)}): Twin Score human ${p.twin.human}, agent ${p.twin.agent}`)
+    .map((p) => {
+      const page = abs(site, `/products/${p.slug}`);
+      const skill = site === "agents" ? ` · [SKILL.md](${abs("agents", `/skills/${p.slug}`)})` : "";
+      return `- [${p.name}](${page}): Twin Score human ${p.twin.human}, agent ${p.twin.agent}${skill}`;
+    })
     .join("\n");
   const posts = allArticles()
     .map((a) => `- [${a.title}](${abs("people", `/blog/${a.slug}`)})`)
     .join("\n");
+  const skillIndex =
+    site === "agents"
+      ? `- [Agent skills index](${abs("agents", "/.well-known/agent-skills/index.json")})\n- [SKILL.md example](${abs("agents", "/skills/chatgpt")})\n`
+      : "";
   return `# ${name}
 
-> Worldwide editorial software directory. Twin Scores for humans and agents. No fake UGC.
+> ${ORG_TAGLINE[site]}
 
-This file follows llmstxt.org. Google Search ignores llms.txt; other AI systems may use it.
+This file follows llmstxt.org. Google Search ignores llms.txt (it will not help or harm Google rankings). Other AI systems may use it as a map.
+
+A Twin Score is two editorial numbers from 0 to 100 — one for the human product surface, one for the agent/API surface — assigned by named staff on a public rubric. AggregateRating in JSON-LD is only those staff composites. We do not ship fake UGC reviews.
 
 ## When to use this site
 - You need editorial Twin Scores, capability matrices, or SKILL.md for famous software products
 - You need a CC BY 4.0 dataset of those scores
 - You need OpenAPI at /openapi.json and RFC 9457 errors
+- You need server-rendered HTML (H1, first-paragraph answer, JSON-LD) even if the visual layer is a 3D canvas
 
 ## When not to use this site
 - You want crowdsourced star ratings or invented user counts
 - You want an MCP server we did not ship
 - You want Argentina-only or city-page spam; this catalog is worldwide English
+
+## Key facts
+- Editor: Edu Tor (https://buildsomethingpeoplewant.com/authors/edu-tor)
+- Twin sites share product slugs. People = magazine prose. Agents = matrices, SKILL.md, dataset.
+- Methodology: ${abs(site, "/methodology")}
+- Rubric: ${abs(site, "/scorecard")}
+- Dataset (CC BY 4.0): ${abs("agents", "/dataset/twin-scores.json")} and ${abs("agents", "/dataset/twin-scores.csv")}
+- AI crawlers are allowed in /robots.txt (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, and others)
+- Request Accept: text/markdown for a text/markdown; charset=utf-8 representation of canonical pages
 
 ## Twin
 People: https://buildsomethingpeoplewant.com
@@ -38,7 +58,9 @@ Developer resources: ${abs("agents", "/for-agents")} (title: Build Something Age
 - [Twin Score rubric](${abs(site, "/scorecard")})
 - [Products](${abs(site, "/products")})
 - [Editorial policy](${abs("people", "/editorial-policy")})
-
+- [About](${abs(site, "/about")})
+- [AI catalog](${abs(site, "/.well-known/ai-catalog.json")})
+${skillIndex}
 ## Products
 ${products}
 
@@ -59,3 +81,4 @@ export function llmsFullTxt(site: SiteId): string {
     .join("\n");
   return `# ${ORG_NAME[site]} — full URL map\n\n${llmsTxt(site)}\n\n## All canonical URLs\n\n${lines}\n`;
 }
+

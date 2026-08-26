@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isNextInternalRequest, negotiate } from "../packages/seo/src/negotiate";
+import { isNextInternalRequest, negotiate, shouldSkipAcceptNegotiation } from "../packages/seo/src/negotiate";
 
 describe("accept negotiation", () => {
   it("prefers markdown when asked", () => {
@@ -21,5 +21,13 @@ describe("accept negotiation", () => {
   it("skips Next-Router-State-Tree", () => {
     const headers = new Map([["next-router-state-tree", "%5B%5D"]]);
     expect(isNextInternalRequest({ get: (n: string) => headers.get(n) || null })).toBe(true);
+  });
+});
+
+describe("skip accept negotiation", () => {
+  it("skips 3D art and keeps methodology negotiable", () => {
+    expect(shouldSkipAcceptNegotiation("/art/login-hall-3d.png")).toBe(true);
+    expect(shouldSkipAcceptNegotiation("/methodology")).toBe(false);
+    expect(shouldSkipAcceptNegotiation("/products/chatgpt")).toBe(false);
   });
 });

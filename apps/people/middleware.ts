@@ -1,9 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { isNextInternalRequest, negotiate } from "@bs/seo";
+import { isNextInternalRequest, negotiate, shouldSkipAcceptNegotiation } from "@bs/seo";
 import { catalog } from "@bs/db";
 import { updateSession } from "@bs/auth/middleware";
 
-const SKIP = [/^\/_next/, /^\/api\//, /^\/md/, /^\/sitemap/, /^\/robots\.txt/, /^\/llms/, /^\/openapi/, /^\/\.well-known/, /^\/feed/, /^\/rss/];
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
@@ -12,7 +11,7 @@ export async function middleware(req: NextRequest) {
     const html = `<!doctype html><html lang="en"><head><title>Gone</title></head><body><main id="main"><h1>Gone</h1><p>${retired} is retired from this catalog.</p><h2>Recover</h2><p><a href="/products">All products</a></p><h3>Status</h3><p>HTTP 410</p></main></body></html>`;
     return new NextResponse(html, { status: 410, headers: { "content-type": "text/html; charset=utf-8", vary: "Accept" } });
   }
-  if (isNextInternalRequest(req.headers) || SKIP.some((r) => r.test(path))) {
+  if (isNextInternalRequest(req.headers) || shouldSkipAcceptNegotiation(path)) {
     return updateSession(req);
   }
   const chosen = negotiate(req.headers.get("accept"), ["text/html", "text/markdown"]);
@@ -35,5 +34,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|art/).*)"],
 };

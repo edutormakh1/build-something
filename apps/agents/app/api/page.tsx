@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+
 export const metadata: Metadata = {
   title: "API docs",
   description: "HTTP API for Twin Score products and reviews. RFC 9457 errors.",
   alternates: { canonical: "https://buildsomethingagentswant.com/api" },
 };
+
 export default function Page() {
   return (
     <article className="prose">
@@ -18,6 +21,7 @@ export default function Page() {
       </ul>
       <h3>Errors</h3>
       <p>Unknown slugs return 404 with a problem+json body: type, title, status, detail, instance.</p>
+      <p><Link href="/openapi.json">openapi.json</Link> · <Link href="/for-agents">Developer resources</Link></p>
     </article>
   );
 }

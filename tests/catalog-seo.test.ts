@@ -20,10 +20,12 @@ describe("catalog", () => {
 describe("robots", () => {
   it("allows AI crawlers and has sitemap", () => {
     const txt = robotsTxt("people");
-    for (const bot of ["Googlebot", "GPTBot", "ChatGPT-User", "OAI-SearchBot", "PerplexityBot", "ClaudeBot", "Google-Extended", "Applebot", "Bingbot"]) {
+    for (const bot of ["Googlebot", "GPTBot", "ChatGPT-User", "OAI-SearchBot", "PerplexityBot", "ClaudeBot", "anthropic-ai", "Google-Extended", "Google-CloudVertexBot", "Applebot", "Applebot-Extended", "Bingbot", "cohere-ai"]) {
       expect(txt).toContain(bot);
     }
     expect(txt).toContain("Sitemap:");
+    expect(txt).toContain("Disallow: /admin");
+    expect(txt).toContain("Disallow: /login");
     expect(txt).not.toMatch(/User-agent: \*\nDisallow: \//);
   });
 });
@@ -31,6 +33,14 @@ describe("robots", () => {
 describe("sitemap", () => {
   it("lists 200+ canonical URLs on the people site", () => {
     expect(allCanonical("people").length).toBeGreaterThanOrEqual(200);
+  });
+  it("omits account chrome and includes lastmod", () => {
+    const paths = allCanonical("people").map((u) => u.path);
+    expect(paths).not.toContain("/admin");
+    expect(paths).not.toContain("/login");
+    expect(paths).not.toContain("/account");
+    expect(allCanonical("people").every((u) => u.lastmod)).toBe(true);
+    expect(allCanonical("agents").some((u) => u.path === "/skills/chatgpt")).toBe(true);
   });
 });
 
@@ -44,6 +54,8 @@ describe("json-ld", () => {
     const html = jsonLdScript(app);
     expect(html).toContain("SoftwareApplication");
     expect(html).not.toContain("1000000 ratings");
+    expect(html).not.toContain('"price":"0"');
+    expect(html).not.toContain('"price": "0"');
   });
 });
 

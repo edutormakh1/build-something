@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { allCategories, allProducts, allArticles } from "@bs/db";
 import { TwinScore, JsonLd } from "@bs/ui";
-import { itemListJsonLd, breadcrumbJsonLd } from "@bs/seo";
+import { itemListJsonLd, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export default function HomePage() {
   const products = allProducts()
@@ -15,6 +15,12 @@ export default function HomePage() {
       <JsonLd
         data={[
           breadcrumbJsonLd("people", [{ name: "Home", path: "/" }]),
+          webPageJsonLd(
+            "people",
+            "/",
+            "Software scored for the humans who actually use it",
+            "Worldwide editorial directory of software products scored for humans and agents. Twin Scores, named authors, no fake user reviews.",
+          ),
           itemListJsonLd(
             "people",
             "Featured products",
@@ -22,13 +28,13 @@ export default function HomePage() {
           ),
         ]}
       />
-      <p className="kicker">Editorial · Worldwide · English</p>
+      <p className="kicker">Editorial · Worldwide · English · Edited by Edu Tor</p>
       <h1>Software scored for the humans who actually use it</h1>
       <p>
         Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We publish original Twin Scores, named-author reviews, and research — not crowdsourced star ratings and not invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
       </p>
       <p>
-        Every product page answers a buying question in the opening paragraph, then walks H2 to H3 with a capability snapshot, pricing as publicly stated, and links to alternatives. Public catalog pages render from committed seed JSON, so the site is readable before secrets land.
+        Every product page answers a buying question in the opening paragraph, then walks H2 to H3 with a capability snapshot, pricing as publicly stated, and links to alternatives. Public catalog pages render from committed seed JSON, so the site is readable before secrets land — including by AI crawlers that do not execute JavaScript or a 3D canvas.
       </p>
       <h2>What Twin Scores are</h2>
       <p>
@@ -62,7 +68,7 @@ export default function HomePage() {
       </ul>
       <h2>Original research</h2>
       <p>
-        Start with <Link href="/blog">the journal</Link> and the 2026 human-versus-agent software surfaces table. Methodology and editorial policy sit in the masthead so E-E-A-T is a page, not a claim.
+        Start with <Link href="/blog">the journal</Link> and the 2026 human-versus-agent software surfaces table. Methodology and editorial policy sit in the masthead so E-E-A-T is a page, not a claim. Named authors: <Link href="/authors/edu-tor">Edu Tor</Link>, Maya Chen, Jonas Okonkwo.
       </p>
       <h3>Latest essays</h3>
       <ul>

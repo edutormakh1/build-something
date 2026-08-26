@@ -1,18 +1,15 @@
 import type { MetadataRoute } from "next";
+import { AI_AND_SEARCH_BOTS, ROBOTS_DISALLOW } from "@bs/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/" },
-      { userAgent: "Googlebot", allow: "/" },
-      { userAgent: "GPTBot", allow: "/" },
-      { userAgent: "ChatGPT-User", allow: "/" },
-      { userAgent: "OAI-SearchBot", allow: "/" },
-      { userAgent: "PerplexityBot", allow: "/" },
-      { userAgent: "ClaudeBot", allow: "/" },
-      { userAgent: "Google-Extended", allow: "/" },
-      { userAgent: "Applebot", allow: "/" },
-      { userAgent: "Bingbot", allow: "/" },
+      { userAgent: "*", allow: "/", disallow: [...ROBOTS_DISALLOW] },
+      ...AI_AND_SEARCH_BOTS.map((userAgent) => ({
+        userAgent,
+        allow: "/",
+        disallow: [...ROBOTS_DISALLOW],
+      })),
     ],
     sitemap: "https://buildsomethingpeoplewant.com/sitemap.xml",
   };

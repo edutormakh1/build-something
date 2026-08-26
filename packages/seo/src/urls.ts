@@ -9,39 +9,39 @@ import {
 import type { SiteId } from "./sites";
 import { abs } from "./sites";
 
-export type UrlEntry = { path: string; title: string; changefreq?: string; priority?: number };
+export type UrlEntry = { path: string; title: string; lastmod?: string };
+
+function dateOnly(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  return value.slice(0, 10);
+}
+
+const CATALOG_DAY = dateOnly(catalog.generatedAt) ?? "2026-08-25";
 
 export function peopleStatic(): UrlEntry[] {
   return [
-    { path: "/", title: "Home", priority: 1 },
-    { path: "/products", title: "All products", priority: 0.9 },
-    { path: "/blog", title: "Blog", priority: 0.8 },
-    { path: "/about", title: "About", priority: 0.6 },
-    { path: "/methodology", title: "Methodology", priority: 0.7 },
-    { path: "/editorial-policy", title: "Editorial policy", priority: 0.6 },
-    { path: "/contact", title: "Contact", priority: 0.4 },
-    { path: "/scorecard", title: "Twin Score rubric", priority: 0.8 },
-    { path: "/for-agents", title: "For agents", priority: 0.7 },
-    { path: "/submit", title: "Submit a product", priority: 0.4 },
-    { path: "/signup", title: "Sign up" },
-    { path: "/login", title: "Log in" },
-    { path: "/forgot-password", title: "Forgot password" },
-    { path: "/account", title: "Account" },
-    { path: "/admin", title: "Admin" },
+    { path: "/", title: "Home", lastmod: CATALOG_DAY },
+    { path: "/products", title: "All products", lastmod: CATALOG_DAY },
+    { path: "/blog", title: "Blog", lastmod: CATALOG_DAY },
+    { path: "/about", title: "About", lastmod: CATALOG_DAY },
+    { path: "/methodology", title: "Methodology", lastmod: CATALOG_DAY },
+    { path: "/editorial-policy", title: "Editorial policy", lastmod: CATALOG_DAY },
+    { path: "/contact", title: "Contact", lastmod: CATALOG_DAY },
+    { path: "/scorecard", title: "Twin Score rubric", lastmod: CATALOG_DAY },
+    { path: "/for-agents", title: "For agents", lastmod: CATALOG_DAY },
+    { path: "/submit", title: "Submit a product", lastmod: CATALOG_DAY },
   ];
 }
 
 export function agentsStatic(): UrlEntry[] {
   return [
-    { path: "/", title: "Home", priority: 1 },
-    { path: "/products", title: "All products", priority: 0.9 },
-    { path: "/for-agents", title: "Build Something Agents Want developer resources", priority: 0.9 },
-    { path: "/api", title: "API docs", priority: 0.8 },
-    { path: "/about", title: "About", priority: 0.6 },
-    { path: "/methodology", title: "Methodology", priority: 0.7 },
-    { path: "/scorecard", title: "Twin Score rubric", priority: 0.8 },
-    { path: "/signup", title: "Sign up" },
-    { path: "/login", title: "Log in" },
+    { path: "/", title: "Home", lastmod: CATALOG_DAY },
+    { path: "/products", title: "All products", lastmod: CATALOG_DAY },
+    { path: "/for-agents", title: "Build Something Agents Want developer resources", lastmod: CATALOG_DAY },
+    { path: "/api", title: "API docs", lastmod: CATALOG_DAY },
+    { path: "/about", title: "About", lastmod: CATALOG_DAY },
+    { path: "/methodology", title: "Methodology", lastmod: CATALOG_DAY },
+    { path: "/scorecard", title: "Twin Score rubric", lastmod: CATALOG_DAY },
   ];
 }
 
@@ -49,34 +49,35 @@ export function entityUrls(site: SiteId): UrlEntry[] {
   const products = allProducts();
   const urls: UrlEntry[] = [];
   for (const p of products) {
-    urls.push({ path: `/products/${p.slug}`, title: p.name, priority: 0.8 });
+    const lastmod = dateOnly(p.twin.updated) ?? CATALOG_DAY;
+    urls.push({ path: `/products/${p.slug}`, title: p.name, lastmod });
     if (site === "people") {
-      urls.push({ path: `/alternatives/${p.slug}`, title: `Alternatives to ${p.name}`, priority: 0.6 });
+      urls.push({ path: `/alternatives/${p.slug}`, title: `Alternatives to ${p.name}`, lastmod });
     } else {
-      urls.push({ path: `/skills/${p.slug}`, title: `SKILL.md for ${p.name}`, priority: 0.7 });
+      urls.push({ path: `/skills/${p.slug}`, title: `SKILL.md for ${p.name}`, lastmod });
     }
   }
   for (const c of allCategories()) {
-    urls.push({ path: `/categories/${c.slug}`, title: c.name, priority: 0.7 });
+    urls.push({ path: `/categories/${c.slug}`, title: c.name, lastmod: CATALOG_DAY });
     if (site === "people" && productsInCategory(c.slug).length) {
-      urls.push({ path: `/best/${c.slug}`, title: `Best ${c.name}`, priority: 0.7 });
+      urls.push({ path: `/best/${c.slug}`, title: `Best ${c.name}`, lastmod: CATALOG_DAY });
     }
   }
   if (site === "people") {
     for (const r of catalog.reviews.filter((x) => x.status === "published")) {
-      urls.push({ path: `/reviews/${r.slug}`, title: r.title, priority: 0.5 });
+      urls.push({ path: `/reviews/${r.slug}`, title: r.title, lastmod: dateOnly(r.publishedAt) ?? CATALOG_DAY });
     }
     for (const a of allAuthors()) {
-      urls.push({ path: `/authors/${a.slug}`, title: a.name, priority: 0.5 });
+      urls.push({ path: `/authors/${a.slug}`, title: a.name, lastmod: CATALOG_DAY });
     }
     for (const a of allArticles()) {
-      urls.push({ path: `/blog/${a.slug}`, title: a.title, priority: 0.8 });
+      urls.push({ path: `/blog/${a.slug}`, title: a.title, lastmod: dateOnly(a.updatedAt) ?? dateOnly(a.publishedAt) ?? CATALOG_DAY });
     }
     for (const pair of catalog.comparePairs) {
       urls.push({
         path: `/compare/${pair.a}-vs-${pair.b}`,
         title: `${pair.a} vs ${pair.b}`,
-        priority: 0.7,
+        lastmod: CATALOG_DAY,
       });
     }
   }
@@ -95,20 +96,25 @@ export function allCanonical(site: SiteId): UrlEntry[] {
   return out;
 }
 
+function xmlEscape(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 export function sitemapXml(site: SiteId, paths: UrlEntry[]): string {
   const body = paths
     .map((u) => {
-      const loc = abs(site, u.path);
-      const pri = u.priority ?? 0.5;
-      return `  <url><loc>${loc}</loc><changefreq>weekly</changefreq><priority>${pri.toFixed(1)}</priority></url>`;
+      const loc = xmlEscape(abs(site, u.path));
+      const last = u.lastmod ? `<lastmod>${xmlEscape(u.lastmod)}</lastmod>` : "";
+      return `  <url><loc>${loc}</loc>${last}</url>`;
     })
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
 
 export function sitemapIndexXml(site: SiteId, files: string[]): string {
+  const last = `<lastmod>${CATALOG_DAY}</lastmod>`;
   const body = files
-    .map((f) => `  <sitemap><loc>${abs(site, f)}</loc></sitemap>`)
+    .map((f) => `  <sitemap><loc>${xmlEscape(abs(site, f))}</loc>${last}</sitemap>`)
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
 }

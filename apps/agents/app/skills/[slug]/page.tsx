@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { allProducts, getProduct } from "@bs/db";
 import { skillMd } from "@bs/seo";
@@ -23,11 +24,13 @@ export default async function Page({ params }: Props) {
   if (!p) notFound();
   return (
     <article className="prose">
+      <p className="kicker">Close study · not a fake MCP listing</p>
       <h1>SKILL.md — {p.name}</h1>
       <p>Real skill file for agents. When to use / when not is inside the document. This is not a fake MCP listing.</p>
       <h2>File</h2>
       <h3>Raw</h3>
       <pre className="overflow-auto text-sm whitespace-pre-wrap">{skillMd(p.slug)}</pre>
+      <p><Link href={`/skills/${p.slug}/raw`}>Download raw</Link> · <Link href={`/products/${p.slug}`}>Capability matrix</Link></p>
     </article>
   );
 }

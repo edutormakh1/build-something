@@ -1,0 +1,21 @@
+/* GEO/AEO: server-rendered #main is the citable document. 3D Scene/canvas is decoration. */
+main#main.ssr-column,
+main#main.stage {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  canvas[data-scene],
+  .scene-canvas,
+  .world-root,
+  [data-3d-scene] {
+    display: none !important;
+  }
+}

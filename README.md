@@ -88,7 +88,7 @@ curl -s http://localhost:3000/openapi.json | head
 curl -s http://localhost:3000/feed.xml | head
 ```
 
-Expect: H1 in HTML; body well over 500 characters; markdown responses with `Content-Type: text/markdown; charset=utf-8` and `Vary: Accept`; 406 when Accept cannot be satisfied; 404 for unknown pages; robots allowing Googlebot and the listed AI crawlers plus Sitemap; sitemap index; JSON-LD in HTML source; RFC 9457 problem+json for missing API slugs.
+Expect: H1 in HTML (SSR text column, not only a canvas); body well over 500 characters; markdown responses with `Content-Type: text/markdown; charset=utf-8` and `Vary: Accept`; 406 when Accept cannot be satisfied; 404 for unknown pages; robots allowing Googlebot and the listed AI crawlers plus Sitemap; sitemap index with lastmod and without /admin or /login; JSON-LD in HTML source; RFC 9457 problem+json for missing API slugs. `/art/` 3D assets must not be rewritten by Accept negotiation.
 
 Repeat against port 3001 for the agents app (`/skills/chatgpt`, `/.well-known/agent-skills/index.json`, `/dataset/twin-scores.json`).
 

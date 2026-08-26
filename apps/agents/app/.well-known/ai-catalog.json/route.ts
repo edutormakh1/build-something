@@ -4,7 +4,7 @@ export function GET() {
   const body = {
     version: "1.0",
     name: "Build Something Agents Want",
-    description: "Editorial Twin Score catalog for humans. Twin: Build Something Agents Want.",
+    description: "Machine-first Twin Score catalog for agents. Twin: Build Something People Want.",
     website: "https://buildsomethingagentswant.com",
     api: "https://buildsomethingagentswant.com/api/v1/products",
     openapi: "https://buildsomethingagentswant.com/openapi.json",

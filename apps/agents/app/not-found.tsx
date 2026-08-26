@@ -9,7 +9,7 @@ export default function NotFound() {
       <ul>
         <li><Link href="/products">All products</Link></li>
         <li><Link href="/">Home</Link></li>
-        <li><Link href="/for-agents">Journal</Link></li>
+        <li><Link href="/for-agents">Build Something Agents Want developer resources</Link></li>
       </ul>
       <h3>Agents</h3>
       <p>Markdown 404s are also served when you send Accept: text/markdown. Try /products/chatgpt.</p>

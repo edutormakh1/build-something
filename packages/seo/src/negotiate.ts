@@ -52,3 +52,26 @@ export function isNextInternalRequest(headers: { get(name: string): string | nul
 export const MARKDOWN_CONTENT_TYPE = "text/markdown; charset=utf-8";
 export const HTML_CONTENT_TYPE = "text/html; charset=utf-8";
 export const PROBLEM_JSON = "application/problem+json";
+
+export function shouldSkipAcceptNegotiation(pathname: string): boolean {
+  if (/\.(?:png|jpe?g|gif|webp|avif|svg|ico|css|js|map|woff2?|ttf|txt|xml|json|csv)$/i.test(pathname)) {
+    return true;
+  }
+  const prefixes = [
+    "/_next",
+    "/api/",
+    "/sitemap",
+    "/robots.txt",
+    "/llms",
+    "/openapi",
+    "/.well-known",
+    "/feed",
+    "/rss",
+    "/atom",
+    "/art/",
+    "/favicon",
+    "/dataset/",
+  ];
+  if (pathname === "/md" || pathname.startsWith("/md/")) return true;
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix));
+}

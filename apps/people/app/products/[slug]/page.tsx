@@ -61,10 +61,16 @@ export default async function ProductPage({ params }: Props) {
           { href: `/products/${p.slug}`, label: p.name },
         ]}
       />
+      <header className="piece-head">
       <p className="kicker">{p.vendor} · {p.category} · founded {p.founded}</p>
       <h1>{p.name} for humans</h1>
       <p>{p.longDescription}</p>
       <TwinScore human={p.twin.human} agent={p.twin.agent} updated={p.twin.updated} emphasize="human" />
+      <p>
+        Edited by <Link href="/authors/edu-tor">Edu Tor</Link>. Twin Score updated {p.twin.updated}. Method:{" "}
+        <Link href="/methodology">methodology</Link> and <Link href="/scorecard">rubric</Link>.
+      </p>
+      </header>
       <p>
         Twin page for agents:{" "}
         <a href={`https://buildsomethingagentswant.com/products/${p.slug}`}>

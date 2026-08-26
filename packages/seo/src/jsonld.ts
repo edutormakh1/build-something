@@ -1,13 +1,28 @@
 import type { Article, Author, Product, Review } from "@bs/db";
-import { abs, ORG_NAME, siteUrl, type SiteId } from "./sites";
+import { abs, ORG_NAME, ORG_TAGLINE, siteUrl, type SiteId } from "./sites";
+
+function orgId(site: SiteId): string {
+  return `${siteUrl(site)}/#organization`;
+}
+
+function websiteId(site: SiteId): string {
+  return `${siteUrl(site)}/#website`;
+}
 
 export function orgJsonLd(site: SiteId) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": orgId(site),
     name: ORG_NAME[site],
     url: siteUrl(site),
-    founder: { "@type": "Person", name: "Edu Tor", url: abs("people", "/authors/edu-tor") },
+    description: ORG_TAGLINE[site],
+    email: site === "people" ? "editor@buildsomethingpeoplewant.com" : "editor@buildsomethingagentswant.com",
+    founder: {
+      "@type": "Person",
+      name: "Edu Tor",
+      url: abs("people", "/authors/edu-tor"),
+    },
     sameAs: ["https://github.com/edutormakh1"],
   };
 }
@@ -16,13 +31,60 @@ export function websiteJsonLd(site: SiteId) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": websiteId(site),
     name: ORG_NAME[site],
     url: siteUrl(site),
+    inLanguage: "en-US",
+    description: ORG_TAGLINE[site],
+    publisher: { "@id": orgId(site) },
     potentialAction: {
       "@type": "SearchAction",
       target: `${siteUrl(site)}/products?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
+  };
+}
+
+export function webPageJsonLd(site: SiteId, path: string, name: string, description: string) {
+  const url = abs(site, path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: "en-US",
+    isPartOf: { "@id": websiteId(site) },
+    about: { "@id": orgId(site) },
+  };
+}
+
+export function datasetJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "@id": `${abs("agents", "/for-agents")}#dataset`,
+    name: "Twin Scores catalog",
+    description:
+      "Editorial human and agent Twin Scores (0–100) plus capability matrices for worldwide software products. Staff composites, not user-count ratings. License CC BY 4.0.",
+    url: abs("agents", "/for-agents"),
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    creator: { "@id": orgId("agents") },
+    isAccessibleForFree: true,
+    inLanguage: "en-US",
+    distribution: [
+      {
+        "@type": "DataDownload",
+        encodingFormat: "application/json",
+        contentUrl: abs("agents", "/dataset/twin-scores.json"),
+      },
+      {
+        "@type": "DataDownload",
+        encodingFormat: "text/csv",
+        contentUrl: abs("agents", "/dataset/twin-scores.csv"),
+      },
+    ],
   };
 }
 
@@ -32,13 +94,20 @@ export function softwareJsonLd(site: SiteId, product: Product, reviews: Review[]
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": `${url}#software`,
     name: product.name,
     url,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
+    inLanguage: "en-US",
     publisher: { "@type": "Organization", name: product.vendor, url: product.website },
     description: product.description,
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", description: product.pricing },
+    offers: {
+      "@type": "Offer",
+      url: product.website,
+      description: product.pricing,
+      availability: "https://schema.org/OnlineOnly",
+    },
   };
   if (editorial.length) {
     const score = site === "people" ? product.twin.human : product.twin.agent;
@@ -64,6 +133,7 @@ export function reviewJsonLd(site: SiteId, product: Product, review: Review, aut
     name: review.title,
     reviewBody: review.body.slice(0, 5000),
     datePublished: review.publishedAt,
+    inLanguage: "en-US",
     reviewRating: {
       "@type": "Rating",
       ratingValue: (score / 20).toFixed(1),
@@ -80,6 +150,7 @@ export function reviewJsonLd(site: SiteId, product: Product, review: Review, aut
       name: product.name,
       url: abs(site, `/products/${product.slug}`),
     },
+    publisher: { "@id": orgId(site) },
   };
 }
 
@@ -87,11 +158,13 @@ export function personJsonLd(author: Author) {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${abs("people", `/authors/${author.slug}`)}#person`,
     name: author.name,
     jobTitle: author.role,
     description: author.bio,
     url: abs("people", `/authors/${author.slug}`),
     sameAs: author.sameAs,
+    worksFor: { "@id": orgId("people") },
   };
 }
 
@@ -123,20 +196,24 @@ export function itemListJsonLd(site: SiteId, name: string, paths: { name: string
 }
 
 export function articleJsonLd(article: Article, author: Author | undefined) {
+  const url = abs("people", `/blog/${article.slug}`);
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
     headline: article.title,
     description: article.description,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
+    inLanguage: "en-US",
     author: {
       "@type": "Person",
       name: author?.name ?? "Edu Tor",
       url: abs("people", `/authors/${author?.slug ?? "edu-tor"}`),
     },
-    publisher: orgJsonLd("people"),
-    mainEntityOfPage: abs("people", `/blog/${article.slug}`),
+    publisher: { "@id": orgId("people") },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${url}#webpage` },
+    isPartOf: { "@id": websiteId("people") },
   };
 }
 

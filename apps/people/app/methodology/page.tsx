@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd } from "@bs/seo";
+import { breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: 'Methodology',
@@ -13,7 +13,10 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <article className="prose">
-      <JsonLd data={breadcrumbJsonLd("people", [{ name: "Home", path: "/" }, { name: 'Methodology', path: "/methodology" }])} />
+      <JsonLd data={[
+        breadcrumbJsonLd("people", [{ name: "Home", path: "/" }, { name: "Methodology", path: "/methodology" }]),
+        webPageJsonLd("people", "/methodology", "How Twin Scores are made", "How Twin Scores are assigned, what sources we use, and what we refuse to invent."),
+      ]} />
       
       <h1>How Twin Scores are made</h1>
       <p>Twin Scores are editorial 0–100 composites on a public rubric, assigned by named staff using public products, public documentation, and public pricing pages. We do not scrape app-store stars, we do not invent user counts, and we do not sell placement on /best pages.</p>

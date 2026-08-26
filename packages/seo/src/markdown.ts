@@ -101,7 +101,11 @@ function homeMd(site: SiteId): string {
     .slice(0, 12)
     .map((p) => `- [${p.name}](/products/${p.slug}) — Twin Score human ${p.twin.human}, agent ${p.twin.agent}`)
     .join("\n");
-  return `${h(1, ORG_NAME[site])}\n\n${ORG_TAGLINE[site]} The catalog is worldwide, English, and editorial. Public pages render from committed seed JSON so the directory works before secrets land.\n\n${h(2, "How Twin Scores work")}\n\n${h(3, "Two numbers, one entity")}\n\nEvery product has a human score and an agent score on a public rubric. We never present fake UGC as authentic, and AggregateRating is only emitted for staff editorial composites.\n\n${h(2, "Featured products")}\n\n${top}\n\nSee also: [methodology](/methodology), [scorecard](/scorecard), twin site ${siblingUrl(site)}.\n`;
+  const lead =
+    site === "people"
+      ? "Build Something People Want is a worldwide editorial directory of software scored for humans and agents. A Twin Score is two staff numbers from 0 to 100 on a public rubric — not crowdsourced stars and not invented user counts. The twin site keeps the same entity slugs for machines."
+      : "Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs and Twin Scores; capability matrices, SKILL.md, OpenAPI, and a CC BY 4.0 dataset instead of magazine prose. We do not ship a fake MCP manifest.";
+  return `${h(1, ORG_NAME[site])}\n\n${lead}\n\n${h(2, "How Twin Scores work")}\n\n${h(3, "Two numbers, one entity")}\n\nEvery product has a human score and an agent score assigned by named staff using public apps and public docs. AggregateRating in JSON-LD is only those editorial composites. Meaning lives in server-rendered HTML even when a 3D canvas is present.\n\n${h(2, "Featured products")}\n\n${top}\n\nSee also: [methodology](/methodology), [scorecard](/scorecard), twin site ${siblingUrl(site)}.\n`;
 }
 
 function productsIndexMd(site: SiteId): string {
@@ -172,7 +176,7 @@ function authorMd(slug: string): string {
 }
 
 function methodologyMd(site: SiteId): string {
-  return `${h(1, "Methodology")}\n\nTwin Scores are editorial composites on a public rubric, assigned by named staff using public products and public documentation. We do not buy reviews, we do not invent user counts, and we do not emit AggregateRating except for those staff scores.\n\n${h(2, "Sources")}\n\nPublic apps, docs, pricing pages, and official APIs. Optional public_quote rows require a source URL.\n\n${h(3, "Updates")}\n\nScores carry an updated date. The seed JSON is the source of truth until Supabase secrets land.\n\nSite: ${siteUrl(site)}\n`;
+  return `${h(1, "Methodology")}\n\nTwin Scores are editorial 0–100 composites on a public rubric, assigned by named staff (Edu Tor, Maya Chen, Jonas Okonkwo) using public products, public documentation, and public pricing pages. We do not scrape app-store stars, invent user counts, or sell placement.\n\n${h(2, "Sources")}\n\nPublic apps, docs, pricing pages, and official APIs. Optional public_quote rows require a source URL. User and agent reviews stay pending until an admin approves them.\n\n${h(3, "Updates")}\n\nScores carry an updated date. The seed JSON is the source of truth until Supabase secrets land. Who: named staff. How: public artifacts on a published rubric. Why: a citable directory, not search bait.\n\nSite: ${siteUrl(site)}\n`;
 }
 
 function scorecardMd(site: SiteId): string {
