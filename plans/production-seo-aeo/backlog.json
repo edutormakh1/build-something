@@ -171,11 +171,11 @@
       ],
       "acceptance": "Propuesta S03 aprobada: preservar los25pares curados y hostswww observados. Resolver compartido; reverse308, self/malformed/unknown/private404; uncuratedpublished200noindex. HTML/Markdown comparten estados/canonical; sitemap y enlaces sólo pares curados. Corregir metadata/discovery/feed destinations conservando identidades de suscripción. Crawl HTTP local real de canonical/status/robots/feeds sobre fuente estabilizada; revisión independiente integrada. Reservas exactas por slice en run/S03-reservations.json; sitemap/API source sólo objetivos de verificación salvo extensión expresa. Extensiones revisadas: canonical propio de /submit y normalizador Worker de transporte RSC antes de Next, con .mjs y main como únicos cambios de entrada. Integración local en dac025a:368tests y395HTTP; no constituyen aceptación independiente ni despliegue.",
       "risk": "T2; contract proposal where needed",
-      "status": "in_progress",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "Fresh isolated cross-family Claude round1 S03-E01-implementation-review1.md;368tests/lint/types/freshbuilds/dryruns39smoke;716 independent targetedHTTP,409/411checks matching-host run,2baseline sitemap duplicates. No blockers. Hosted checks/P01/AEO01 still pending.",
+      "review_sha": "76aaf8236075e2c91533bdef888e1dcc9451fb1f",
       "blocked_by_access": []
     },
     {
@@ -225,11 +225,11 @@
       ],
       "acceptance": "Propuesta E01 aprobada y cinco slices implementados, pendientes de revisión independiente. Sidecar interno con fuente/fecha/método/responsable/límites;208spans permitidos con inversión exacta. Conservar scores/grades/IDs/statuses/fechas/nombres/URLs de fuentes/orden/pesos. Identidades no verificadas, estimaciones heredadas y notas documentales parafraseadas; corregir aritmética y propagación de descripciones. HTML/Markdown/JSON-LD/llms y ambas apps describen límites sin inventar pruebas ni publicación automática. Auth-forms sólo cinco textos; no cambios de API/SQL/solicitudes/permisos ni validación de RLS remota. Paridad completa del fallback Markdown queda en AEO01.",
       "risk": "T2; schema/publication escalation if expanded",
-      "status": "in_progress",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "Fresh isolated cross-family Claude round1 S03-E01-implementation-review1.md;368tests/lint/types/freshbuilds/dryruns39smoke;716 independent targetedHTTP,409/411checks matching-host run,2baseline sitemap duplicates. No blockers. Hosted checks/P01/AEO01 still pending. Scope-limited: N4/N5 residual unsupported copy is E01F, not accepted as corrected.",
+      "review_sha": "76aaf8236075e2c91533bdef888e1dcc9451fb1f",
       "blocked_by_access": []
     },
     {
@@ -376,7 +376,8 @@
         "D01",
         "A01",
         "E01",
-        "P01"
+        "P01",
+        "E01F"
       ],
       "scope": [
         "DNS zones",
@@ -475,6 +476,29 @@
       ],
       "acceptance": "Comparar ventanas 7/28 días y cohortes desde baseline. Muestrear citas AEO con pregunta, motor, fecha, región y URL. Decidir qué mejorar o dejar de publicar usando datos; revisión30/60/90 desde salida real sin scheduler ni promesas de ranking.",
       "risk": "T1/T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "E01F",
+      "priority": "P0",
+      "title": "Cerrar afirmaciones editoriales residuales de la revisión",
+      "depends_on": [
+        "E01"
+      ],
+      "scope": [
+        "apps/people/app/blog/page.tsx",
+        "packages/db/seed/catalog.json (reviewN4/N5 exact prose spans only; protected title extension must be explicit)",
+        "tests/fixtures/e01-repair-manifest.json (reviewed extension only)",
+        "tests/editorial-preservation.test.ts (protected-title exception only if approved)",
+        "tests/editorial-followup.test.ts (new meaningful render/preservation checks)"
+      ],
+      "acceptance": "Propuesta acotada con spans before/after, preservación de todo otro dato y manifest/proyección explícitos; corregir investigación/identidad no sustentada y repetición/referencia a cálculos inexistentes, sin inventar datos o experiencia. Tests reales de HTML/metadata/Markdown; revisión independiente antes de producción.",
+      "risk": "T2 narrow reviewed extension",
       "status": "pending",
       "agent_role": "worker",
       "review_required": true,
