@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: Props) {
       <p>{p.longDescription}</p>
       <TwinScore human={p.twin.human} agent={p.twin.agent} updated={p.twin.updated} emphasize="human" />
       <p>
-        Edited by <Link href="/authors/edu-tor">Edu Tor</Link>. Twin Score updated {p.twin.updated}. Method:{" "}
+        Catalog editor attribution: <Link href="/authors/edu-tor">Edu Tor</Link>. Catalog score date {p.twin.updated}. Method:{" "}
         <Link href="/methodology">methodology</Link> and <Link href="/scorecard">rubric</Link>.
       </p>
       </header>
@@ -79,7 +79,7 @@ export default async function ProductPage({ params }: Props) {
       </p>
       <h2>Capability matrix</h2>
       <p>
-        This matrix is the same data agents see. MCP is listed only when a real surface exists — we do not fake a manifest.
+        This matrix is the same data agents see. Capability grades are retained catalog judgments; dated documentation checks support only the specific facts they cite. A grade alone does not establish a current MCP server.
       </p>
       <h3>API, MCP, CLI, docs, auth</h3>
       <table>
@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: Props) {
         {reviews.map((r) => (
           <li key={r.slug}>
             <Link href={`/reviews/${r.slug}`}>{r.title}</Link> — {r.kind}
-            {r.sourceUrl ? ` · source ${r.sourceName}` : " · staff"}
+            {r.sourceUrl ? ` · source ${r.sourceName}` : " · catalog attribution"}
           </li>
         ))}
       </ul>

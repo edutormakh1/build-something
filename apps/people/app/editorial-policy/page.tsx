@@ -16,11 +16,11 @@ export default function Page() {
       <JsonLd data={breadcrumbJsonLd("people", [{ name: "Home", path: "/" }, { name: 'Editorial policy', path: "/editorial-policy" }])} />
       
       <h1>Editorial policy</h1>
-      <p>This directory is an editorial product. Reviews are labeled by kind: editorial, public_quote (with source URL), user, or agent. User and agent reviews from the public are pending until an admin approves them. We never show fake UGC as authentic.</p>
+      <p>This directory is an editorial product. Reviews are labeled by kind: editorial, public_quote (editorial documentation paraphrases with source URL, not direct quotations or user testimony), user, or agent. Submissions are stored separately as pending when the submission service is configured. Public reviews are read from the committed catalog; approving a database row does not publish it here. No automated submission-to-publication workflow is enabled in this version. We never show fake UGC as authentic.</p>
       <h2>Independence</h2>
-      <p>We do not sell stars. If a vendor later becomes a sponsor, the relationship will be labeled on the page. Staff cannot set is_admin on their own profile through the public form. Corrections go to editor@buildsomethingpeoplewant.com.</p>
+      <p>We do not sell stars. If a vendor later becomes a sponsor, the relationship will be labeled on the page. The public form does not offer an admin-role field. Database-side permission enforcement has not been verified by this editorial audit. Corrections go to editor@buildsomethingpeoplewant.com.</p>
       <h3>AI assistance</h3>
-      <p>We may use models as research assistants. Named humans remain accountable for scores, and original research tables are computed from the committed catalog. That is E-E-A-T as practice: experience, expertise, author, trust pages you can actually click.</p>
+      <p>The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned. Professional history and firsthand product evaluations are not independently verified in this evidence register. Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The tables summarize committed catalog values, not firsthand measurements.</p>
 
     </article>
   );

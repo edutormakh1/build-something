@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <article>
       <div className="opening">
-        <p className="kicker">Editorial · Worldwide · English · Edited by Edu Tor</p>
+        <p className="kicker">Editorial · Worldwide · English · Catalog attribution: Edu Tor</p>
         <h1>Software scored for the humans who actually use it</h1>
         <p className="standfirst">
           A worldwide gallery of products people actually want. Twin Scores, named authors, no fake user reviews.
@@ -47,14 +47,14 @@ export default function HomePage() {
       />
       <div className="prose">
       <p>
-        Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We publish original Twin Scores, named-author reviews, and research — not crowdsourced star ratings and not invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
+        Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We retain legacy editorial estimates, catalog bylines and essays — not crowdsourced star ratings or invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
       </p>
       <p>
         Every product page answers a buying question in the opening paragraph, then walks H2 to H3 with a capability snapshot, pricing as publicly stated, and links to alternatives. Public catalog pages render from committed seed JSON, so the site is readable before secrets land — including by AI crawlers that do not execute JavaScript or a 3D canvas.
       </p>
       <h2>What Twin Scores are</h2>
       <p>
-        A Twin Score is two editorial numbers from 0 to 100: one for the human surface, one for the agent surface. The rubric is public on the scorecard. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale.
+        Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The rubric is public on the scorecard. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale.
       </p>
       <h3>Why two sites</h3>
       <p>
@@ -77,9 +77,9 @@ export default function HomePage() {
           </li>
         ))}
       </ul>
-      <h2>Original research</h2>
+      <h2>Catalog analysis and essays</h2>
       <p>
-        Start with <Link href="/blog">the journal</Link> and the 2026 human-versus-agent software surfaces table. Methodology and editorial policy sit in the masthead so E-E-A-T is a page, not a claim. Named authors: <Link href="/authors/edu-tor">Edu Tor</Link>, Maya Chen, Jonas Okonkwo.
+        Start with <Link href="/blog">the journal</Link> and the 2026 human-versus-agent software surfaces table. The tables summarize retained estimates; they do not validate product performance. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned. Professional history and firsthand product evaluations are not independently verified in this evidence register. Recorded bylines: <Link href="/authors/edu-tor">Edu Tor</Link>, Maya Chen, Jonas Okonkwo.
       </p>
       <h3>Latest essays</h3>
       <ul>

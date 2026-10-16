@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
       ]} />
       <h1>{a.name}</h1>
       <p>{a.bio}</p>
-      <h2>Credentials</h2>
+      <h2>Attribution and evidence status</h2>
       <p>{a.credentials}</p>
       <h3>Role</h3>
       <p>{a.role}</p>

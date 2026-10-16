@@ -32,6 +32,7 @@ export default function Page() {
       <p>
         A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. {catalog.rubric.notes} A scored review uses its own audience score on the native 0–100 scale; unscored reviews have no reviewRating.
       </p>
+      <p>The rubric describes intended dimensions. The exports reproduce summaries and gaps from final estimates; they do not contain the original scoring observations. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned. Professional history and firsthand product evaluations are not independently verified in this evidence register.</p>
       <h2>Human dimensions</h2>
       <table>
         <thead>
