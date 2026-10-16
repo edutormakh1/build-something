@@ -9,6 +9,7 @@
     "S02",
     "C01",
     "S03",
+    "P01",
     "E01",
     "A01",
     "AEO01",
@@ -212,6 +213,32 @@
       "blocked_by_access": []
     },
     {
+      "id": "P01",
+      "priority": "P0",
+      "title": "Corregir inestabilidad y coste móvil medidos",
+      "depends_on": [
+        "C01",
+        "S03"
+      ],
+      "scope": [
+        "apps/agents/app/page.tsx",
+        "apps/agents/app/globals.css",
+        "packages/ui/src/theme/base.css",
+        "packages/ui/src/theme/agents.css",
+        "packages/ui/src/nav.tsx",
+        "packages/ui/src/motion/relic-mark.tsx",
+        "packages/ui/src/motion/relic.tsx"
+      ],
+      "acceptance": "Partir de las trazas locales C01: Agents presentó LCP4.288s y desplazamiento0.261 con throttling/software GPU; no son métricas de usuarios. Atribuir los desplazamientos con nodos/rectángulos y medir CLS con ventanas de sesión. Corregir la causa concreta mediante geometría/carga/animación mínima, conservar contenido y navegación sin WebGL/JS. Comparar varias muestras reproducibles antes/después en ambas apps; objetivo local CLS<=0.1 sin empeorar People y reducir el coste dominante observado. Documentar límites y separar métricas locales de CWV de campo. No editar imágenes ni contratar optimización remota sin propuesta concreta de archivos/coste.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
       "id": "D01",
       "priority": "P0",
       "title": "Autenticar y publicar Workers de prueba",
@@ -242,7 +269,8 @@
       "depends_on": [
         "D01",
         "A01",
-        "E01"
+        "E01",
+        "P01"
       ],
       "scope": [
         "DNS zones",

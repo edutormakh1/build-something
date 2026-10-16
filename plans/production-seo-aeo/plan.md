@@ -42,7 +42,7 @@ El crecimiento vendrá de pruebas propias, comparaciones que resuelvan decisione
 4. Inventariar URLs actuales y redirecciones apex/www. Mantener durante el cambio el host preferido efectivo y todas las rutas útiles; alinear canonical, sitemap, enlaces y redirecciones. No hacer una desindexación masiva sin inventario y revisión.
 5. Configurar comprobaciones reales de lint, tipos, tests, builds y smoke tests HTTP. Medir rendimiento móvil y limitar el coste de la decoración 3D, preservando contenido útil sin WebGL.
 
-Estas tareas pueden avanzar aunque Cloudflare siga sin acceso.
+La cuenta de Cloudflare ya está autenticada. Estas tareas locales continúan mientras se resuelven permisos DNS y configuración de producción. Las mediciones locales de C01 detectaron inestabilidad/coste móvil en Agents; P01 incorpora la corrección con trazas antes/después y queda como requisito antes del cambio de dominios. Las mediciones de laboratorio no certifican Core Web Vitals de usuarios. [Definición de CLS](https://web.dev/articles/cls).
 
 ### Segunda etapa: credibilidad editorial y producto completo
 
