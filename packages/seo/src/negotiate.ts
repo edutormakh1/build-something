@@ -75,3 +75,17 @@ export function shouldSkipAcceptNegotiation(pathname: string): boolean {
   if (pathname === "/md" || pathname.startsWith("/md/")) return true;
   return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix));
 }
+
+export function normalizeWorkerRequest(request: Request): Request {
+  if ((request.method !== "GET" && request.method !== "HEAD") ||
+      request.headers.get("rsc") !== "1" || request.headers.has("next-action") ||
+      shouldSkipAcceptNegotiation(new URL(request.url).pathname) ||
+      negotiate(request.headers.get("accept"), ["text/html", "text/markdown"]) !== "text/markdown") {
+    return request;
+  }
+  // Next strips Flight headers before middleware. Use the real client's Accept
+  // while leaving the raw RSC marker available for the generated Worker.
+  const headers = new Headers(request.headers);
+  headers.set("accept", "*/*");
+  return new Request(request, { headers });
+}
