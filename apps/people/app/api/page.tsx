@@ -1,10 +1,11 @@
+import { abs } from "@bs/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "API docs",
   description: "HTTP API for Twin Score products and reviews. RFC 9457 errors with code, detail, and status.",
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/api" },
+  alternates: { canonical: abs("people", "/api") },
 };
 
 export default function Page() {
@@ -28,7 +29,7 @@ export default function Page() {
       <p>
         Unknown routes and slugs return 404, invalid slugs return 400, and unsupported methods return 405 — all as
         problem+json. The machine-first twin documents the same graph at{" "}
-        <a href="https://buildsomethingagentswant.com/for-agents">Build Something Agents Want developer resources</a>.
+        <a href={abs("agents", "/for-agents")}>Build Something Agents Want developer resources</a>.
       </p>
     </article>
   );

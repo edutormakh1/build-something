@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { allAuthors, catalog, getAuthor, getReview } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, personJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, personJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: a.name,
     description: a.bio,
-    alternates: { canonical: `https://buildsomethingpeoplewant.com/authors/${a.slug}` },
+    alternates: { canonical: abs("people", `/authors/${a.slug}`) },
   };
 }
 export default async function Page({ params }: Props) {

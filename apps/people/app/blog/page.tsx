@@ -2,12 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { allArticles, getAuthor } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Journal",
   description: "Original research and editorial essays from Build Something People Want. Named authors, 1500+ word pieces.",
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/blog" },
+  alternates: { canonical: abs("people", "/blog") },
 };
 
 export default function Page() {

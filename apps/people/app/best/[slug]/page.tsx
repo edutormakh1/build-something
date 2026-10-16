@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { allCategories, getCategory, productsInCategory } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Best ${c.name} software in 2026`,
     description: `Editorial ranking of ${c.name} by human Twin Score. Not paid placement.`,
-    alternates: { canonical: `https://buildsomethingpeoplewant.com/best/${c.slug}` },
+    alternates: { canonical: abs("people", `/best/${c.slug}`) },
   };
 }
 export default async function Page({ params }: Props) {

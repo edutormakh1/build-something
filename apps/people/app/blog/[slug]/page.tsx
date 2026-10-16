@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { allArticles, getArticle, getAuthor } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { articleJsonLd, breadcrumbJsonLd } from "@bs/seo";
+import { abs, articleJsonLd, breadcrumbJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: a.title,
     description: a.description,
-    alternates: { canonical: `https://buildsomethingpeoplewant.com/blog/${a.slug}` },
+    alternates: { canonical: abs("people", `/blog/${a.slug}`) },
     openGraph: { title: a.title, description: a.description, type: "article" },
   };
 }

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: 'About',
   description: 'Who edits Build Something People Want, why Twin Scores exist, and how the agent twin relates.',
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/about" },
+  alternates: { canonical: abs("people", "/about") },
   openGraph: { title: 'About', description: 'Who edits Build Something People Want, why Twin Scores exist, and how the agent twin relates.' },
   twitter: { card: "summary_large_image", title: 'About', description: 'Who edits Build Something People Want, why Twin Scores exist, and how the agent twin relates.' },
 };
