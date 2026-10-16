@@ -37,6 +37,8 @@ export default function Page() {
         />
       </figure>
       <div className="prose">
+        <p>Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.</p>
+        <p>The catalog records the bylines Edu Tor, Maya Chen and Jonas Okonkwo. Their professional history and firsthand product evaluations are not independently verified in this evidence register. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.</p>
         <p>
           Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs, Twin Scores, and editorial rules. Use this site when you need to call an API, write a skill file, or download scores. Use the people twin when you need a comparison essay. Developer resources are titled “Build Something Agents Want developer resources”.
         </p>
@@ -64,7 +66,7 @@ export default function Page() {
           <Link className="card" href="/dataset/twin-scores.json">
             <p className="kicker">CC BY 4.0</p>
             <h3 className="card-title">Dataset</h3>
-            <p className="card-lede">Twin Scores as JSON and CSV. Recompute from the rubric.</p>
+            <p className="card-lede">Twin Scores as JSON and CSV. The exports reproduce summaries and gaps from final catalog estimates; they do not contain the original scoring observations.</p>
           </Link>
           <Link className="card" href="/llms.txt">
             <p className="kicker">Negotiation</p>

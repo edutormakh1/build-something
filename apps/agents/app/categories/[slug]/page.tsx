@@ -24,6 +24,7 @@ export default async function Page({ params }: Props) {
       <p>{c.description}</p>
       <h2>Entities</h2>
       <h3>Same slugs as the people twin</h3>
+      <p>Legacy editorial estimates; no firsthand test record attached.</p>
       <ul>
         {products.map((p) => (
           <li key={p.slug}><Link href={`/products/${p.slug}`}>{p.name}</Link> · agent {p.twin.agent}</li>

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return { title: "Not found" };
   return {
     title: `${p.name} capability matrix`,
-    description: `API, MCP, CLI, docs, and auth for ${p.name}. Agent Twin Score ${p.twin.agent}.`,
+    description: `API, MCP, CLI, docs, and auth for ${p.name}. Legacy agent Twin Score estimate ${p.twin.agent}.`,
     alternates: { canonical: abs("agents", `/products/${p.slug}`) },
   };
 }
@@ -35,16 +35,17 @@ export default async function Page({ params }: Props) {
         softwareJsonLd("agents", p, reviews),
       ]} />
       <header className="piece-head">
-      <p className="kicker">{p.vendor} · agent Twin Score {p.twin.agent}</p>
+      <p className="kicker">{p.vendor} · legacy agent Twin Score estimate {p.twin.agent}</p>
       <h1>{p.name} capability matrix</h1>
       <p>{p.longDescription}</p>
       <TwinScore human={p.twin.human} agent={p.twin.agent} updated={p.twin.updated} emphasize="agent" />
       </header>
       <p>
-        Named editor: Edu Tor. Twin Score updated {p.twin.updated}. See <Link href="/methodology">methodology</Link> and{" "}
+        Catalog attribution: Edu Tor; professional history and firsthand product evaluations are not independently verified. Catalog score date {p.twin.updated}. See <Link href="/methodology">methodology</Link> and{" "}
         <Link href="/scorecard">the rubric</Link>. Meaning is in this HTML, not in any canvas.
       </p>
       <h2>API / MCP / CLI / docs / auth</h2>
+      <p>Legacy capability grades, not re-evaluated by this audit.</p>
       <p>MCP is {cap.mcp}. If that is none or basic, do not invent a server. Auth: {cap.auth}.</p>
       <h3>Matrix</h3>
       <div className="plaque">
