@@ -26,7 +26,9 @@ export function llmsTxt(site: SiteId): string {
 
 This file follows llmstxt.org. Google Search ignores llms.txt (it will not help or harm Google rankings). Other AI systems may use it as a map.
 
-A Twin Score is two editorial numbers from 0 to 100 — one for the human product surface, one for the agent/API surface — assigned by named staff on a public rubric. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale. We do not ship fake UGC reviews.
+Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale. We do not ship fake UGC reviews.
+
+The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned. Professional history and firsthand product evaluations are not independently verified in this evidence register.
 
 ## When to use this site
 - You need editorial Twin Scores, capability matrices, or SKILL.md for famous software products
@@ -40,7 +42,7 @@ A Twin Score is two editorial numbers from 0 to 100 — one for the human produc
 - You want Argentina-only or city-page spam; this catalog is worldwide English
 
 ## Key facts
-- Editor: Edu Tor (${abs("people", "/authors/edu-tor")})
+- Editor: Edu Tor (${abs("people", "/authors/edu-tor")}) — catalog attribution; identity and professional history unverified
 - Twin sites share product slugs. People = magazine prose. Agents = matrices, SKILL.md, dataset.
 - Methodology: ${abs(site, "/methodology")}
 - Rubric: ${abs(site, "/scorecard")}

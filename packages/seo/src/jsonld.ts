@@ -18,11 +18,6 @@ export function orgJsonLd(site: SiteId) {
     url: siteUrl(site),
     description: ORG_TAGLINE[site],
     email: site === "people" ? "editor@buildsomethingpeoplewant.com" : "editor@buildsomethingagentswant.com",
-    founder: {
-      "@type": "Person",
-      name: "Edu Tor",
-      url: abs("people", "/authors/edu-tor"),
-    },
     sameAs: ["https://github.com/edutormakh1"],
   };
 }
@@ -67,7 +62,7 @@ export function datasetJsonLd() {
     "@id": `${abs("agents", "/for-agents")}#dataset`,
     name: "Twin Scores catalog",
     description:
-      "Editorial human and agent Twin Scores (0–100) plus capability matrices for worldwide software products. Staff composites, not user-count ratings. License CC BY 4.0.",
+      "Legacy editorial human and agent estimates (0–100) and catalog capability grades; documentation checks do not validate these scores. License CC BY 4.0.",
     url: abs("agents", "/for-agents"),
     license: "https://creativecommons.org/licenses/by/4.0/",
     creator: { "@id": orgId("agents") },

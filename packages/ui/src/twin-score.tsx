@@ -19,7 +19,8 @@ export function TwinScore({
         <span className="twin-label">Agent</span>
         <span className="twin-num">{agent}</span>
       </div>
-      {updated ? <p className="twin-updated">Updated {updated}. Editorial, not a user-count rating.</p> : null}
+      <p className="twin-updated">Legacy editorial estimates; no firsthand test record attached.</p>
+      {updated ? <p className="twin-updated">Catalog score date {updated}. Editorial, not a user-count rating.</p> : null}
     </div>
   );
 }
