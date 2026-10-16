@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
-import { MARKDOWN_CONTENT_TYPE, goneMd, pageMarkdown } from "@bs/seo";
+import { abs, MARKDOWN_CONTENT_TYPE, pageMarkdown } from "@bs/seo";
 
 export async function GET(_req: Request, ctx: { params: Promise<{ path?: string[] }> }) {
   const { path } = await ctx.params;
   const pathname = "/" + (path?.join("/") || "");
   const result = pageMarkdown("people", pathname);
-  const headers = { "content-type": MARKDOWN_CONTENT_TYPE, vary: "Accept" };
-  if (result.status === 410) {
-    return new NextResponse(result.body, { status: 410, headers });
+  const headers = new Headers({ "content-type": MARKDOWN_CONTENT_TYPE, vary: "Accept" });
+  if (result.status === 308) headers.set("Location", result.location);
+  if (result.status === 200) {
+    if (result.canonicalPath) headers.set("Link", `<${abs("people", result.canonicalPath)}>; rel="canonical"`);
+    if (result.robots) headers.set("X-Robots-Tag", result.robots);
   }
-  if (result.status === 404) {
-    return new NextResponse(result.body, { status: 404, headers });
-  }
-  return new NextResponse(result.body, { status: 200, headers });
+  return new NextResponse(result.body, { status: result.status, headers });
 }

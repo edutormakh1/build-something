@@ -1,10 +1,10 @@
 import { allArticles, allProducts } from "@bs/db";
-import { abs, ORG_NAME, ORG_TAGLINE, type SiteId } from "./sites";
+import { abs, ORG_NAME, ORG_TAGLINE, siblingUrl, siteUrl, type SiteId } from "./sites";
 import { allCanonical } from "./urls";
 
 export function llmsTxt(site: SiteId): string {
   const name = ORG_NAME[site];
-  const other = site === "people" ? "https://buildsomethingagentswant.com" : "https://buildsomethingpeoplewant.com";
+  const other = siblingUrl(site);
   const products = allProducts()
     .slice(0, 40)
     .map((p) => {
@@ -40,7 +40,7 @@ A Twin Score is two editorial numbers from 0 to 100 — one for the human produc
 - You want Argentina-only or city-page spam; this catalog is worldwide English
 
 ## Key facts
-- Editor: Edu Tor (https://buildsomethingpeoplewant.com/authors/edu-tor)
+- Editor: Edu Tor (${abs("people", "/authors/edu-tor")})
 - Twin sites share product slugs. People = magazine prose. Agents = matrices, SKILL.md, dataset.
 - Methodology: ${abs(site, "/methodology")}
 - Rubric: ${abs(site, "/scorecard")}
@@ -49,8 +49,8 @@ A Twin Score is two editorial numbers from 0 to 100 — one for the human produc
 - Request Accept: text/markdown for a text/markdown; charset=utf-8 representation of canonical pages
 
 ## Twin
-People: https://buildsomethingpeoplewant.com
-Agents: https://buildsomethingagentswant.com
+People: ${siteUrl("people")}
+Agents: ${siteUrl("agents")}
 Developer resources: ${abs("agents", "/for-agents")} (title: Build Something Agents Want developer resources)
 
 ## Public API

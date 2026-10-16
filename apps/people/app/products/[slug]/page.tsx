@@ -10,6 +10,8 @@ import {
 import { Breadcrumbs, JsonLd, TwinScore } from "@bs/ui";
 import {
   breadcrumbJsonLd,
+  abs,
+  curatedComparisonPath,
   softwareJsonLd,
 } from "@bs/seo";
 
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = getProduct(slug);
   if (!p) return { title: "Not found" };
-  const url = `https://buildsomethingpeoplewant.com/products/${p.slug}`;
+  const url = abs("people", `/products/${p.slug}`);
   return {
     title: `${p.name} review and Twin Score`,
     description: p.description,
@@ -70,7 +72,7 @@ export default async function ProductPage({ params }: Props) {
       </header>
       <p>
         Twin page for agents:{" "}
-        <a href={`https://buildsomethingagentswant.com/products/${p.slug}`}>
+        <a href={abs("agents", `/products/${p.slug}`)}>
           {p.name} on Build Something Agents Want
         </a>
         .
@@ -106,12 +108,15 @@ export default async function ProductPage({ params }: Props) {
       </ul>
       <h2>Alternatives</h2>
       <ul>
-        {alts.map((a) => (
+        {alts.map((a) => {
+          const comparePath = curatedComparisonPath(p.slug, a.slug);
+          return (
           <li key={a.slug}>
-            <Link href={`/products/${a.slug}`}>{a.name}</Link>{" "}
-            (<Link href={`/compare/${[p.slug, a.slug].join("-vs-")}`}>compare</Link>)
+            <Link href={`/products/${a.slug}`}>{a.name}</Link>
+            {comparePath ? <> (<Link href={comparePath}>compare</Link>)</> : null}
           </li>
-        ))}
+          );
+        })}
       </ul>
       <p>
         <Link href={`/alternatives/${p.slug}`}>All alternatives to {p.name}</Link> ·{" "}

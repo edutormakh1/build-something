@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { allProducts, alternativesOf, getProduct } from "@bs/db";
 import { JsonLd, TwinScore } from "@bs/ui";
-import { breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, curatedComparisonPath, itemListJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Alternatives to ${p.name}`,
     description: `Editorial alternatives to ${p.name} from the Twin Score catalog.`,
-    alternates: { canonical: `https://buildsomethingpeoplewant.com/alternatives/${p.slug}` },
+    alternates: { canonical: abs("people", `/alternatives/${p.slug}`) },
   };
 }
 export default async function Page({ params }: Props) {
@@ -37,12 +37,15 @@ export default async function Page({ params }: Props) {
       <h2>Shortlist</h2>
       <h3>Why these names</h3>
       <ul>
-        {alts.map((a) => (
+        {alts.map((a) => {
+          const comparePath = curatedComparisonPath(p.slug, a.slug);
+          return (
           <li key={a.slug}>
             <Link href={`/products/${a.slug}`}>{a.name}</Link> — human {a.twin.human}, agent {a.twin.agent}. {a.description}{" "}
-            <Link href={`/compare/${p.slug}-vs-${a.slug}`}>Compare with {p.name}</Link>
+            {comparePath ? <Link href={comparePath}>Compare with {p.name}</Link> : null}
           </li>
-        ))}
+          );
+        })}
       </ul>
       <TwinScore human={p.twin.human} agent={p.twin.agent} emphasize="human" />
     </article>

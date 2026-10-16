@@ -184,8 +184,15 @@ describe("comparison statuses and discovery references", () => {
     expect(result.body).not.toContain("Private comparison");
   });
 
-  it.each(["visible-vs-other", "other-vs-visible", "visible-vs-visible", "other-vs-other"])("preserves existing two-published-product behavior for %s pending S03", (pair) => {
-    expect(pageMarkdown("people", `/compare/${pair}`).status).toBe(200);
+  it.each([
+    ["visible-vs-other", 200, undefined],
+    ["other-vs-visible", 308, "/compare/visible-vs-other"],
+    ["visible-vs-visible", 404, undefined],
+    ["other-vs-other", 404, undefined],
+  ])("applies the reviewed S03 comparison contract for %s", (pair, status, location) => {
+    const result = pageMarkdown("people", `/compare/${pair}`);
+    expect(result.status).toBe(status);
+    if (location) expect(result).toMatchObject({ location, body: "" });
   });
 
   it.each(["people", "agents"] as const)("includes only visible entity links in the %s sitemap", (site) => {

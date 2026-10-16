@@ -9,14 +9,20 @@ import {
   productsInCategory,
   reviewsFor,
 } from "@bs/db";
-import { ORG_NAME, ORG_TAGLINE, siblingUrl, siteUrl, type SiteId } from "./sites";
+import { abs, ORG_NAME, ORG_TAGLINE, siblingUrl, siteUrl, type SiteId } from "./sites";
 import { allCanonical } from "./urls";
+import { resolveComparison, type ComparisonPage } from "./comparisons";
 
 function h(level: number, text: string): string {
   return `${"#".repeat(level)} ${text}`;
 }
 
-export function pageMarkdown(site: SiteId, pathname: string): { status: number; body: string } | { status: 410; body: string } | { status: 404; body: string } {
+export type MarkdownResult =
+  | { status: 200; body: string; canonicalPath?: string; robots?: string }
+  | { status: 308; body: ""; location: string }
+  | { status: 404 | 410; body: string };
+
+export function pageMarkdown(site: SiteId, pathname: string): MarkdownResult {
   const path = pathname.replace(/\/$/, "") || "/";
   const retired = catalog.retiredSlugs.find((s) => path.endsWith("/" + s) || path.includes("/" + s + "/"));
   if (retired && (path.includes("/products/") || path.includes("/skills/") || path.includes("/alternatives/"))) {
@@ -49,12 +55,17 @@ export function pageMarkdown(site: SiteId, pathname: string): { status: number; 
       if (!c) return { status: 404, body: notFoundMd(site, path) };
       return { status: 200, body: bestMd(c.slug) };
     }
-    const cmp = path.match(/^\/compare\/([^/]+)-vs-([^/]+)$/);
+    const cmp = path.match(/^\/compare\/([^/]+)$/);
     if (cmp) {
-      if (!getProduct(cmp[1]) || !getProduct(cmp[2])) {
+      const result = resolveComparison(cmp[1]);
+      if (result.kind === "not-found") {
         return { status: 404, body: notFoundMd(site, path) };
       }
-      return { status: 200, body: compareMd(cmp[1], cmp[2]) };
+      if (result.kind === "redirect") return { status: 308, location: result.path, body: "" };
+      return {
+        status: 200, body: compareMd(result), canonicalPath: result.path,
+        ...(result.indexable ? {} : { robots: "noindex, follow" }),
+      };
     }
     const alt = path.match(/^\/alternatives\/([^/]+)$/);
     if (alt) {
@@ -147,14 +158,8 @@ function bestMd(slug: string): string {
   return `${h(1, `Best ${c.name} software in 2026`)}\n\nEditorial ranking by human Twin Score for ${c.name}. Not a paid placement list and not a fake user poll.\n\n${h(2, "Ranked list")}\n\n${h(3, "How we ordered it")}\n\nWe sort published catalog products in this category by the human Twin Score. Agent scores live on the twin site.\n\n${items}\n`;
 }
 
-function compareMd(a: string, b: string): string {
-  const pa = getProduct(a);
-  const pb = getProduct(b);
-  if (!pa || !pb) return notFoundMd("people", `/compare/${a}-vs-${b}`);
-  const pair = catalog.comparePairs.find(
-    (x) => (x.a === a && x.b === b) || (x.a === b && x.b === a),
-  );
-  const intro = pair?.intro ?? `${pa.name} versus ${pb.name} compared on Twin Scores.`;
+function compareMd({ a: pa, b: pb, intro: curatedIntro }: ComparisonPage): string {
+  const intro = curatedIntro ?? `${pa.name} versus ${pb.name} compared on Twin Scores.`;
   return `${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${pa.twin.human} | ${pa.twin.agent} |\n| ${pb.name} | ${pb.twin.human} | ${pb.twin.agent} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`;
 }
 
@@ -249,7 +254,7 @@ ${p.website}
 
 ## Twin Score
 
-Human ${p.twin.human}. Agent ${p.twin.agent}. Updated ${p.twin.updated}. Rubric: https://buildsomethingagentswant.com/scorecard
+Human ${p.twin.human}. Agent ${p.twin.agent}. Updated ${p.twin.updated}. Rubric: ${abs("agents", "/scorecard")}
 
 ## Alternatives
 
