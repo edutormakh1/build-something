@@ -27,11 +27,11 @@
       ],
       "acceptance": "Comprobar diff y versiones coherentes; pnpm install --frozen-lockfile, pnpm test, pnpm build:cloudflare y pnpm check:cloudflare pasan desde el checkpoint; conservar fuentes y variables. No certificar despliegue.",
       "risk": "T2",
-      "status": "pending",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "Lead run L01-review1.md (independent xAI reviewer); local install/tests/types/dry-runs and local Worker smoke passed. No deployment.",
+      "review_sha": "941b7d0f51dc6d83cc1f8c2396296eb1e9074e76",
       "blocked_by_access": []
     },
     {
@@ -43,9 +43,13 @@
       ],
       "scope": [
         "packages/db/src/catalog.ts",
-        "packages/seo/src/{api,markdown}.ts",
+        "packages/seo/src/api.ts",
+        "packages/seo/src/markdown.ts",
+        "packages/seo/src/urls.ts",
+        "apps/people/app/authors/[slug]/page.tsx",
+        "apps/people/app/reviews/[slug]/page.tsx",
         "apps/agents/app/skills/[slug]/raw/route.ts",
-        "tests/"
+        "tests/publication.test.ts"
       ],
       "acceptance": "Primero propuesta del comportamiento público. Fixtures publicados/no publicados/desconocidos; HTML, Markdown, API y skill raw no exponen borradores; comparaciones inexistentes no devuelven 200. Revisión de contrato antes de cambiar rutas públicas.",
       "risk": "T3 proposal",
@@ -61,13 +65,21 @@
       "priority": "P0",
       "title": "Representar honestamente puntajes y reseñas",
       "depends_on": [
-        "L01"
+        "L01",
+        "S01"
       ],
       "scope": [
         "packages/seo/src/jsonld.ts",
+        "packages/seo/src/llms.ts",
+        "packages/seo/src/markdown.ts",
         "apps/people/app/products/[slug]/page.tsx",
         "apps/agents/app/products/[slug]/page.tsx",
-        "tests/"
+        "apps/people/app/reviews/[slug]/page.tsx",
+        "apps/people/app/page.tsx",
+        "apps/people/app/scorecard/page.tsx",
+        "apps/agents/app/scorecard/page.tsx",
+        "apps/people/app/methodology/page.tsx",
+        "tests/ratings.test.ts"
       ],
       "acceptance": "Sin AggregateRating compuesto no sustentado ni estrellas de respaldo en notas sin score; el marcado coincide con el contenido visible. Tests con reseña puntuada/no puntuada y nota documental. Validación del marcado sin prometer rich results.",
       "risk": "T2",
@@ -210,16 +222,14 @@
         "apps/*/wrangler.jsonc",
         "deployment environment"
       ],
-      "acceptance": "Acceso a cuenta permanente, variables públicas de Supabase en build, sin secretos privilegiados en cliente; preview noindex; URLs alojadas y smoke checks reales; consumo de CPU/peticiones observado. No sustituirlo por deployment temporal.",
+      "acceptance": "Acceso a cuenta permanente, variables públicas de Supabase en build, sin secretos privilegiados en cliente; preview noindex; URLs alojadas y smoke checks reales; consumo de CPU/peticiones observado. No sustituirlo por deployment temporal. Cuenta autenticada: inventariar Workers existentes y publicar con nombres preview distintos. No reemplazar los Workers actuales ni su servicio API sin reconciliar versiones/bindings y rollback.",
       "risk": "T3; hosting already authorized",
       "status": "pending",
       "agent_role": "worker",
       "review_required": true,
       "review_evidence": null,
       "review_sha": null,
-      "blocked_by_access": [
-        "Cloudflare account"
-      ]
+      "blocked_by_access": []
     },
     {
       "id": "D02",
