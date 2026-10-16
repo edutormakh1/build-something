@@ -337,7 +337,7 @@
       ],
       "acceptance": "Partir de las trazas locales C01: Agents presentó LCP4.288s y desplazamiento0.261 con throttling/software GPU; no son métricas de usuarios. Atribuir los desplazamientos con nodos/rectángulos y medir CLS con ventanas de sesión. Corregir la causa concreta mediante geometría/carga/animación mínima, conservar contenido y navegación sin WebGL/JS. Comparar varias muestras reproducibles antes/después en ambas apps; objetivo local CLS<=0.1 sin empeorar People y reducir el coste dominante observado. Documentar límites y separar métricas locales de CWV de campo. No editar imágenes ni contratar optimización remota sin propuesta concreta de archivos/coste.",
       "risk": "T2",
-      "status": "pending",
+      "status": "in_progress",
       "agent_role": "worker",
       "review_required": true,
       "review_evidence": null,
@@ -356,12 +356,21 @@
         "C01"
       ],
       "scope": [
-        "apps/*/wrangler.jsonc",
-        "deployment environment"
+        "apps/people/wrangler.preview.jsonc",
+        "apps/agents/wrangler.preview.jsonc",
+        "apps/people/worker.mjs",
+        "apps/agents/worker.mjs",
+        "packages/seo/src/preview.ts",
+        "tests/preview-response.test.ts",
+        "tests/preview-deployment.test.ts",
+        "scripts/cloudflare-preview.mjs",
+        "scripts/smoke-cloudflare-preview.mjs",
+        "package.json (Lead scripts wiring only)",
+        ".github/workflows/checks.yml (Lead separate no-secrets job only)"
       ],
       "acceptance": "Acceso a cuenta permanente, variables públicas de Supabase en build, sin secretos privilegiados en cliente; preview noindex; URLs alojadas y smoke checks reales; consumo de CPU/peticiones observado. No sustituirlo por deployment temporal. Cuenta autenticada: inventariar Workers existentes y publicar con nombres preview distintos. No reemplazar los Workers actuales ni su servicio API sin reconciliar versiones/bindings y rollback.",
       "risk": "T3; hosting already authorized",
-      "status": "pending",
+      "status": "in_progress",
       "agent_role": "worker",
       "review_required": true,
       "review_evidence": null,
@@ -491,15 +500,15 @@
         "E01"
       ],
       "scope": [
-        "apps/people/app/blog/page.tsx",
-        "packages/db/seed/catalog.json (reviewN4/N5 exact prose spans only; protected title extension must be explicit)",
-        "tests/fixtures/e01-repair-manifest.json (reviewed extension only)",
-        "tests/editorial-preservation.test.ts (protected-title exception only if approved)",
-        "tests/editorial-followup.test.ts (new meaningful render/preservation checks)"
+        "packages/db/seed/catalog.json (exact11spans/6fields/one-titleexception)",
+        "apps/people/app/blog/page.tsx (exact3spans)",
+        "tests/fixtures/e01f-repair-manifest.json",
+        "tests/editorial-preservation.test.ts (strict additive inverse/replay wiring)",
+        "tests/editorial-followup.test.ts"
       ],
       "acceptance": "Propuesta acotada con spans before/after, preservación de todo otro dato y manifest/proyección explícitos; corregir investigación/identidad no sustentada y repetición/referencia a cálculos inexistentes, sin inventar datos o experiencia. Tests reales de HTML/metadata/Markdown; revisión independiente antes de producción.",
       "risk": "T2 narrow reviewed extension",
-      "status": "pending",
+      "status": "in_progress",
       "agent_role": "worker",
       "review_required": true,
       "review_evidence": null,
