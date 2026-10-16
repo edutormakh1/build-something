@@ -53,11 +53,11 @@
       ],
       "acceptance": "Primero propuesta del comportamiento público. Fixtures publicados/no publicados/desconocidos; HTML, Markdown, API y skill raw no exponen borradores; comparaciones inexistentes no devuelven 200. Revisión de contrato antes de cambiar rutas públicas.",
       "risk": "T3 proposal",
-      "status": "pending",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "Lead run S01-review1.md, independent isolated review;65 tests/types/probe pass, no findings.",
+      "review_sha": "49795472ed84a98eccc64163ce7bc0c19da067a4",
       "blocked_by_access": []
     },
     {
