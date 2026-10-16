@@ -85,11 +85,11 @@
       ],
       "acceptance": "Sin AggregateRating compuesto no sustentado ni estrellas de respaldo en notas sin score; el marcado coincide con el contenido visible. Tests con reseña puntuada/no puntuada y nota documental. Validación del marcado sin prometer rich results. Corregir las afirmaciones obsoletas de AggregateRating en home, scorecards, metodología, llms/Markdown, rubric.notes y sólo el párrafo de schema del artículo fake-ugc-editorial-policy; conservar scores/autores y los demás campos.",
       "risk": "T2",
-      "status": "implemented_pending_review",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "Fresh isolated Codex reviewer round2, review-round2-393d357-independent/review.txt;164tests/types/lint/builds/dryruns,76HTTP and mocked browserflows PASS. Same-family limitation disclosed; real Supabase/hosting settings pending.",
+      "review_sha": "393d357c1c16819b1f67d7554fbd240db6a88b86",
       "blocked_by_access": []
     },
     {
@@ -156,11 +156,11 @@
       ],
       "acceptance": "Propuesta y revisión previa: callback, sesión y actualización de contraseña definidos según flujo real de Supabase. Tests con mocks o Supabase local aislado propio; nunca tests contra staging/producción. No afirmar un check de login real sin entorno permitido.",
       "risk": "T3 proposal",
-      "status": "implemented_pending_review",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "Fresh isolated Codex reviewer round2, review-round2-393d357-independent/review.txt;164tests/types/lint/builds/dryruns,76HTTP and mocked browserflows PASS. Same-family limitation disclosed; real Supabase/hosting settings pending.",
+      "review_sha": "393d357c1c16819b1f67d7554fbd240db6a88b86",
       "blocked_by_access": []
     },
     {
