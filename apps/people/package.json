@@ -32,10 +32,10 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
-    "lint": "next lint",
+    "lint": "eslint .",
     "build:cloudflare": "opennextjs-cloudflare build",
     "preview:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "check:cloudflare": "wrangler deploy --dry-run"
+    "check:cloudflare": "opennextjs-cloudflare populateCache local && wrangler deploy --dry-run"
   }
 }
