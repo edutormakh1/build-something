@@ -64,7 +64,7 @@ Completar el flujo existente de recuperación de contraseña y hacer explícito 
 
 ### Cuarta etapa: descubrimiento y medición
 
-Verificar ambos dominios en Search Console y Bing Webmaster Tools si el acceso lo permite; usar la verificación existente cuando ya haya propiedades. Enviar únicamente sitemaps de URLs canónicas elegibles. Registrar cobertura, errores y señales de rastreo sin confundir rastreo con indexación.
+Verificar ambos dominios en Search Console y Bing Webmaster Tools si el acceso lo permite; usar la verificación existente cuando ya haya propiedades. Enviar únicamente sitemaps de URLs canónicas elegibles. Registrar cobertura, errores y señales de rastreo sin confundir rastreo con indexación. Comprobar en Search Console la inclusión del sitio en las funciones generativas de Search y habilitarla cuando corresponda dentro de la cuenta autorizada. Registrar el informe **Generative AI performance** por separado de la analítica clásica de búsqueda, con fecha y ventana de medición. Si la cuenta no ofrece el control o el informe, guardar esa limitación y mantener la comprobación pendiente; no inferir visibilidad de IA de las métricas clásicas. [Requisitos y medición oficiales](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide).
 
 Crear páginas de comparación y categoría con respuestas útiles, evidencia y enlaces contextuales, diferenciando la decisión humana de la integración por agentes. HTML, Markdown, datos y metadatos deben expresar los mismos hechos. Elegir canonical o exclusión explícita para representaciones duplicadas; evitar que filtros o el orden de un par multipliquen páginas indexables sin valor.
 
@@ -85,7 +85,7 @@ Las ventanas de revisión a 30/60/90 días son momentos de evaluación desde la 
 
 ## Cómo lo ejecuta Lead
 
-Cada worker recibe un brief pequeño con objetivo, archivos propios, dependencias y comandos de aceptación. El reviewer pertenece a una familia distinta. Se permiten dos workers paralelos sólo si los archivos no se pisan; autenticación, publicación de datos y contratos públicos se tratan primero como propuestas concretas revisadas.
+Cada worker recibe un brief pequeño con objetivo, archivos propios, dependencias y comandos de aceptación. El reviewer pertenece a una familia distinta. Se permiten dos workers paralelos sólo si los archivos no se pisan. Antes de cada despacho, Lead expande los alcances del backlog a archivos concretos y registra su reserva en el brief y worklog, incluidos tests, lockfiles y archivos nuevos. Un alcance amplio o dudoso se ejecuta en serie; las reservas se liberan al integrar el commit. Una ampliación de alcance requiere actualizar el brief, las reservas y las dependencias antes de continuar. S03 espera a S01 y S02 y tiene rutas explícitas; autenticación, publicación de datos y contratos públicos se tratan primero como propuestas concretas revisadas.
 
 Si falta una cuenta, Lead marca la dependencia y continúa la próxima tarea local independiente. No pide otra vez autorización para la migración de hosting ya aprobada. Sólo escala acceso/identidad, gasto nuevo, cambios irreversibles nuevos o un bloqueo que alcanzó el límite de intentos.
 

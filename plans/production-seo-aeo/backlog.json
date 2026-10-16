@@ -83,12 +83,18 @@
       "priority": "P0",
       "title": "Normalizar comparaciones y canonical",
       "depends_on": [
-        "S01"
+        "S01",
+        "S02"
       ],
       "scope": [
         "apps/people/app/compare/[pair]/page.tsx",
+        "apps/people/app/products/[slug]/page.tsx",
+        "apps/people/app/alternatives/[slug]/page.tsx",
         "packages/seo/src/{urls,sites,markdown}.ts",
-        "apps/*/app/**",
+        "apps/people/app/sitemap.xml/route.ts",
+        "apps/people/app/sitemaps/[name]/route.ts",
+        "apps/agents/app/sitemap.xml/route.ts",
+        "apps/agents/app/sitemaps/[name]/route.ts",
         "tests/"
       ],
       "acceptance": "Inventario de hosts y URLs previo. Un orden por par, reverse con redirección coherente, self/unknown con estado definido, sólo pares útiles indexables. Canonical/sitemap/enlaces apuntan al destino 200 final; preservar URLs existentes con mapa explícito.",
@@ -252,7 +258,7 @@
         "Bing Webmaster Tools",
         "privacy-conscious analytics/report artifacts"
       ],
-      "acceptance": "Propiedades verificadas y sitemaps enviados en cuentas autorizadas. Capturar URLs canónicas/indexadas, consultas, impresiones, clics y rendimiento reales con fecha; si falta acceso, pendiente. No inventar tráfico, causalidad o consentimiento.",
+      "acceptance": "Propiedades verificadas y sitemaps enviados en cuentas autorizadas. Comprobar y registrar en Search Console la inclusión en funciones generativas de Search según la guía vigente; habilitarla si está disponible y falta. Capturar por separado el informe Generative AI performance y la analítica clásica (URLs canónicas/indexadas, consultas, impresiones, clics y rendimiento), con fecha y ventanas. Si el control, informe o acceso no está disponible, registrar la limitación y dejar esa comprobación pendiente; no sustituirla por métricas clásicas ni inventar tráfico, causalidad o consentimiento.",
       "risk": "T2; account access dependency",
       "status": "pending",
       "agent_role": "worker",
@@ -328,5 +334,11 @@
       "review_sha": null,
       "blocked_by_access": []
     }
-  ]
+  ],
+  "execution_policy": {
+    "parallelism": "At most two workers. Dependency readiness alone does not authorize parallel edits.",
+    "file_ownership": "Before dispatch, expand each task scope (including tests, lockfiles and new files) into an explicit file reservation in its brief/worklog. Two tasks may overlap only after the first commits and releases ownership; otherwise run them sequentially. Unknown or directory-wide overlap defaults to sequential execution.",
+    "scope_changes": "A worker stops at its boundary and returns a concrete scope-extension proposal. The lead reviews dependencies and reservations before authorizing the extension; new irreversible behavior retains its proposal gate.",
+    "briefs": "Create a task-specific brief before every dispatch. L01, S01, S02, S03, A01 and C01 briefs are prepared; later tasks receive briefs after their prerequisites are reviewed."
+  }
 }
