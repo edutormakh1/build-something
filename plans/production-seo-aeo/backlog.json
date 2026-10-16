@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "as_of": "2026-10-16",
+  "goal": "Finish and launch the two-site product; build measurable original SEO/AEO discovery.",
+  "initial_execution_task": "L01",
+  "independent_local_queue": [
+    "L01",
+    "S01",
+    "S02",
+    "C01",
+    "S03",
+    "E01",
+    "A01",
+    "AEO01",
+    "E02"
+  ],
+  "items": [
+    {
+      "id": "L01",
+      "priority": "P0",
+      "title": "Revisar y guardar la migración existente",
+      "depends_on": [],
+      "scope": [
+        "apps/*/{open-next.config.ts,wrangler.jsonc,package.json}",
+        "packages/{auth,ui}/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "acceptance": "Comprobar diff y versiones coherentes; pnpm install --frozen-lockfile, pnpm test, pnpm build:cloudflare y pnpm check:cloudflare pasan desde el checkpoint; conservar fuentes y variables. No certificar despliegue.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "S01",
+      "priority": "P0",
+      "title": "Proteger entidades y estados HTTP públicos",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "packages/db/src/catalog.ts",
+        "packages/seo/src/{api,markdown}.ts",
+        "apps/agents/app/skills/[slug]/raw/route.ts",
+        "tests/"
+      ],
+      "acceptance": "Primero propuesta del comportamiento público. Fixtures publicados/no publicados/desconocidos; HTML, Markdown, API y skill raw no exponen borradores; comparaciones inexistentes no devuelven 200. Revisión de contrato antes de cambiar rutas públicas.",
+      "risk": "T3 proposal",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "S02",
+      "priority": "P0",
+      "title": "Representar honestamente puntajes y reseñas",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "packages/seo/src/jsonld.ts",
+        "apps/people/app/products/[slug]/page.tsx",
+        "apps/agents/app/products/[slug]/page.tsx",
+        "tests/"
+      ],
+      "acceptance": "Sin AggregateRating compuesto no sustentado ni estrellas de respaldo en notas sin score; el marcado coincide con el contenido visible. Tests con reseña puntuada/no puntuada y nota documental. Validación del marcado sin prometer rich results.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "S03",
+      "priority": "P0",
+      "title": "Normalizar comparaciones y canonical",
+      "depends_on": [
+        "S01"
+      ],
+      "scope": [
+        "apps/people/app/compare/[pair]/page.tsx",
+        "packages/seo/src/{urls,sites,markdown}.ts",
+        "apps/*/app/**",
+        "tests/"
+      ],
+      "acceptance": "Inventario de hosts y URLs previo. Un orden por par, reverse con redirección coherente, self/unknown con estado definido, sólo pares útiles indexables. Canonical/sitemap/enlaces apuntan al destino 200 final; preservar URLs existentes con mapa explícito.",
+      "risk": "T2; contract proposal where needed",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "E01",
+      "priority": "P0",
+      "title": "Crear registro de evidencia y auditar afirmaciones",
+      "depends_on": [
+        "S02"
+      ],
+      "scope": [
+        "packages/db/seed/",
+        "apps/people/app/{authors,methodology,editorial-policy}/",
+        "tests/"
+      ],
+      "acceptance": "Sidecar interno por slug con fuente, fecha, método, responsable y limitaciones. Revisar biografías, uso personal y scores de la cohorte; no fabricar validaciones ni cambiar API o SQL implícitamente. Documentar propuesta para cualquier cambio amplio de indexación.",
+      "risk": "T2; schema/publication escalation if expanded",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "A01",
+      "priority": "P0",
+      "title": "Resolver recuperación de contraseña existente",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "packages/auth/",
+        "apps/*/components/auth-forms.tsx",
+        "apps/*/app/forgot-password/",
+        "tests/"
+      ],
+      "acceptance": "Propuesta y revisión previa: callback, sesión y actualización de contraseña definidos según flujo real de Supabase. Tests con mocks o Supabase local aislado propio; nunca tests contra staging/producción. No afirmar un check de login real sin entorno permitido.",
+      "risk": "T3 proposal",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "C01",
+      "priority": "P0",
+      "title": "Agregar controles válidos y rendimiento de lanzamiento",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "package.json",
+        "apps/*/package.json",
+        ".github/workflows/",
+        "packages/ui/",
+        "tests/"
+      ],
+      "acceptance": "Lint válido para Next 15, tipos por app, tests, builds y dry-run en CI. Smoke HTTP reproducible cubre ambas apps y variación HTML/Markdown. Medir móvil, fallos WebGL y tamaño/CPU sin inventar valores ni evaluar contra bases remotas.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "AEO01",
+      "priority": "P1",
+      "title": "Alinear HTML Markdown y recursos para agentes",
+      "depends_on": [
+        "S01",
+        "S03"
+      ],
+      "scope": [
+        "packages/seo/src/{markdown,llms,api,robots}.ts",
+        "apps/*/app/md/",
+        "apps/agents/app/{skills,dataset,.well-known}/",
+        "tests/"
+      ],
+      "acceptance": "Mismas entidades/hechos y estados entre representaciones; evitar fallback vacío en páginas canónicas; query/search según contrato; crawlers de búsqueda permitidos sin afirmar que training bots mejoran SEO. Mantener contratos existentes o preparar propuesta específica.",
+      "risk": "T2/T3 for contract changes",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "D01",
+      "priority": "P0",
+      "title": "Autenticar y publicar Workers de prueba",
+      "depends_on": [
+        "L01",
+        "S01",
+        "S02",
+        "S03",
+        "C01"
+      ],
+      "scope": [
+        "apps/*/wrangler.jsonc",
+        "deployment environment"
+      ],
+      "acceptance": "Acceso a cuenta permanente, variables públicas de Supabase en build, sin secretos privilegiados en cliente; preview noindex; URLs alojadas y smoke checks reales; consumo de CPU/peticiones observado. No sustituirlo por deployment temporal.",
+      "risk": "T3; hosting already authorized",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [
+        "Cloudflare account"
+      ]
+    },
+    {
+      "id": "D02",
+      "priority": "P0",
+      "title": "Activar dominios con rollback",
+      "depends_on": [
+        "D01",
+        "A01",
+        "E01"
+      ],
+      "scope": [
+        "DNS zones",
+        "Cloudflare Worker domains",
+        "deployment documentation"
+      ],
+      "acceptance": "Snapshot de DNS y destino anterior; conservar correo/verificación. HTTPS, host preferido, redirects y rutas validados. Pruebas locales no usan bases remotas; cualquier comprobación de cuenta debe respetar el entorno autorizado. Rollback registrado; Vercel se retira sólo después de validar.",
+      "risk": "T3; domain cutover already authorized",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [
+        "Cloudflare/DNS account"
+      ]
+    },
+    {
+      "id": "M01",
+      "priority": "P1",
+      "title": "Establecer línea de base de búsqueda y uso",
+      "depends_on": [
+        "D02"
+      ],
+      "scope": [
+        "Search Console",
+        "Bing Webmaster Tools",
+        "privacy-conscious analytics/report artifacts"
+      ],
+      "acceptance": "Propiedades verificadas y sitemaps enviados en cuentas autorizadas. Capturar URLs canónicas/indexadas, consultas, impresiones, clics y rendimiento reales con fecha; si falta acceso, pendiente. No inventar tráfico, causalidad o consentimiento.",
+      "risk": "T2; account access dependency",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [
+        "Search Console/Bing accounts"
+      ]
+    },
+    {
+      "id": "E02",
+      "priority": "P1",
+      "title": "Publicar primera cohorte diferenciada",
+      "depends_on": [
+        "E01",
+        "S03",
+        "AEO01"
+      ],
+      "scope": [
+        "packages/db/seed/",
+        "apps/*/app/{products,categories}/",
+        "apps/people/app/{compare,best,alternatives}/"
+      ],
+      "acceptance": "Validar demanda y elegir diez productos, cinco pares y dos grupos como hipótesis inicial. Datos originales verificables, límites y comparaciones accionables; enlaces contextuales; twin pages con valor distinto y política de duplicados. Revisor certifica evidencia antes de indexar más páginas.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "G01",
+      "priority": "P2",
+      "title": "Crear activos citables y propuestas de distribución",
+      "depends_on": [
+        "E02"
+      ],
+      "scope": [
+        "apps/agents/app/dataset/",
+        "packages/seo/src/jsonld.ts",
+        "research/distribution artifacts"
+      ],
+      "acceptance": "Dataset con método, fecha, fuentes y licencia compatible; resultados reproducibles, no benchmarks inventados. Preparar lugares y mensajes pertinentes para distribución; no enviar comunicaciones ni comprar enlaces sin autorización.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "M02",
+      "priority": "P1",
+      "title": "Evaluar crecimiento y siguiente cohorte",
+      "depends_on": [
+        "M01",
+        "E02"
+      ],
+      "scope": [
+        "measurement/report artifacts",
+        "plans/production-seo-aeo/"
+      ],
+      "acceptance": "Comparar ventanas 7/28 días y cohortes desde baseline. Muestrear citas AEO con pregunta, motor, fecha, región y URL. Decidir qué mejorar o dejar de publicar usando datos; revisión30/60/90 desde salida real sin scheduler ni promesas de ranking.",
+      "risk": "T1/T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    }
+  ]
+}

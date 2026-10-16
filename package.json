@@ -8,7 +8,10 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:cloudflare": "pnpm --filter @bs/people build:cloudflare && pnpm --filter @bs/agents build:cloudflare",
+    "check:cloudflare": "pnpm --filter @bs/people check:cloudflare && pnpm --filter @bs/agents check:cloudflare",
+    "deploy:cloudflare": "pnpm --filter @bs/people deploy:cloudflare && pnpm --filter @bs/agents deploy:cloudflare"
   },
   "devDependencies": {
     "turbo": "^2.3.3",

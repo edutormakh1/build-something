@@ -41,16 +41,60 @@ Supabase project (already exists, schema already applied — do not drop):
 
 Keys: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
 
-## Vercel
+## Hosting on Cloudflare Workers
 
-Create **two** projects from this repo:
+The two apps deploy as independent Workers using OpenNext. Supabase continues to provide accounts,
+profiles and reviews; this hosting change does not migrate or modify the database.
 
-1. Root directory `apps/people` → domain `buildsomethingpeoplewant.com`
-2. Root directory `apps/agents` → domain `buildsomethingagentswant.com`
+- `apps/people/wrangler.jsonc` → `build-something-people`
+- `apps/agents/wrangler.jsonc` → `build-something-agents`
 
-Set the env vars on both. Include `NEXT_PUBLIC_PEOPLE_SITE_URL` and `NEXT_PUBLIC_AGENTS_SITE_URL`. Password reset redirects are site-correct (people origin vs agents origin).
+Use Node.js 22 or later and the pinned pnpm version. Install the whole workspace before building:
 
-Install `pnpm` on Vercel (the repo `packageManager` field pins 9.15.9).
+```bash
+pnpm install --frozen-lockfile
+pnpm test
+pnpm build:cloudflare
+pnpm check:cloudflare
+```
+
+`build:cloudflare` builds both Next.js apps and adapts them to the Workers runtime.
+`check:cloudflare` bundles both Workers locally with Wrangler's `--dry-run`; it does not publish.
+For local runtime checks, run either `pnpm --filter @bs/people preview:cloudflare` or
+`pnpm --filter @bs/agents preview:cloudflare`. The previews build first.
+
+The catalog can build without Supabase credentials. For a deployment with working sign-in, provide
+`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` at **build time** in both apps' ignored
+`.env.local` files or in the build environment. Next.js embeds public variables in browser code.
+Keep the existing production project and data. The site origins in each Wrangler configuration
+are the existing domains, so links and password-reset redirects continue to target those domains.
+
+After authenticating Wrangler with the intended permanent Cloudflare account (`wrangler login`,
+or `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the deployment environment):
+
+```bash
+pnpm deploy:cloudflare
+```
+
+First verify both resulting `workers.dev` URLs, including HTML and Markdown negotiation, API errors,
+static art and sign-in. Then attach the existing custom domains to their respective Workers through
+Cloudflare. Domain activation requires access to the authoritative DNS zones. Do not remove the
+Vercel deployments until the custom domains and auth redirects are verified on Cloudflare.
+
+The configuration uses a read-only Workers Static Assets cache for build-time catalog pages,
+with cache interception to avoid loading the full Next.js server for cached pages. Account pages
+and APIs remain dynamic. It does not provision R2, D1, KV, or paid services. Revalidation and
+runtime cache writes require replacing this read-only cache with a persistent ISR cache. Deploying to Workers does not remove Supabase's
+own limits. Cloudflare Free has a shared account quota of 100,000 dynamic requests/day and 10 ms
+CPU/request, so verify production CPU usage before treating it as a sufficient free hosting plan.
+See [Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/) and
+[limits](https://developers.cloudflare.com/workers/platform/limits/).
+
+### Existing Vercel deployment
+
+Vercel remains a rollback option. Both projects build from this monorepo: root directory
+`apps/people` for `buildsomethingpeoplewant.com`, and `apps/agents` for
+`buildsomethingagentswant.com`. The normal `pnpm build` command remains available.
 
 ## Admin
 
@@ -95,3 +139,7 @@ Repeat against port 3001 for the agents app (`/skills/chatgpt`, `/.well-known/ag
 ## License of the dataset
 
 Catalog Twin Scores: CC BY 4.0. Code: all rights reserved to Edu Tor unless noted.
+
+## Production and SEO execution plan
+
+The agent execution plan, acceptance criteria and prioritized backlog are in [plans/production-seo-aeo/plan.md](plans/production-seo-aeo/plan.md). Use `lead:run` from this repo to resume the recorded work; deployment and measured search results remain separate milestones.
