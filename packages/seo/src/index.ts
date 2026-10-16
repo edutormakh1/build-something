@@ -1,5 +1,6 @@
 export * from "./negotiate";
 export * from "./sites";
+export * from "./comparisons";
 export * from "./jsonld";
 export * from "./urls";
 export * from "./robots";
