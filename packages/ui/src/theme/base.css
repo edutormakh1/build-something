@@ -154,6 +154,8 @@ nav.primary, .bs-nav-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.85rem 1.2rem;
+  /* Navigation must not rewrap when the editorial webfonts finish loading. */
+  font-family: system-ui, sans-serif;
   font-size: 0.88rem;
   font-variation-settings: "wdth" 90;
 }
@@ -221,18 +223,21 @@ button:active, .bs-btn:active { transform: translateY(1px); }
 
 .bs-nav {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem 1.1rem;
   align-items: end;
 }
 .bs-nav-brand {
   display: flex;
+  min-width: 0;
+  overflow-wrap: anywhere;
   gap: 0.85rem;
   align-items: center;
   text-decoration: none;
   color: inherit;
 }
 .bs-nav-brand:hover { color: inherit; }
+.bs-nav-brand > .bs-relic { flex-shrink: 0; }
 .bs-nav-wordmark {
   font-family: var(--font-display);
   font-size: clamp(1.35rem, 2.4vw, 1.85rem);
