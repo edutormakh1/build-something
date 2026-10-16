@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { catalog } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Twin Score rubric (agent view)",
   description:
     "Two editorial scores on a native 0–100 scale and public weights. We do not emit AggregateRating for Twin Scores.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/scorecard" },
+  alternates: { canonical: abs("agents", "/scorecard") },
 };
 
 export default function Page() {

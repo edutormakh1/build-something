@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { allProducts } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 import { ProductCard } from "../../components/product-card";
 
 export const metadata: Metadata = {
   title: "Products",
   description: "Machine-first index of Twin Score products with API/MCP/CLI/docs/auth matrices.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/products" },
+  alternates: { canonical: abs("agents", "/products") },
 };
 
 export default function Page() {

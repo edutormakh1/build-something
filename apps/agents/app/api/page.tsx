@@ -1,10 +1,11 @@
+import { abs } from "@bs/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "API docs",
   description: "HTTP API for Twin Score products and reviews. RFC 9457 errors with code, detail, and status.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/api" },
+  alternates: { canonical: abs("agents", "/api") },
 };
 
 export default function Page() {

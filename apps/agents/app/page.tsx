@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { allProducts } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 import { ProductCard } from "../components/product-card";
+
+export const metadata: Metadata = {
+  alternates: { canonical: abs("agents", "/") },
+};
 
 export default function Page() {
   const products = allProducts().slice().sort((a, b) => b.twin.agent - a.twin.agent).slice(0, 12);

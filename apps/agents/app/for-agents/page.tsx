@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Build Something Agents Want developer resources",
   description:
     "Developer resources for the Twin Score catalog: API, SKILL.md, dataset, OpenAPI, llms.txt. When to use and when not.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/for-agents" },
+  alternates: { canonical: abs("agents", "/for-agents") },
 };
 
 export default function Page() {

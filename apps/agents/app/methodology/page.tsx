@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Agent-side methodology",
   description:
     "Agent Twin Scores weight API quality, MCP or tool surface, CLI, structured docs, machine auth, quotas, determinism, and skill packaging. Named staff assign them from public docs.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/methodology" },
+  alternates: { canonical: abs("agents", "/methodology") },
 };
 
 export default function Page() {

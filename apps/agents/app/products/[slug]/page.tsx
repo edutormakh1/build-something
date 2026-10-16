@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { allProducts, getProduct, reviewsFor } from "@bs/db";
 import { JsonLd, TwinScore } from "@bs/ui";
-import { breadcrumbJsonLd, softwareJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, softwareJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${p.name} capability matrix`,
     description: `API, MCP, CLI, docs, and auth for ${p.name}. Agent Twin Score ${p.twin.agent}.`,
-    alternates: { canonical: `https://buildsomethingagentswant.com/products/${p.slug}` },
+    alternates: { canonical: abs("agents", `/products/${p.slug}`) },
   };
 }
 
@@ -76,7 +76,7 @@ export default async function Page({ params }: Props) {
       <p>
         <Link href={`/skills/${p.slug}`}>SKILL.md</Link>
         {" · "}
-        <a href={`https://buildsomethingpeoplewant.com/products/${p.slug}`}>Human twin page</a>
+        <a href={abs("people", `/products/${p.slug}`)}>Human twin page</a>
         {" · "}
         <a href={p.website}>Official site</a>
       </p>

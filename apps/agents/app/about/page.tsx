@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "About Build Something Agents Want",
   description:
     "Machine-first sibling of Build Something People Want, edited by Edu Tor. Same worldwide English catalog, same Twin Scores, different chrome: matrices, SKILL.md, and open data.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/about" },
+  alternates: { canonical: abs("agents", "/about") },
 };
 
 export default function Page() {
@@ -37,7 +37,7 @@ export default function Page() {
       </p>
       <h3>Twin</h3>
       <p>
-        Humans read https://buildsomethingpeoplewant.com — same slugs. Author bios live at /authors/edu-tor on that site. Corrections: editor@buildsomethingagentswant.com.
+        Humans read {abs("people", "/")} — same slugs. Author bios live at /authors/edu-tor on that site. Corrections: editor@buildsomethingagentswant.com.
       </p>
     </article>
   );
