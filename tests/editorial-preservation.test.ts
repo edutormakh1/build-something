@@ -1,8 +1,10 @@
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import catalog from "../packages/db/seed/catalog.json";
 import evidence from "../packages/db/seed/evidence.json";
 import manifest from "./fixtures/e01-repair-manifest.json";
+import followup from "./fixtures/e01f-repair-manifest.json";
 
 type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
 type Locator = { collection: string; key: string; field: string };
@@ -38,7 +40,44 @@ function protectedHash(value: Json) {
   }
   return hash(canonical(copy));
 }
-function restoreAndValidate(value: Json) {
+function applyFollowup(value: Json, forward: boolean) {
+  const copy = structuredClone(value);
+  for (const field of followup.fields) {
+    const { parent, key } = target(copy, field);
+    const text = parent[key] as string;
+    expect(hash(text)).toBe(forward ? field.before_hash : field.after_hash);
+    const patches = followup.patches.filter((patch) => patch.collection === field.collection && patch.key === field.key && patch.field === field.field);
+    for (const patch of patches) {
+      const expectedText = forward ? patch.before : patch.after;
+      expect(text.split(expectedText).length - 1).toBe(forward ? patch.expected_before_occurrences : patch.expected_after_occurrences);
+    }
+    for (const patch of patches.sort((a, b) => forward ? b.before_offset - a.before_offset : b.after_offset - a.after_offset)) {
+      const chars = Array.from(parent[key] as string);
+      const before = forward ? patch.before : patch.after;
+      const after = forward ? patch.after : patch.before;
+      const offset = forward ? patch.before_offset : patch.after_offset;
+      expect(chars.slice(offset, offset + Array.from(before).length).join(""), patch.id).toBe(before);
+      chars.splice(offset, Array.from(before).length, after);
+      parent[key] = chars.join("");
+    }
+    expect(hash(parent[key] as string)).toBe(forward ? field.after_hash : field.before_hash);
+  }
+  return copy;
+}
+function restoreFollowupAndValidate(value: Json) {
+  expect(hash(canonical(value)), "complete E01F result").toBe(followup.after_canonical_sha256);
+  expect(followup.title_exception).toEqual({
+    id: "C1", collection: "articles", key: "human-vs-agent-software-surfaces-2026", field: "title",
+    before: "Human vs agent software surfaces in 2026: original Twin Score research",
+    after: "Human vs agent software surfaces in 2026: retained Twin Score estimates",
+  });
+  expect(followup.patches.filter((patch) => patch.field === "title").map(({ id, collection, key, field, before, after }) => ({ id, collection, key, field, before, after }))).toEqual([followup.title_exception]);
+  const restored = applyFollowup(value, false);
+  expect(hash(canonical(restored))).toBe("e7dca3df2badf1f22523adebaf4af8021d0cc5a08a11ad2b4122d6071397430d");
+  return restored;
+}
+function restoreAndValidate(input: Json) {
+  const value = restoreFollowupAndValidate(input);
   expect(protectedHash(value)).toBe(manifest.protected_projection_sha256);
   const copy = structuredClone(value);
   for (const field of manifest.fields) {
@@ -75,7 +114,42 @@ describe("E01 exact data preservation", () => {
       chars.splice(patch.offset, Array.from(patch.before).length, patch.after);
       parent[key] = chars.join("");
     }
-    expect(original).toEqual(catalog);
+    expect(original).toEqual(restoreFollowupAndValidate(catalog as Json));
+    expect(hash(canonical(original))).toBe(followup.baseline_canonical_sha256);
+    const replayed = applyFollowup(original, true);
+    expect(hash(canonical(replayed))).toBe(followup.after_canonical_sha256);
+    expect(replayed).toEqual(catalog);
+  });
+
+  it("pins the accepted E01 inputs, immutable historical manifest and exact additive scope", () => {
+    expect(followup.accepted_e01_commit).toBe("76aaf8236075e2c91533bdef888e1dcc9451fb1f");
+    expect(followup.baseline_files.catalog.sha256).toBe("562c8ffc668fbc819764ec182067fbe858bc373054dd874391034b33f4bb2952");
+    expect(followup.baseline_files.preservation_test.sha256).toBe("044eed9c49d399d4775a2784a54e91fdd14fc1353e98180ef2a7a53a8a4d2e01");
+    expect(hash(readFileSync(new URL("./fixtures/e01-repair-manifest.json", import.meta.url), "utf8"))).toBe("da022b6986eccbec878f96928cc164d14537b2e112463e179daf52f544c6d16f");
+    expect(manifest.patches).toHaveLength(208);
+    expect(manifest.fields).toHaveLength(123);
+    expect(followup.patches).toHaveLength(11);
+    expect(followup.fields).toHaveLength(6);
+    expect(new Set(followup.fields.map((field) => field.key)).size).toBe(5);
+    expect(followup.listing.patches).toHaveLength(3);
+  });
+
+  it("rejects unreviewed title, byline, date, grade and disclaimer changes with the strict whole-catalog layer", () => {
+    const mutations: ((value: typeof catalog) => void)[] = [
+      (value) => { value.articles[1].title += " altered"; },
+      (value) => { value.articles.find((row) => row.slug === followup.title_exception.key)!.title += " altered"; },
+      (value) => { value.articles[0].author = "different-author"; },
+      (value) => { value.articles[0].publishedAt = "2099-01-01"; },
+      (value) => { value.products[0].capabilities.api = "none"; },
+      (value) => { value.articles[0].body += " The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results."; },
+      (value) => { value.articles[0].body += " The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results.".repeat(3); },
+      ...followup.fields.filter((field) => field.field === "body").map((field) => (value: typeof catalog) => { value.articles.find((row) => row.slug === field.key)!.body += " Unapproved extra claim."; }),
+    ];
+    for (const mutate of mutations) {
+      const changed = structuredClone(catalog);
+      mutate(changed);
+      expect(() => restoreFollowupAndValidate(changed as Json)).toThrow(/complete E01F result/);
+    }
   });
 
   it("rejects score changes and unrelated text edits inside otherwise mutable article bodies", () => {
