@@ -1,0 +1,2952 @@
+{
+  "version": 1,
+  "baseline_commit": "5ef5dc00d844d353690bef979dd76808cc9aad0e",
+  "baseline_file_sha256": "3141b0797fc9af3acbe96efc58b726f366eac3e811ee138c2e3e3a34c4db8b1a",
+  "baseline_canonical_sha256": "e000c2343c8b7bba0f2ed06a2896d1a8c204882c819c30fca9e712c65e301be0",
+  "protected_projection_sha256": "32fb70ebfec8f917626f59d5f219678ced883f160417f2804aa652479161ce1b",
+  "fields": [
+    {
+      "collection": "authors",
+      "key": "edu-tor",
+      "field": "role",
+      "before_hash": "ba7a395410beef0e7f348f13c8675e7b19adb60d6304237f591d252c0cb48039",
+      "after_hash": "b92026f3c857f15ed8e334688791423a9abc9c4d01fb744335bfe3435ed3da36"
+    },
+    {
+      "collection": "authors",
+      "key": "edu-tor",
+      "field": "bio",
+      "before_hash": "e4c0d4c08aca9151f96b992f0fb90f3450955d9db507d31bcff64bf3ea39ccf4",
+      "after_hash": "7516f97d371999c4c9742d8a818565ab19d3bb0aea3e4f7f9f7537ba2ad9ffe2"
+    },
+    {
+      "collection": "authors",
+      "key": "edu-tor",
+      "field": "credentials",
+      "before_hash": "ef536f4608aacbafaffc9aa6d7b0eb785b298513702615834929b68b29696cb3",
+      "after_hash": "5b55553e02ab6f976a07d1c78d1cafaa83bf17c3030e166a50e9a2103322e0db"
+    },
+    {
+      "collection": "authors",
+      "key": "maya-chen",
+      "field": "role",
+      "before_hash": "0c990a800af5a97b725b258ed306641700e7723b71502eca10006989f203f877",
+      "after_hash": "7e4ed0ebf6f2beba3aec3b72c9d717ce124e480aff7963529bbf4ecd82da3f4c"
+    },
+    {
+      "collection": "authors",
+      "key": "maya-chen",
+      "field": "bio",
+      "before_hash": "9286b2faffa75097ce2c16c2baeac1850d9dd23602f420a5cdc5765a55bbd268",
+      "after_hash": "a8d0af908ffa14b16d64cecd5f09681e40a5cb51c4b2b4fb06662e1262f941c9"
+    },
+    {
+      "collection": "authors",
+      "key": "maya-chen",
+      "field": "credentials",
+      "before_hash": "e26d8026c352a6c52413c396db6aee693bd00f2f89202f0ffc4eddf273dfff6e",
+      "after_hash": "db8618f7f84182b818440202899b57bfd3374e6ab3e943588927c8c5d4764a2b"
+    },
+    {
+      "collection": "authors",
+      "key": "jonas-okonkwo",
+      "field": "role",
+      "before_hash": "702be83bda4adba48e576b12b99e27f1d626fff583ac476eb52175ae7d790f4f",
+      "after_hash": "2bb5457958d75b9e8de0ff08a709fc5f382de994ab089373524a92b63d2033c9"
+    },
+    {
+      "collection": "authors",
+      "key": "jonas-okonkwo",
+      "field": "bio",
+      "before_hash": "247ce8968674d6b2a5d7c8c903995620f8634983b6b2be5f7cfe1c6585b31251",
+      "after_hash": "242e3ff0b5099879ffcf3a65e55cceaffa6664a5272307f662d587ea6896ac29"
+    },
+    {
+      "collection": "authors",
+      "key": "jonas-okonkwo",
+      "field": "credentials",
+      "before_hash": "647fd51deaa1c0f3a90d6c9dc061b264ac82b710be894336f28cfd8fba086646",
+      "after_hash": "25e9fcf5613ae62edb8a5e078a6c915634552adc7a6fcb3f02932db52580a5f2"
+    },
+    {
+      "collection": "rubric",
+      "key": "",
+      "field": "notes",
+      "before_hash": "9a916ceba8329b8e0f52732c1f59dd7d8202dc4c9bd9ddd3521fe35632f89f73",
+      "after_hash": "5ea1782ffd473dd9fdee9a8bb71c2c39ea44f877b4cb9d717cc071feafe4773c"
+    },
+    {
+      "collection": "reviews",
+      "key": "chatgpt-editorial-human",
+      "field": "body",
+      "before_hash": "c7f9747cfde2dc8318fc82be4ccd1c7aa19de26fcce29d09c6430a6b90ac552b",
+      "after_hash": "b1b69146d6a4eecc5d5c799f3e1db99301d5ba9d76694d4d784596ddac030550"
+    },
+    {
+      "collection": "reviews",
+      "key": "claude-editorial-human",
+      "field": "body",
+      "before_hash": "c6b35f09f0b57ac7cfb1afc28a347f36fdaa103082809577ca9f6126f8757efe",
+      "after_hash": "74ecdeb56b908e36253365d50b4575063eaa144d15ac5a772b1292f5e35607fc"
+    },
+    {
+      "collection": "reviews",
+      "key": "gemini-editorial-human",
+      "field": "body",
+      "before_hash": "1f9351954ded0b0fe15e4fd1ccc026a78b19ba55eb023c520e0782f3fc0ec34d",
+      "after_hash": "2882f26315bd68ebe3f13a56d7a4844396d79cde2b656cf790b08984c649c2be"
+    },
+    {
+      "collection": "reviews",
+      "key": "grok-editorial-human",
+      "field": "body",
+      "before_hash": "a1482e559cbd26d9a92d2232510df1cd5bd76e1d5f0dd066a0cfde22d3252ff3",
+      "after_hash": "1e5d9593edd33b19e1ab471de9a5fe7528cc21a6f36c7fb133a0ee43e03df777"
+    },
+    {
+      "collection": "reviews",
+      "key": "perplexity-editorial-human",
+      "field": "body",
+      "before_hash": "413bd03814fda439b3ea3f537db22b887df46aef2aca61b6b278339f448a1f2b",
+      "after_hash": "77654275fdb82da8ebcde3c3f836a355036969876d31985fd0c736a050fc9ea1"
+    },
+    {
+      "collection": "reviews",
+      "key": "microsoft-copilot-editorial-human",
+      "field": "body",
+      "before_hash": "a448a42b02e7b20f4d942bbd1f3ec5c595dbaa05e6939bce66ccccd6b10b512d",
+      "after_hash": "1cff41bbf2273e6cab3be0ed366f74d2fceb26232984606475d278d083512bde"
+    },
+    {
+      "collection": "reviews",
+      "key": "midjourney-editorial-human",
+      "field": "body",
+      "before_hash": "b31b319a944126feb8db921da3d71514f588a1b88433abae2f96e0e50365bb63",
+      "after_hash": "b2678f24269c876c4c996d6436c9132265fbfe1f8ac66af8023b1e52e4a4bd12"
+    },
+    {
+      "collection": "reviews",
+      "key": "runway-editorial-human",
+      "field": "body",
+      "before_hash": "37b1cea1263399c93c6412771e60cd0db506033bd8137263e0788d8721a0b154",
+      "after_hash": "09898fb6a1953b041763afbf3ccc49c5313fa5e9a203073b33d30f27c1df1f2e"
+    },
+    {
+      "collection": "reviews",
+      "key": "elevenlabs-editorial-human",
+      "field": "body",
+      "before_hash": "ca428aad086a48bb7aa1a4f02494c45bbc3a0b09b637747d0d13fc70f62e1b25",
+      "after_hash": "392c361a02e8497ee5339e169ba1c20b34847d4f0a08f85a7ee9d28daa2600e4"
+    },
+    {
+      "collection": "reviews",
+      "key": "character-ai-editorial-human",
+      "field": "body",
+      "before_hash": "a733ff84b0969597c4512430eb5c2434dced5d756f475d9e682c432ccda0d0b4",
+      "after_hash": "a32c59cf2b127cd2e94082549166d5127fc807ff30d7a3cd6ff46fda2c76e074"
+    },
+    {
+      "collection": "reviews",
+      "key": "cursor-editorial-human",
+      "field": "body",
+      "before_hash": "318ced9588eeeaf67e5e84f9e99d26ef53d9fcc1ddb21a722b4fa3d7b2011696",
+      "after_hash": "c668576ecf27cf1651b3cf3ca65a1ec2cee67dc9f2ae645c09829f7156b0c659"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-editorial-human",
+      "field": "body",
+      "before_hash": "a02fe1776449b97e2b291257dfc956d5f0831d62350d160dd2688dc6c6175195",
+      "after_hash": "85f17dbea89d03d04247f6c37230b73733f4e67799c8a815438eb35196012afb"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-copilot-editorial-human",
+      "field": "body",
+      "before_hash": "77740704cf59937743fad1b32a18252010c7413a7a721e1b1748fca09a12920e",
+      "after_hash": "8db30db9c4eb6e233bad77911b177ec096dee9263cdcc1637f1c78ed0edc4ee6"
+    },
+    {
+      "collection": "reviews",
+      "key": "vs-code-editorial-human",
+      "field": "body",
+      "before_hash": "317c25f0dede82c3691585ce530ef5cfd6dcdb9d5e8a20870690eff37fe55c98",
+      "after_hash": "753640ce096b94437ca3a90393b929474e9ae2f97eba874da4923f7a3cdb7450"
+    },
+    {
+      "collection": "reviews",
+      "key": "gitlab-editorial-human",
+      "field": "body",
+      "before_hash": "fad199dd48c580811d9cfa0fe43023227dede42b358345e6c6c7720239b645ac",
+      "after_hash": "22eecb7a6d320748f622e84c04f249d28416ff3e0e9967832e4457489eeb073c"
+    },
+    {
+      "collection": "reviews",
+      "key": "vercel-editorial-human",
+      "field": "body",
+      "before_hash": "77e5d87dfecb48a7789c9f2c13d535f649794f19d9babf7209a951fa793dd185",
+      "after_hash": "06343af5d29d2671c668db3d923bd3d53ee87164e05d737bffbf4f31e8ca81d2"
+    },
+    {
+      "collection": "reviews",
+      "key": "netlify-editorial-human",
+      "field": "body",
+      "before_hash": "49cc0dad199b988d8706ac300e6e6821ed90f45aa8dcc594fede4045ffe0415b",
+      "after_hash": "7158f019a6c6e121166d2af6c79ee04e474bccbe2dd48e8a050b179a856817a7"
+    },
+    {
+      "collection": "reviews",
+      "key": "linear-editorial-human",
+      "field": "body",
+      "before_hash": "8f31df19cca9755aa91f85369360110a6b88495c580e94b330daa40c92d78ca8",
+      "after_hash": "40ad3e40b36c8d1af929000ddb2c3b9051369ecba43a1d3f23ce491bf56e05ca"
+    },
+    {
+      "collection": "reviews",
+      "key": "jira-editorial-human",
+      "field": "body",
+      "before_hash": "43c9c06ae3aff497f87fca3ab42377379ca7ba714c0e48de7910c3da996841bb",
+      "after_hash": "521f87055861edcb961f49e0f460ace0bf6b967e7d94f3611ad1865a064d13f7"
+    },
+    {
+      "collection": "reviews",
+      "key": "replit-editorial-human",
+      "field": "body",
+      "before_hash": "653a9d8f35a38cc670d9ed3834eeafb79b6cb132236eeae5eb2b8725f75fa83d",
+      "after_hash": "3a763a2a84605fb680536277d254a1136ce3a77dfd7b8acef966dfd35df95964"
+    },
+    {
+      "collection": "reviews",
+      "key": "notion-editorial-human",
+      "field": "body",
+      "before_hash": "a224a5d6ac10cca56bcd935edef14688be6b4775f2416d4fa25d69b656be23a7",
+      "after_hash": "40f0ef3e04d7f16e53d5a1ab26c4c68f87e574df2a4f4f64a3876513196cf0da"
+    },
+    {
+      "collection": "reviews",
+      "key": "coda-editorial-human",
+      "field": "body",
+      "before_hash": "c1f426ba120244f697f207d6faf901123bd92ae965917a2b3f035ee8b7af3de2",
+      "after_hash": "de2d0f008a0670c40e83f15030d3e172cba1bdb3f78b60c81024276ffa05ad3e"
+    },
+    {
+      "collection": "reviews",
+      "key": "airtable-editorial-human",
+      "field": "body",
+      "before_hash": "6f91270241f309aa22228d01201eed8c9c13293662b5c61a2588c64b066b6aec",
+      "after_hash": "572ab3b7e44c2f2ebd1fc2669b5c75935811a02ebfdc40581fd8bb6f130dd406"
+    },
+    {
+      "collection": "reviews",
+      "key": "figma-editorial-human",
+      "field": "body",
+      "before_hash": "1add5b983aa4f084731234ac5ca6bee064d53229d0e3002062db7db9f9004881",
+      "after_hash": "014f3386817c113f0b8850351318c4be7ce2134494c1767424fb580bcfbab29e"
+    },
+    {
+      "collection": "reviews",
+      "key": "framer-editorial-human",
+      "field": "body",
+      "before_hash": "405ff4d58a50bc9b22583eb073ed3e10b49d0c028d667146e0fadd48001f3490",
+      "after_hash": "c949616a3a62702a11c1493d91c159a1265a46d4f51d018156b0c501c01c89ae"
+    },
+    {
+      "collection": "reviews",
+      "key": "webflow-editorial-human",
+      "field": "body",
+      "before_hash": "7e292e2972742bd1bb526e07c2ee9584d61708eeacb3beef69e9721c1ac24541",
+      "after_hash": "a05080ae7ad0ceafb7f15f6efba250e9349f8da9d836fee172b4ef94d5ec4653"
+    },
+    {
+      "collection": "reviews",
+      "key": "canva-editorial-human",
+      "field": "body",
+      "before_hash": "eead9851b2e64393b2677cbcc53b75ffef825c624f09b46b74376734d10392fa",
+      "after_hash": "2e35956a2af059727417872567843b6517c196ec8f88bc54f830b9ceb5b99438"
+    },
+    {
+      "collection": "reviews",
+      "key": "adobe-creative-cloud-editorial-human",
+      "field": "body",
+      "before_hash": "ad91a3316346d927b57b311c9962c7df2f891efef0ee2b3f3cd0331ca09048ca",
+      "after_hash": "80b4bb636386e7cb32dbae54cb441dcb3262c12e9e445850cac48cfdd52de508"
+    },
+    {
+      "collection": "reviews",
+      "key": "adobe-firefly-editorial-human",
+      "field": "body",
+      "before_hash": "d8ba8a11a9c1f4510b0c0f0f29fca95fd14c828feaacb777f7f706fb36084e10",
+      "after_hash": "fa21c34e20582a8f96f4b397e76da0e8e8c750a70b0f208a2c75ea631469d9d4"
+    },
+    {
+      "collection": "reviews",
+      "key": "superhuman-editorial-human",
+      "field": "body",
+      "before_hash": "7146cf278b2abb0302922b787769649e36c27af826a2824175f08bb071010b67",
+      "after_hash": "3d1ada0fa5bccf77fd7808131b7a698cc7541fdab397c983a602fc5932ade41c"
+    },
+    {
+      "collection": "reviews",
+      "key": "slack-editorial-human",
+      "field": "body",
+      "before_hash": "7ae66370e1905f1fbad0ae92cead88910bfa80a4fb9d0305656af0c3fe73dd3c",
+      "after_hash": "9883bfed8cdafffa933eb86107cae7f85ceb0ab53e70168bfc8a27e8fb22fe62"
+    },
+    {
+      "collection": "reviews",
+      "key": "microsoft-teams-editorial-human",
+      "field": "body",
+      "before_hash": "66e84f53ab847aa9799dbf7501a23cb193a3cfddc6f97c5813f460d2d571ac59",
+      "after_hash": "21e9b4e160befffd6ad500933bc90ab788cbba33b7f3d978ab44fda92e34b11c"
+    },
+    {
+      "collection": "reviews",
+      "key": "zoom-editorial-human",
+      "field": "body",
+      "before_hash": "780a59e5186bcbc55c4df4427d699933364d2d79e15b0aa910e1caa2c3037c2f",
+      "after_hash": "1d0c722c3bbe7caedc002e2b1d448e272baeff8a7819ed8d7321451e8a86e741"
+    },
+    {
+      "collection": "reviews",
+      "key": "loom-editorial-human",
+      "field": "body",
+      "before_hash": "573670a7e8e56e4ba19f8410ad6305fd24ad12c68f9639022e596df5d7cbb700",
+      "after_hash": "b5c3f292b17f9a029b5fb809eda81cfee7609c1fc3c493a189cb9a8bb2beda05"
+    },
+    {
+      "collection": "reviews",
+      "key": "discord-editorial-human",
+      "field": "body",
+      "before_hash": "4f652e0bbf307a663178fa9a4a76e294c3d8f4d5271c1d5eac3a78760eb1a7c0",
+      "after_hash": "f25ab22a4244ab8eb000399205117a5166aa07f380933ab09dc8170d5095dd57"
+    },
+    {
+      "collection": "reviews",
+      "key": "cal-com-editorial-human",
+      "field": "body",
+      "before_hash": "0a17af9c1b04ff521724b2d19a24eb533b341503056824f99c340a923900c23f",
+      "after_hash": "82bc68fec1fce550f19e6fcc93e60d64c7d25a09d8ce58e52663447d053dfca4"
+    },
+    {
+      "collection": "reviews",
+      "key": "calendly-editorial-human",
+      "field": "body",
+      "before_hash": "26fead3e0cee2930f65815cf3b48e7eb87e9bf7a0228db8196709e8698634851",
+      "after_hash": "5f501388536a83aa9dc1eb167ce35807b354df47bf311247e382b608c1395ab9"
+    },
+    {
+      "collection": "reviews",
+      "key": "grammarly-editorial-human",
+      "field": "body",
+      "before_hash": "cb5968c661fa503ee50a5aa958ed9ba9047dc64428a3cdb17fd0591ede0280db",
+      "after_hash": "3cbbb13f385d19424e1e2ddc6ea6d8074ee13efa5abb3d0d4ec0226829bf044a"
+    },
+    {
+      "collection": "reviews",
+      "key": "stripe-editorial-human",
+      "field": "body",
+      "before_hash": "e0a626d2959382f081653640f72a686d88b07c055d3f01d6cbaf81875764a2fd",
+      "after_hash": "de9633d621e1d80838ba5f0507e2ff3b0904075e2fedccb1c5a3aa0ac03d29c8"
+    },
+    {
+      "collection": "reviews",
+      "key": "supabase-editorial-human",
+      "field": "body",
+      "before_hash": "49c6be1764a72a398577177c7eb3c06a7659842dbda2c551a93068bed75be059",
+      "after_hash": "59c43dd0bf899401e3e3add92a1d2fa6f3cccf824801225cc02afbfeb7108e10"
+    },
+    {
+      "collection": "reviews",
+      "key": "neon-editorial-human",
+      "field": "body",
+      "before_hash": "4cde8f7b2a5da27c66d5dff7307e2be11a07fe4eeeae77d05003721ba7ba75f1",
+      "after_hash": "593b7681f03a5e99d116d250da0c3bef9797cad42a8f81b83b9be5d5d56353d7"
+    },
+    {
+      "collection": "reviews",
+      "key": "planetscale-editorial-human",
+      "field": "body",
+      "before_hash": "e38454b8fc0e66d2faa925c13d973c3cb14f12e35361006022e42bc1af1647cd",
+      "after_hash": "b02a33960c7fbfcd55b8cc3841222e40f98a7383a35a79d1e37df3aad86318e6"
+    },
+    {
+      "collection": "reviews",
+      "key": "cloudflare-editorial-human",
+      "field": "body",
+      "before_hash": "1e853b796816cc1b634ed61f72a6269e8ba326171a382b92f034eb1b94ed4315",
+      "after_hash": "eeb5a604737a7df2572d2c2ef4771a3ee366cd62b26bef9353399cbe40451f1f"
+    },
+    {
+      "collection": "reviews",
+      "key": "aws-editorial-human",
+      "field": "body",
+      "before_hash": "71ecfa8ea0baa1018bdd1fb53c6c290fda8dab71536ff5d480ee6254bae29836",
+      "after_hash": "0a874973d62be0b3332aa1cf59925896c4d04f16288137417eaf008e9ea9d78e"
+    },
+    {
+      "collection": "reviews",
+      "key": "resend-editorial-human",
+      "field": "body",
+      "before_hash": "0c641f117c2d23da71803155e9c679afb24db07a98e66d5f8eb22b72a5ed4b6e",
+      "after_hash": "d58461f530f160dae6f697b53fadfe713f386e83726384887d9660b4022ea844"
+    },
+    {
+      "collection": "reviews",
+      "key": "auth0-editorial-human",
+      "field": "body",
+      "before_hash": "381f6c0a14bb622913fd3d15b7025437b325aa147e9f38be3fcbecc7c5c85996",
+      "after_hash": "dcb0c3d63051e4126fa1685b50425f5b568cab1d0d2422dae37c1b751fd22b60"
+    },
+    {
+      "collection": "reviews",
+      "key": "clerk-editorial-human",
+      "field": "body",
+      "before_hash": "bef3c45f7a29653413f463dbfe0f7ab74a32b3f281c23246ca06f00f0018b9dd",
+      "after_hash": "507e559118a7fcc47398ff92cb69b7c1b6af3c63706cddad99e5545862f399f0"
+    },
+    {
+      "collection": "reviews",
+      "key": "railway-editorial-human",
+      "field": "body",
+      "before_hash": "aa32063a9b547f24f815b1c0791dfbb8092a7c7329902a851db9342e95bd1c57",
+      "after_hash": "c0f71ed235cdc08246dc9c1a850cc9cf6fea9d570e3125d60ce42d86737bb6e8"
+    },
+    {
+      "collection": "reviews",
+      "key": "render-editorial-human",
+      "field": "body",
+      "before_hash": "bfaca5ff38124d519e517482fcb6427032221c1c1ac151e217967502b0016b1b",
+      "after_hash": "293579b7703cecc3f140e093b73e866cfbd84b07c5aedc8bacc09edb9522be9c"
+    },
+    {
+      "collection": "reviews",
+      "key": "firebase-editorial-human",
+      "field": "body",
+      "before_hash": "b734c1ef62c64e55ba5a4b89391122a7d246a9dde7fc0e810a0cbc9fbf14c0e0",
+      "after_hash": "5e869e73f447a1b937027ddfe6beceebf7c823c8d32eafaf1336294cb84eeb5c"
+    },
+    {
+      "collection": "reviews",
+      "key": "openai-platform-editorial-human",
+      "field": "body",
+      "before_hash": "9e76b7a7bedc03ef0fcf3bca7cb661aeb82dd20c4b02abcb29051b0fae8a01e6",
+      "after_hash": "1c06c8058e52865a93c78c78f947c2216d29cfb0b325f838bd308af929ed58dc"
+    },
+    {
+      "collection": "reviews",
+      "key": "anthropic-api-editorial-human",
+      "field": "body",
+      "before_hash": "b87e264643cd7c97e48fa260021a22f6abaaa39eb7298c483c16f9572e78fa46",
+      "after_hash": "0c0782a159752902c5dbc45d5542e59af075d9690f82b81e3b205179106b776f"
+    },
+    {
+      "collection": "reviews",
+      "key": "pinecone-editorial-human",
+      "field": "body",
+      "before_hash": "61f1a4f1a39abcc36720754cb77eb1e717cf09b68558eaee49f34816fd20b0af",
+      "after_hash": "5af6f7564df8d01a277f09ddc16ebfe7a98b9fb1c00aebbc18d80a556daf9332"
+    },
+    {
+      "collection": "reviews",
+      "key": "zapier-editorial-human",
+      "field": "body",
+      "before_hash": "8e917c23819eef7e6713e98dfcbc76c0ea2779feaafb277f863d28f68ebe40f9",
+      "after_hash": "b9512073b0cd9d4c4f413c761566296a2ebb0bcf6f3aaab6615ed35da6a9fe08"
+    },
+    {
+      "collection": "reviews",
+      "key": "make-editorial-human",
+      "field": "body",
+      "before_hash": "7e7fb1d0eab6c2ca2d1f0d42cc5eeacfcd7d3cf9e8704e058ec3cf245268b442",
+      "after_hash": "7074ee3fea1295edaaea94fac74a0e355abc0d0ed195f4f44e6f8c5e40517cac"
+    },
+    {
+      "collection": "reviews",
+      "key": "n8n-editorial-human",
+      "field": "body",
+      "before_hash": "ed92a6c43ad6e2be91cb256b8972eafbe94f177cd8cedd7eb70e4a4d5c41fd8b",
+      "after_hash": "20f561dc111a69b361c831de53b0d7bf773758bf145a1e963b297826354add1b"
+    },
+    {
+      "collection": "reviews",
+      "key": "hubspot-editorial-human",
+      "field": "body",
+      "before_hash": "cb59313c83ca614629e6a0ecd4c598dff505f6c5e0d1cfab2b7ac8877c8d4fb4",
+      "after_hash": "1f467fbc94e84329652295ccbc65efbecfe612bf9e73fe2adf5dfe92aff053c8"
+    },
+    {
+      "collection": "reviews",
+      "key": "salesforce-editorial-human",
+      "field": "body",
+      "before_hash": "27ba06e366085d3f94e1aaa8dc3144f41072248f006cf9d8fdf91a307291d438",
+      "after_hash": "82a4078a29bb37163a14fe2efc9fdadcce9e8323fe156063acae53387e028bdb"
+    },
+    {
+      "collection": "reviews",
+      "key": "shopify-editorial-human",
+      "field": "body",
+      "before_hash": "5ae81519c410fb3810d3ab90dc0070fd37039d72bd0a020de9afec18f6613048",
+      "after_hash": "80f696e29eee1c012742d6988e5356a6b1c0f0ff6768a8cad22008293e43e429"
+    },
+    {
+      "collection": "reviews",
+      "key": "woocommerce-editorial-human",
+      "field": "body",
+      "before_hash": "69780732beb82cceac9e3e6523b60e6c565b5ea751da07e11986ab45c0a69f36",
+      "after_hash": "fec410278e49bc585d5c05bf3e9ffc05c67362b9a7acd5062d7b1e8481c8eb11"
+    },
+    {
+      "collection": "reviews",
+      "key": "posthog-editorial-human",
+      "field": "body",
+      "before_hash": "950f96f15138e3c84cd3f815bdf4369e329090e4c73a6e21bb983474c241813c",
+      "after_hash": "94de62c5bdc544ae0283a654bdf3ae8b25c2e8bc0a9ce624ac489d71570d253c"
+    },
+    {
+      "collection": "reviews",
+      "key": "amplitude-editorial-human",
+      "field": "body",
+      "before_hash": "4918c2268ecea7cfc8786242a40559d36aabfd7472aed73a23dd0638bd2a1913",
+      "after_hash": "e93cda158c052ba58ca19f44a777ec7d413f5a7fdb8f9b9918da83d4140ef647"
+    },
+    {
+      "collection": "reviews",
+      "key": "mixpanel-editorial-human",
+      "field": "body",
+      "before_hash": "9eb9b8375515c16477f76779bb7a2a10e8bdae4385bddd52c542ae5a147ca6fb",
+      "after_hash": "6d33d8a2bc5aedce82d4f46d6b28a8bb165214fc47875f160093571f6eace0d7"
+    },
+    {
+      "collection": "reviews",
+      "key": "segment-editorial-human",
+      "field": "body",
+      "before_hash": "30419e27f217c3fbd3bbbc5272fa2b63b2b7b869f811f323a7bd1f6dcfa18215",
+      "after_hash": "ac6dfded53a8006addaccb34629667effb97159677e6e6f68090f0d708cd75ef"
+    },
+    {
+      "collection": "reviews",
+      "key": "datadog-editorial-human",
+      "field": "body",
+      "before_hash": "89f7597f202443e7992e53fc2931d608d92645ed7b9f754bb82568c11c15ffe2",
+      "after_hash": "e85e92749f0865201fbba9fd21214c82ae4798f047e868a6ce8dc54e8e02aefa"
+    },
+    {
+      "collection": "reviews",
+      "key": "sentry-editorial-human",
+      "field": "body",
+      "before_hash": "20a6657eb899897f7e5e5c98b6c46c58aa42efec9ab1d2edb96798cb82f631c6",
+      "after_hash": "2d22035c62a36ec8440cf47ec3c9d771761c89d79eef463cfd704d85180605cb"
+    },
+    {
+      "collection": "reviews",
+      "key": "intercom-editorial-human",
+      "field": "body",
+      "before_hash": "68d19490a5e67483ba9001d8766bc5c9fc7222b6d653b39435a051db9af52e20",
+      "after_hash": "e28a2b7d7a7423797e86c6c0da8b7b4242795ec537a1274082f8fc3fced9cc20"
+    },
+    {
+      "collection": "reviews",
+      "key": "asana-editorial-human",
+      "field": "body",
+      "before_hash": "0bea6a5b8a28b8c6e2814eb6c03bef1ba0ecad804222f06e954dd09f81604daf",
+      "after_hash": "8fba017320ac42557cbfb98ac56ebcd7098ac8128f1776372ea44e0cc62469f4"
+    },
+    {
+      "collection": "reviews",
+      "key": "monday-editorial-human",
+      "field": "body",
+      "before_hash": "9877484af07646a30fd93ced6bc12b2ce088e08774c8b4f1d277219c3eb669b6",
+      "after_hash": "ee325f29b65abcf46d272e318220e2dfbb9832428ebcc5449242a2f695a9dde4"
+    },
+    {
+      "collection": "reviews",
+      "key": "postman-editorial-human",
+      "field": "body",
+      "before_hash": "a1270a18ca7577082bca28392e3e4868bb5c44391c38c2293ac534b44f56724d",
+      "after_hash": "5803df3202b3d63b0c7a002a268aa6069776eaa0091be9b992e6b2cc744beec8"
+    },
+    {
+      "collection": "reviews",
+      "key": "wordpress-editorial-human",
+      "field": "body",
+      "before_hash": "5a93c450733b8569f34e352fcc81fe8be8a403a19083f2e6a5bab82b9117246f",
+      "after_hash": "699f89d05c76eb7624579e84990ebed8a2470fbf95ffcf322e2df11e88293414"
+    },
+    {
+      "collection": "reviews",
+      "key": "google-analytics-editorial-human",
+      "field": "body",
+      "before_hash": "beed6055c953af596d3b3d05744f9b217251d0aa98194d45699ea3bfd41f5b02",
+      "after_hash": "da7feb7d8a2170da6c585d464e2dc23149bed2e186c33a61c871d7918ed0f2d9"
+    },
+    {
+      "collection": "reviews",
+      "key": "stripe-public-quote",
+      "field": "body",
+      "before_hash": "b7726c3357e6a751a2f2656461dae2675fa017fbcbe61f2ef2839a2f20299ef9",
+      "after_hash": "46ff3ced208210790a0617e41dc559ec086c9c918a97f0a92c99c803459aaa8f"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-public-quote",
+      "field": "body",
+      "before_hash": "ddc4cd5446915fdc82b5481fcedfdbd0feb21ccbb26ab046a474d840f9bd0ac5",
+      "after_hash": "8999f3936d266301730902289a4c0cc281817e5f6bf0cca532985da2b174c4ef"
+    },
+    {
+      "collection": "reviews",
+      "key": "n8n-public-quote",
+      "field": "body",
+      "before_hash": "3b04aa79f7809fa84414585eb02d9b98aa0ffe7cdf4c15ccc5f4afeab86820b1",
+      "after_hash": "1c93cd0768f8ff353b7f24539b4955f5521389b7138a28d567889951e75e4496"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "description",
+      "before_hash": "3acb8b414e345d81fecec7baf56ef327554c10c0b24cdcb91233e5d0226c1951",
+      "after_hash": "a8ca981481bcbe754328b5d32112b4c32fe8bdddd718e179023171a7de81c5aa"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "description",
+      "before_hash": "bbc835ddd184995219325e42c1a14ea8119baf8e24d1aa15069b147c02dc95c3",
+      "after_hash": "9811e7e9c1bdffcd07c826bff82da9419ec8335d91843d90060ab6598f4bd939"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "description",
+      "before_hash": "5419e1010806266cd86a1b61ec6ae7f7e4f0175f62abf05b3a1795e85df938a8",
+      "after_hash": "7a30fe09927f060221d4ed08aa68faa154f21ffa8c8fa015e6ecb50cec90fc19"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "before_hash": "f150fc985e8af4c80b33ea61eb8647b7cffde44018cc6821c36fa9cd928c8d34",
+      "after_hash": "d27659b1501c95303802c8da6277a1b7e4b054c80c85091cee2bb2c6c1656f80"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "before_hash": "93467c7fbad8ee4294054dca56bbca7060cfe0d86b5d48c8dcb13fbfb327f2f3",
+      "after_hash": "5ff4cf88b5800d943e20327055f0397565da77349a0c1bbbb8eaf729c0ae9a19"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "before_hash": "fb999615a3806698b109842b9ffdcaefc16f81854210289591e696845ad69bd1",
+      "after_hash": "350f7629ec2e6a929889672fd8ad45c8c0fb54263246dff7aa50e7f7d38d4086"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "before_hash": "39743e875eac03a96568dd43b2550ac21cdf3bbbcaefcab5f8cad7bdcfcfc5f8",
+      "after_hash": "33468109559d4646be15be70282c0e94863fb95bfc7c0537fabded8b01555751"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "before_hash": "6b19de50dadcf5bc2d02417e712dec727216d435649d9e06fccf997a56a5f51f",
+      "after_hash": "c535cc397edcd1d6968009e7e7700a1ba9e19103c55febd1c5cfbddaa60f7324"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "before_hash": "f3674cfb6d8953b708f9923b1b6a4614f5b6d51229841ab4acffcef090eaf097",
+      "after_hash": "e8062df25f1fa93e63722a0f1d11450419de2cb2a6d28d9f107a56a9c2b9324c"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "before_hash": "92f87dcab3636ddcdb0b2a5e5d7f0b3d6da6ac6bc3ec82fb33f2fdc3ec1c077b",
+      "after_hash": "4a8f40965f7b3917384eaa65509f241786aa87fe55c32b38615bed1c1cc030b9"
+    },
+    {
+      "collection": "products",
+      "key": "chatgpt",
+      "field": "pricing",
+      "before_hash": "4173ebc54aef9b7140c4f9c1145f1e7a45ac32bf4557f63d44167a9db878a801",
+      "after_hash": "44412d37eeecdd4a86bb3b5ef3f973011c6fa65a4bb2df5a2419b037fb3c9a04"
+    },
+    {
+      "collection": "products",
+      "key": "chatgpt",
+      "field": "longDescription",
+      "before_hash": "542330ef8124fa7c02e01202605d1d6751f68bb87d0c214077efc60750a9d1ce",
+      "after_hash": "ad5f56cbcb1e73aeb1524c1755501ee12d60b4998ba6b62e962f416abbe9fdbc"
+    },
+    {
+      "collection": "products",
+      "key": "claude",
+      "field": "pricing",
+      "before_hash": "a8cef21e5705871ec84fed55dcb6f4504b063037000ebb826894260ab294df95",
+      "after_hash": "2214828ab2dfb5221b7c50b25a3ef666803de43117052d8e09390f8b03f32466"
+    },
+    {
+      "collection": "products",
+      "key": "claude",
+      "field": "longDescription",
+      "before_hash": "7ab86065bb0e841e449e5d1ac6f8fcd39713d6532f2eac97672bfc40ed65ba05",
+      "after_hash": "01a60fdb19b3e47024e49bc58ad8137ab2a6900b82aafd53fc0c4c7c78c3b8b9"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "pricing",
+      "before_hash": "994f6bd3aa8792a5c8f1dc3e17783011014aa9ea5b89e45ba4c72b90019014be",
+      "after_hash": "bf722d873eef8a71198276b69f28f184ae673892e8a0e0cfb34446e0a8b6e43a"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "longDescription",
+      "before_hash": "c0a88acc41ed7c25d5dcc2d147849267859d061eef6c73da8deb5110d658f212",
+      "after_hash": "d148202502c002868d5b52e52c91d52c773d8916fc179d2a0d352ff136fcf6f8"
+    },
+    {
+      "collection": "products",
+      "key": "neon",
+      "field": "pricing",
+      "before_hash": "029e5dda30b59cdd631aaf0e4f80b972f68039c560f85f144fa7641382d3b3ff",
+      "after_hash": "369d9081702f021ac2708eb1427bc6da2d215de9168382a6a4f2a20adca58404"
+    },
+    {
+      "collection": "products",
+      "key": "neon",
+      "field": "longDescription",
+      "before_hash": "a08d166100f410698b5ec63499d15a8f2afb780bb16378446ee6dda396068872",
+      "after_hash": "d303171b90dd2f28d4e52487f64e21d6b430c2085e6cb73e86d9db8319007aff"
+    },
+    {
+      "collection": "products",
+      "key": "anthropic-api",
+      "field": "pricing",
+      "before_hash": "4c4ca99d3abca89035342e57f81aafb0cea2e51fc6d32c35ca438381441f005b",
+      "after_hash": "c19a9739cc38c0d3f46f4d08cd0e1bb6b5db0129388c35b23375bd25329e1fdc"
+    },
+    {
+      "collection": "products",
+      "key": "anthropic-api",
+      "field": "longDescription",
+      "before_hash": "ebb6f218b2f3eaf9445ddef2297516f17fe7300481f4d34bc07c05105a9212a4",
+      "after_hash": "f37a9edbce5efe95010ddd3c9ce356e800a7541b8eb3348d5563f2f348a8c19a"
+    },
+    {
+      "collection": "products",
+      "key": "cloudflare",
+      "field": "pricing",
+      "before_hash": "4e901aa5ff8bf51e2fee1373620fe5e9755efcea7c3da7ebe2e7eef80ae9de9f",
+      "after_hash": "5a1a81ccbf82e86230c1eac5764443cf0e150dcb27eee10fbc4684c9173f7525"
+    },
+    {
+      "collection": "products",
+      "key": "cloudflare",
+      "field": "longDescription",
+      "before_hash": "0ef9557cc5211e00f1955675ee707a615d555566636868c408fee821bcb47a75",
+      "after_hash": "d0be6af86d486c882b03952585966fa386fd9a82f12b156dcc003b52212026e1"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "capabilities.auth",
+      "before_hash": "d45dc68af109ffc26761c72765eecd767676f6debca8c3497486e1ef80a8ac03",
+      "after_hash": "f131edfb0242485ad593cd3d49a4ea60c8960cd2f8e416503382d0a66ac08a5a"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "longDescription",
+      "before_hash": "5e34441fe7ff742eaae683434aa333542664951d7cab2355bf0e12f93bc76a89",
+      "after_hash": "edd8a00641b392cb0472e1c1bf4ef7f07f18f8a26974b994a92e79b4fd08d6db"
+    },
+    {
+      "collection": "reviews",
+      "key": "cursor-editorial-agent",
+      "field": "body",
+      "before_hash": "5da3e5c08d0345e44891ccda728f5d3cd6bb867f72ba0ffb1ce062046a84955e",
+      "after_hash": "f13fcf28450f1d2187fda043e2adbf9326aeaf8542a1f3587cdb34d981384996"
+    },
+    {
+      "collection": "products",
+      "key": "supabase",
+      "field": "capabilities.auth",
+      "before_hash": "1ca8b7e98ab6d2afe161685311a0cac5c1935963bf66d2ad3084025bbb47a147",
+      "after_hash": "a279649c5e48b5870909bba5e8f7fd6a767ec6d3344963074e53ba6d806335d2"
+    },
+    {
+      "collection": "products",
+      "key": "supabase",
+      "field": "longDescription",
+      "before_hash": "076cbcd7943dc96401ba213de2f9eda45ab9348c79cd31ebba0c25e84acdca07",
+      "after_hash": "48beae3c0e05c268cb5c89ec3b2163b0b89eefbbbd634f16dc7a7b79b7f2e684"
+    },
+    {
+      "collection": "reviews",
+      "key": "supabase-editorial-agent",
+      "field": "body",
+      "before_hash": "199180909e9fd7e6670b6a1c8c04b2d6264a3ca791d15273d326efaa92bf05c1",
+      "after_hash": "fddc980b7af5bd3b3f2e64ced8b793d22967056db410e4db8407a0671759ca24"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "description",
+      "before_hash": "7b8bd72bdb5044f2bbc4e6e176ffe46c3731ec4584ab669d9ce13a835ff119bb",
+      "after_hash": "d001becd18a7d4ac57eca38ee9983d506fc27502e656f7af32133bae2fe49d37"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "description",
+      "before_hash": "221a66fc33c031936b8e52cb0ca768abc7008b8c79b0456ef9cf87e5c3e99ffb",
+      "after_hash": "7d83b9b9943eaf662979cb5ba1fd9f9b4f8d2d5e3e6be66d684eb8ea09894930"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "longDescription",
+      "before_hash": "afb1f672e685af4b758427fcdd0f5f7bb946a41bbbe2484b3ab94cb90df7bb25",
+      "after_hash": "279c890c261504045130ef0c51587aca82946132615b30c5ba1e4a5ce1b0d0bd"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "description",
+      "before_hash": "f847cc56957b9efdea1a02852a8b5bed73fa48324cf96f1a9b156a74172042e7",
+      "after_hash": "e7ef82affe3e532514ed32d16f13227889084d73cd8b8cbdff11e1093a621e4b"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "pricing",
+      "before_hash": "fd32ad35c3f1f8836f74d1b21a4593e145f9ce15fbe66e1199284c9c2e7fcc2a",
+      "after_hash": "99a07bdfb1d15e801e3a0371e61c91fd029a5b2c0f65a1221cbeebae031852d1"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "chatgpt|claude",
+      "field": "intro",
+      "before_hash": "31aecbe5539b493a89e9a362fb493bd2869024eb505ee0e3a7fdb7d2f029cef0",
+      "after_hash": "7ae4ba34f6453bf1d2753381e09871aa2bb78bbd7da8385d5d457317afaccac7"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "cursor|github-copilot",
+      "field": "intro",
+      "before_hash": "1273ec197830d7be182929e8d5ba35bbcd2f38a1f39ea37deca7613b07f0ce85",
+      "after_hash": "3036bd9dc4c3879901249d61a661934b11d3a91709ccff5b7feab881fd1e2ed1"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "openai-platform|anthropic-api",
+      "field": "intro",
+      "before_hash": "b965b3c87674134d2c43270fe3d9bd717eabcfb7c528aea48b2c1e8594f13cff",
+      "after_hash": "9b8373102004d65b9b9034e5ca9464b5c2386ca80a0c7119da79e68841a73f45"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "supabase|neon",
+      "field": "intro",
+      "before_hash": "364076a6b21ab0ff26169e1e9246547bd1775e6c4531737fbb28abbe09c92ac1",
+      "after_hash": "ba535c04d5de36a89d85447db0f254e7203e99dc8307bdb7d34d1f93bcdd7286"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "vercel|cloudflare",
+      "field": "intro",
+      "before_hash": "9db496b4f1019e73b7335ce2c756d4eebfd77b56cb697f65a872b98e55d25b68",
+      "after_hash": "1b835f4e67d5e2c0ebe42af08a0cafddbe3ff4f290fc170cc18ecad7466338ce"
+    }
+  ],
+  "patches": [
+    {
+      "collection": "authors",
+      "key": "edu-tor",
+      "field": "role",
+      "offset": 0,
+      "before": "Founder and editor-in-chief",
+      "after": "Catalog editor attribution",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "edu-tor",
+      "field": "bio",
+      "offset": 0,
+      "before": "Edu Tor edits Build Something People Want and Build Something Agents Want. He scores software the way it is actually used: a human sitting at a keyboard, and an agent calling an API. Based worldwide, he has spent a decade shipping catalogs, developer tools, and editorial reviews rather than affiliate roundups.",
+      "after": "Edu Tor is listed as the editor of Build Something People Want and Build Something Agents Want. This catalog does not attach verified professional-history records or firsthand product-test logs to this attribution.",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "edu-tor",
+      "field": "credentials",
+      "offset": 0,
+      "before": "Editor-in-chief, Build Something; former product and growth operator; public methodology author for the Twin Score rubric.",
+      "after": "Editor attribution recorded by this catalog. Professional history and product-testing experience have not been independently verified in the evidence register.",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "maya-chen",
+      "field": "role",
+      "offset": 0,
+      "before": "Staff writer, developer tools",
+      "after": "Catalog contributor attribution, developer tools",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "maya-chen",
+      "field": "bio",
+      "offset": 0,
+      "before": "Maya Chen covers developer tools, infrastructure, and the unglamorous work of authentication, databases, and deploy pipelines. She writes from first-hand use: CLIs, dashboards, and the docs that either unblock a Monday morning or waste it.",
+      "after": "Maya Chen is the byline recorded for developer-tool and infrastructure entries in this catalog. No verified employment history or firsthand evaluation record is attached to this profile.",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "maya-chen",
+      "field": "credentials",
+      "offset": 0,
+      "before": "Staff writer covering developer tools; former platform engineer; focuses on API quality, CLI ergonomics, and incident-ready documentation.",
+      "after": "Developer-tool contributor attribution recorded by this catalog. Professional credentials and product-testing experience remain unverified.",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "jonas-okonkwo",
+      "field": "role",
+      "offset": 0,
+      "before": "Staff writer, AI products",
+      "after": "Catalog contributor attribution, AI products",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "jonas-okonkwo",
+      "field": "bio",
+      "offset": 0,
+      "before": "Jonas Okonkwo reviews AI assistants, research engines, and generative tools as products rather than demos. He tests instruction-following, citation behavior, tool use, and what happens when the model is wrong in front of a customer.",
+      "after": "Jonas Okonkwo is the byline recorded for AI-product entries in this catalog. No reproducible instruction-following, citation or tool-use evaluation record is attached to this profile.",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "authors",
+      "key": "jonas-okonkwo",
+      "field": "credentials",
+      "offset": 0,
+      "before": "Staff writer covering AI products; evaluates assistants on groundedness, tool use, and operational limits rather than launch-day screenshots.",
+      "after": "AI-product contributor attribution recorded by this catalog. Professional credentials and product-testing experience remain unverified.",
+      "expected_occurrences": 1,
+      "reason": "author attribution/credentials disclosure"
+    },
+    {
+      "collection": "rubric",
+      "key": "",
+      "field": "notes",
+      "offset": 0,
+      "before": "Scores are editorial 0-100 composites, not star averages and not user-count ratings. We do not emit AggregateRating for Twin Scores.",
+      "after": "Scores are editorial 0-100 composites, not star averages and not user-count ratings. We do not emit AggregateRating for Twin Scores. Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.",
+      "expected_occurrences": 1,
+      "reason": "preserve S02 rubric and append provenance"
+    },
+    {
+      "collection": "reviews",
+      "key": "chatgpt-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "claude-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "gemini-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "grok-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "perplexity-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "microsoft-copilot-editorial-human",
+      "field": "body",
+      "offset": 987,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "midjourney-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "runway-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "elevenlabs-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "character-ai-editorial-human",
+      "field": "body",
+      "offset": 982,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "cursor-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-copilot-editorial-human",
+      "field": "body",
+      "offset": 984,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "vs-code-editorial-human",
+      "field": "body",
+      "offset": 988,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "gitlab-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "vercel-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "netlify-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "linear-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "jira-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "replit-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "notion-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "coda-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "airtable-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "figma-editorial-human",
+      "field": "body",
+      "offset": 975,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "framer-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "webflow-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "canva-editorial-human",
+      "field": "body",
+      "offset": 975,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "adobe-creative-cloud-editorial-human",
+      "field": "body",
+      "offset": 990,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "adobe-firefly-editorial-human",
+      "field": "body",
+      "offset": 983,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "superhuman-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "slack-editorial-human",
+      "field": "body",
+      "offset": 975,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "microsoft-teams-editorial-human",
+      "field": "body",
+      "offset": 985,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "zoom-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "loom-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "discord-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "cal-com-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "calendly-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "grammarly-editorial-human",
+      "field": "body",
+      "offset": 979,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "stripe-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "supabase-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "neon-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "planetscale-editorial-human",
+      "field": "body",
+      "offset": 981,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "cloudflare-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "aws-editorial-human",
+      "field": "body",
+      "offset": 989,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "resend-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "auth0-editorial-human",
+      "field": "body",
+      "offset": 975,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "clerk-editorial-human",
+      "field": "body",
+      "offset": 975,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "railway-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "render-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "firebase-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "openai-platform-editorial-human",
+      "field": "body",
+      "offset": 985,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "anthropic-api-editorial-human",
+      "field": "body",
+      "offset": 983,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "pinecone-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "zapier-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "make-editorial-human",
+      "field": "body",
+      "offset": 974,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "n8n-editorial-human",
+      "field": "body",
+      "offset": 973,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "hubspot-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "salesforce-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "shopify-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "woocommerce-editorial-human",
+      "field": "body",
+      "offset": 981,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "posthog-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "amplitude-editorial-human",
+      "field": "body",
+      "offset": 979,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "mixpanel-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "segment-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "datadog-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "sentry-editorial-human",
+      "field": "body",
+      "offset": 976,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "intercom-editorial-human",
+      "field": "body",
+      "offset": 978,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "asana-editorial-human",
+      "field": "body",
+      "offset": 975,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "monday-editorial-human",
+      "field": "body",
+      "offset": 980,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "postman-editorial-human",
+      "field": "body",
+      "offset": 977,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "wordpress-editorial-human",
+      "field": "body",
+      "offset": 979,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "google-analytics-editorial-human",
+      "field": "body",
+      "offset": 988,
+      "before": "Named author: the byline on this review is a staff editor who used public docs, the public app, and the public pricing page.",
+      "after": "The byline and scores are retained from the legacy catalog; no firsthand product-test log is attached to this review.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported firsthand attestation"
+    },
+    {
+      "collection": "reviews",
+      "key": "stripe-public-quote",
+      "field": "body",
+      "offset": 88,
+      "before": "Quoted as a labeled public_quote with a source URL, not as a user review.",
+      "after": "This is an editorial paraphrase of public documentation, not a direct quotation or a user review.",
+      "expected_occurrences": 1,
+      "reason": "unscored public documentation paraphrase"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-public-quote",
+      "field": "body",
+      "offset": 98,
+      "before": "Quoted as a labeled public_quote with a source URL, not as a user review.",
+      "after": "This is an editorial paraphrase of public documentation, not a direct quotation or a user review.",
+      "expected_occurrences": 1,
+      "reason": "unscored public documentation paraphrase"
+    },
+    {
+      "collection": "reviews",
+      "key": "n8n-public-quote",
+      "field": "body",
+      "offset": 91,
+      "before": "Quoted as a labeled public_quote with a source URL, not as a user review.",
+      "after": "This is an editorial paraphrase of public documentation, not a direct quotation or a user review.",
+      "expected_occurrences": 1,
+      "reason": "unscored public documentation paraphrase"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "description",
+      "offset": 0,
+      "before": "Original 2026 Twin Score research: 72 products scored twice, category means, and the design gap.",
+      "after": "Analysis of 72 retained editorial estimates: category means, score gaps, and the limits of this catalog sample.",
+      "expected_occurrences": 1,
+      "reason": "R1 independent description"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "description",
+      "offset": 0,
+      "before": "Why we ban fake reviews, how schema stays honest, and the friction signup that keeps UGC pending.",
+      "after": "Why this catalog labels review kinds, retains score limitations, and keeps account submissions separate from public publication.",
+      "expected_occurrences": 1,
+      "reason": "R1 independent description"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "description",
+      "offset": 0,
+      "before": "Positive gaps are canvases; negative gaps are APIs. Original table from the committed catalog.",
+      "after": "Human-minus-agent differences in retained catalog estimates, with category summaries and explicit sample limits.",
+      "expected_occurrences": 1,
+      "reason": "R1 independent description"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 166,
+      "before": "This article is the original 2026 research table behind that split: 72 globally famous products scored twice, once as a human product and once as a machine product.",
+      "after": "This article summarizes 72 retained editorial estimates, with separate human and agent scores.",
+      "expected_occurrences": 1,
+      "reason": "qualify legacy research"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 261,
+      "before": "The short answer: the median product in this set is easier for a person than for an agent, the gap is widest in design and consumer assistants, and the products that invert the gap are APIs that happen to have dashboards.",
+      "after": "Across the 72 retained estimates, median human-minus-agent score is −2: 34 products have a positive gap and 38 a negative gap. These are catalog judgments, not measured performance.",
+      "expected_occurrences": 1,
+      "reason": "median/sign arithmetic"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 444,
+      "before": "## What we measured",
+      "after": "## What the catalog estimates record",
+      "expected_occurrences": 1,
+      "reason": "qualify measurement heading"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 939,
+      "before": "Named editors — Edu Tor, Maya Chen, and Jonas Okonkwo — assigned the scores in July and August 2026 using public apps, public docs, and public pricing pages.",
+      "after": "The catalog records these scores and bylines. No firsthand test log or per-dimension worksheet is attached; the following calculations summarize the retained estimates.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported scoring history"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 1221,
+      "before": "Anyone can download CSV or JSON from the agents site and recompute the table.",
+      "after": "The exports reproduce summaries and gaps from final catalog estimates; they do not contain the original scoring observations.",
+      "expected_occurrences": 1,
+      "reason": "bound reproducibility"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 2479,
+      "before": "The table below is original research from this catalog.",
+      "after": "The table below summarizes legacy estimates from this curated catalog.",
+      "expected_occurrences": 1,
+      "reason": "qualify derived research"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 3525,
+      "before": "Read the gap column as a product-management fact.",
+      "after": "Read the gap column as a difference between retained editorial estimates, not a measurement of product performance.",
+      "expected_occurrences": 1,
+      "reason": "qualify estimate interpretation"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 5995,
+      "before": "GitHub Copilot remains a copilot; Cursor is closer to an operator.",
+      "after": "Cursor documents a Cloud Agents API, and GitHub documents a Copilot cloud agent. No comparative task run was performed for this audit, so these sources do not establish which completes a task better.",
+      "expected_occurrences": 1,
+      "reason": "R2 main Copilot/Cursor narrative"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 8456,
+      "before": "If you only remember one cell in the table, remember the design gap of +22. That is the 2026 software industry in a number: people still draw, machines still call APIs, and directories that mix those jobs up are not for either audience.",
+      "after": "Within this catalog's nine design products, the mean retained human-minus-agent estimate is +18.89. This summarizes a curated editorial sample; it is not a measurement of the software industry or evidence of actual human or agent performance.",
+      "expected_occurrences": 1,
+      "reason": "R3 concluding design takeaway"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 8700,
+      "before": "Named editors will keep scoring in public, and the CSV remains the source of truth for anyone who wants to argue with a cell.",
+      "after": "The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results.",
+      "expected_occurrences": 3,
+      "reason": "qualify repeated scoring promise"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 8802,
+      "before": "Named editors will keep scoring in public, and the CSV remains the source of truth for anyone who wants to argue with a cell.",
+      "after": "The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results.",
+      "expected_occurrences": 2,
+      "reason": "qualify repeated scoring promise"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 8904,
+      "before": "Named editors will keep scoring in public, and the CSV remains the source of truth for anyone who wants to argue with a cell.",
+      "after": "The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results.",
+      "expected_occurrences": 1,
+      "reason": "qualify repeated scoring promise"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 3325,
+      "before": "These means are original research from the committed JSON, not a vendor slide. Design shows the largest human advantage. Infrastructure shows the largest agent advantage. Developer tools cancel out because editors (human) and LLM APIs (agent) share the bucket.",
+      "after": "These means summarize retained editorial estimates from the committed JSON. Design has the largest positive primary-category mean gap (+18.89). Payments has the most negative primary-category mean gap (−12), with one catalog member; infrastructure is −6.92. These curated groups do not establish a market-wide comparison.",
+      "expected_occurrences": 1,
+      "reason": "category conclusion"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 44,
+      "before": "Twin Scores are two editorial numbers from 0 to 100, published with weights, not a five-star widget with a made-up rater count.",
+      "after": "Twin Scores are two editorial numbers from 0 to 100, published with weights, not a five-star widget with a made-up rater count. Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.",
+      "expected_occurrences": 1,
+      "reason": "rubric observations limitation"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 666,
+      "before": "Real user and agent reviews only after a two-step signup that matches the profiles table, plus admin approval. Pending is the default. is_admin cannot be self-set.",
+      "after": "Submissions are stored separately as pending when the submission service is configured. Public reviews are read from the committed catalog; approving a database row does not publish it here. No automated submission-to-publication workflow is enabled in this version.",
+      "expected_occurrences": 1,
+      "reason": "publication separation"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 934,
+      "before": "That friction is the product. Directories die when anyone can post \"Great app, 5 stars\" from a newly created inbox. Our /signup form asks what you ship in 400 or more characters and why you belong in 280 or more. That is not growth hacking. That is a bouncer.",
+      "after": "Signup uses email/password or a magic link. Listing and review requests have a later business-profile step. Public review publication is separate and is not automatic.",
+      "expected_occurrences": 1,
+      "reason": "correct signup/profile claim"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 775,
+      "before": "## Matrix (highest agent Twin Scores)",
+      "after": "## Matrix (highest agent Twin Scores)\n\nLegacy capability grades, not re-evaluated by this audit. Auth descriptions checked through agent documentation review on 2026-10-16 (Cursor P04; Supabase P06); no account permissions or integration was tested.",
+      "expected_occurrences": 1,
+      "reason": "legacy capability matrix limitation"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 5303,
+      "before": "Runway and ElevenLabs both have APIs; only one is cheap, fast, and JSON-shaped. We encode that in the agent number rather than in marketing adjectives.",
+      "after": "No comparative cost or latency test is attached to this matrix.",
+      "expected_occurrences": 1,
+      "reason": "remove unmeasured cost/latency claim"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 3987,
+      "before": "| Cursor | strong | strong | basic | strong | Account; editor rules and API for teams | 84 |",
+      "after": "| Cursor | strong | strong | basic | strong | Editor account; Cloud Agents API: user/service-account API key (Basic/Bearer) | 84 |",
+      "expected_occurrences": 1,
+      "reason": "R2 principal Cursor Auth cell"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 1580,
+      "before": "| Supabase | excellent | basic | excellent | excellent | Anon key, service role, JWT, OAuth provi | 93 |",
+      "after": "| Supabase | excellent | basic | excellent | excellent | Public app: publishable key; backend: secret key (bypasses RLS); legacy anon/service_role; user JWTs | 93 |",
+      "expected_occurrences": 1,
+      "reason": "R2 principal Supabase Auth cell"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 2480,
+      "before": "Supabase is the later source of truth for profiles, pending reviews, and admin, with RLS as specified. Until keys land, signup explains that.",
+      "after": "Public catalog content is versioned JSON. Account submissions use a separate configured service; this article does not establish its database permissions or an automated publication workflow.",
+      "expected_occurrences": 1,
+      "reason": "bound database/publication assertion"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 2168,
+      "before": "## What we tested like editors, not labs",
+      "after": "## Evidence and limits",
+      "expected_occurrences": 1,
+      "reason": "qualify testing heading"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 2192,
+      "before": "Named staff used the public apps and public docs. We did not run a private eval harness that we then refuse to publish.",
+      "after": "The catalog records these scores and bylines. No firsthand test log or per-dimension worksheet is attached; the following calculations summarize the retained estimates.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported app use"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 1907,
+      "before": "ChatGPT bundles consumer plans separate from platform tokens. Claude the same.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Claude apps and Console/API have separate access and billing; vendor guidance checked on 2026-10-16 includes monthly API credits for eligible Max and Team plans.",
+      "expected_occurrences": 1,
+      "reason": "cohort main billing narrative"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 233,
+      "before": "Positive gap means the GUI is better than the machine surface. Negative gap means the API is the real product and the console is a concession.",
+      "after": "A positive gap means the retained human estimate is higher; a negative gap means the retained agent estimate is higher. These differences do not measure actual GUI or API performance.",
+      "expected_occurrences": 1,
+      "reason": "qualify gap interpretation"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 2078,
+      "before": "The design category's mean gap is the widest human advantage in our set. Infrastructure's mean gap is the widest agent advantage.",
+      "after": "Design has the largest positive primary-category mean gap (+18.89) in these retained estimates. Payments has the most negative primary-category mean gap (−12), with one catalog member; infrastructure is −6.92. These curated groups do not establish a market-wide comparison.",
+      "expected_occurrences": 1,
+      "reason": "category conclusion"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 2673,
+      "before": "| Category | n | Mean human | Mean agent | Gap (H−A) | Notes |\n|---|---:|---:|---:|---:|---|\n| AI assistants | 7 | 81 | 76 | +5 | Consumer apps beat APIs in search, not in contract quality |\n| Developer tools | 14 | 84 | 84 | 0 | Editors, git hosts, and LLM APIs cancel out |\n| Design | 8 | 85 | 63 | +22 | Widest human advantage in the set |\n| Productivity | 9 | 84 | 70 | +14 | Email and grammar tools drag the agent mean |\n| Infrastructure | 14 | 80 | 88 | −8 | Agents win; consoles are dense |\n| Automation | 3 | 84 | 79 | +5 | Visual iPaaS vs self-host n8n |\n| Marketing and CRM | 5 | 77 | 82 | −5 | Salesforce UI vs Salesforce API |\n| Communications | 6 | 83 | 80 | +3 | Slack/Discord bots are first-class |\n| Payments | 1 | 84 | 96 | −12 | Stripe is a machine product |\n| Data and analytics | 7 | 77 | 85 | −8 | Observability APIs outrun UIs |",
+      "after": "| Category | n | Mean human | Mean agent | Gap (H−A) | Notes |\n|---|---:|---:|---:|---:|---|\n| AI assistants | 7 | 81.00 | 75.57 | +5.43 | Retained editorial estimates; curated sample |\n| Developer tools | 11 | 82.64 | 84.91 | −2.27 | Retained editorial estimates; curated sample |\n| Design | 9 | 84.89 | 66.00 | +18.89 | Retained editorial estimates; curated sample |\n| Productivity | 9 | 83.44 | 71.33 | +12.11 | Retained editorial estimates; curated sample |\n| Infrastructure | 13 | 81.15 | 88.08 | −6.92 | Retained editorial estimates; curated sample |\n| Automation | 3 | 83.67 | 79.00 | +4.67 | Retained editorial estimates; curated sample |\n| Marketing and CRM | 5 | 76.80 | 83.20 | −6.40 | Retained editorial estimates; curated sample |\n| Communications | 6 | 82.50 | 79.67 | +2.83 | Retained editorial estimates; curated sample |\n| Payments | 1 | 84.00 | 96.00 | −12.00 | Retained editorial estimates; curated sample |\n| Data and analytics | 8 | 77.00 | 86.25 | −9.25 | Retained editorial estimates; curated sample |",
+      "expected_occurrences": 1,
+      "reason": "derived category table"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 3236,
+      "before": "| Category | Count | Mean human | Mean agent |\n|---|---:|---:|---:|\n| ai-assistants | 7 | 81 | 76 |\n| automation | 3 | 84 | 79 |\n| communications | 6 | 82 | 80 |\n| data | 8 | 77 | 86 |\n| design | 9 | 85 | 66 |\n| developer-tools | 11 | 83 | 85 |\n| infrastructure | 13 | 81 | 88 |\n| marketing | 5 | 77 | 83 |\n| payments | 1 | 84 | 96 |\n| productivity | 9 | 83 | 71 |",
+      "after": "| Category | Count | Mean human | Mean agent |\n|---|---:|---:|---:|\n| ai-assistants | 7 | 81.00 | 75.57 |\n| automation | 3 | 83.67 | 79.00 |\n| communications | 6 | 82.50 | 79.67 |\n| data | 8 | 77.00 | 86.25 |\n| design | 9 | 84.89 | 66.00 |\n| developer-tools | 11 | 82.64 | 84.91 |\n| infrastructure | 13 | 81.15 | 88.08 |\n| marketing | 5 | 76.80 | 83.20 |\n| payments | 1 | 84.00 | 96.00 |\n| productivity | 9 | 83.44 | 71.33 |",
+      "expected_occurrences": 1,
+      "reason": "derived category table"
+    },
+    {
+      "collection": "products",
+      "key": "chatgpt",
+      "field": "pricing",
+      "offset": 0,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "chatgpt",
+      "field": "longDescription",
+      "offset": 977,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 9442,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 4721,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 4354,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 6462,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 3067,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 3170,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 2917,
+      "before": "Free tier; Plus, Pro, and Business plans. API billed separately on platform.openai.com.",
+      "after": "ChatGPT app plans and developer API usage have distinct entitlements. Official plan names checked on 2026-10-16 include Free, Go, Plus, Pro, Business, Edu and Enterprise; consult the vendor for current eligibility and prices.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "claude",
+      "field": "pricing",
+      "offset": 0,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "claude",
+      "field": "longDescription",
+      "offset": 890,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 9906,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 5175,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 4806,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 6917,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 3525,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 3629,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 3369,
+      "before": "Free, Pro, Team, and Enterprise on claude.ai; Anthropic API is usage-based.",
+      "after": "Claude apps and Console/API have separate access and billing. The vendor's guidance checked on 2026-10-16 lists monthly API credits for Max and Team plans; account eligibility and current terms require confirmation.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "pricing",
+      "offset": 0,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "longDescription",
+      "offset": 897,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 13513,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 8672,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 8281,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 10425,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 7066,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 7181,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 6844,
+      "before": "Individual, Business, and Enterprise seat plans; some features bundled into GitHub editions.",
+      "after": "Plan and feature eligibility were not verified in this documentation audit; consult GitHub's current pricing.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "neon",
+      "field": "pricing",
+      "offset": 0,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "neon",
+      "field": "longDescription",
+      "offset": 811,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 22371,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 17250,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 16803,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 19031,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 15756,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 15899,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 15366,
+      "before": "Free; Launch, Scale, Business. Compute and storage separated.",
+      "after": "Official pricing checked on 2026-10-16 lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres. Availability and price for a specific account were not verified.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "anthropic-api",
+      "field": "pricing",
+      "offset": 0,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "anthropic-api",
+      "field": "longDescription",
+      "offset": 760,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 25917,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 20686,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 20217,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 22478,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 19236,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 19390,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 18780,
+      "before": "Usage-based tokens; batch discounts; Bedrock and Vertex as alternate bills.",
+      "after": "Console/API access and app subscriptions are distinct; current vendor guidance includes monthly API credits for eligible Max and Team plans. No account access or billing was checked.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "cloudflare",
+      "field": "pricing",
+      "offset": 0,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "cloudflare",
+      "field": "longDescription",
+      "offset": 769,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 23178,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 18037,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 17586,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 19820,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 16551,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 16696,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 16149,
+      "before": "Free CDN/DNS; Pro, Business, Enterprise; Workers and R2 usage-based.",
+      "after": "CDN/DNS plans, Workers compute and R2 have separate pricing units. Workers documentation checked on 2026-10-16 lists Free request/CPU allowances; this does not establish that this app fits that plan.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort pricing/access prose"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "capabilities.auth",
+      "offset": 0,
+      "before": "Account; editor rules and API for teams",
+      "after": "Account for the editor; user or service-account API keys for documented Cloud Agents API access.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort auth prose"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "longDescription",
+      "offset": 1055,
+      "before": "Account; editor rules and API for teams",
+      "after": "Account for the editor; user or service-account API keys for documented Cloud Agents API access.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort auth prose"
+    },
+    {
+      "collection": "reviews",
+      "key": "cursor-editorial-agent",
+      "field": "body",
+      "offset": 101,
+      "before": "Account; editor rules and API for teams",
+      "after": "Account for the editor; user or service-account API keys for documented Cloud Agents API access.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort auth prose"
+    },
+    {
+      "collection": "products",
+      "key": "supabase",
+      "field": "capabilities.auth",
+      "offset": 0,
+      "before": "Anon key, service role, JWT, OAuth providers",
+      "after": "Publishable keys identify public app components; secret keys are backend-only and bypass RLS. Legacy anon/service_role keys and user JWTs are distinct.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort auth prose"
+    },
+    {
+      "collection": "products",
+      "key": "supabase",
+      "field": "longDescription",
+      "offset": 930,
+      "before": "Anon key, service role, JWT, OAuth providers",
+      "after": "Publishable keys identify public app components; secret keys are backend-only and bypass RLS. Legacy anon/service_role keys and user JWTs are distinct.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort auth prose"
+    },
+    {
+      "collection": "reviews",
+      "key": "supabase-editorial-agent",
+      "field": "body",
+      "offset": 112,
+      "before": "Anon key, service role, JWT, OAuth providers",
+      "after": "Publishable keys identify public app components; secret keys are backend-only and bypass RLS. Legacy anon/service_role keys and user JWTs are distinct.",
+      "expected_occurrences": 1,
+      "reason": "dated cohort auth prose"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "longDescription",
+      "offset": 56,
+      "before": "Tab completion, inline edit, and agent-style multi-file tasks are the human product — and they are excellent, which is why so many engineers switched in 2025–2026.",
+      "after": "Cursor documents an IDE and a separate Cloud Agents API. The API reference checked on 2026-10-16 documents POST /v1/agents with user or service-account API keys using Basic or Bearer authentication. No agent run was performed for this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported Cursor adoption causality"
+    },
+    {
+      "collection": "products",
+      "key": "cursor",
+      "field": "description",
+      "offset": 56,
+      "before": "Tab completion, inline edit, and agent-style multi-file tasks are the human product — and they are excellent, which is why so many engineers switched in 2025–2026.",
+      "after": "Cursor documents an IDE and a separate Cloud Agents API. The API reference checked on 2026-10-16 documents POST /v1/agents with user or service-account API keys using Basic or Bearer authentication. No agent run was performed for this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported Cursor adoption causality"
+    },
+    {
+      "collection": "reviews",
+      "key": "cursor-editorial-human",
+      "field": "body",
+      "offset": 146,
+      "before": "Tab completion, inline edit, and agent-style multi-file tasks are the human product — and they are excellent, which is why so many engineers switched in 2025–2026.",
+      "after": "Cursor documents an IDE and a separate Cloud Agents API. The API reference checked on 2026-10-16 documents POST /v1/agents with user or service-account API keys using Basic or Bearer authentication. No agent run was performed for this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported Cursor adoption causality"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "longDescription",
+      "offset": 313,
+      "before": "We score it below Cursor on the agent axis because Copilot is still primarily an in-editor copilot, not an autonomous repo operator with a public task API.",
+      "after": "GitHub documents IDE/chat experiences and a cloud agent that can edit repository files and run tests in an ephemeral environment. This audit did not run a task or verify account eligibility.",
+      "expected_occurrences": 1,
+      "reason": "document Copilot cloud surface without score reassessment"
+    },
+    {
+      "collection": "reviews",
+      "key": "github-copilot-editorial-human",
+      "field": "body",
+      "offset": 411,
+      "before": "We score it below Cursor on the agent axis because Copilot is still primarily an in-editor copilot, not an autonomous repo operator with a public task API.",
+      "after": "GitHub documents IDE/chat experiences and a cloud agent that can edit repository files and run tests in an ephemeral environment. This audit did not run a task or verify account eligibility.",
+      "expected_occurrences": 1,
+      "reason": "document Copilot cloud surface without score reassessment"
+    },
+    {
+      "collection": "products",
+      "key": "github-copilot",
+      "field": "description",
+      "offset": 175,
+      "before": "Agent-style coding exists but is coupled to GitHub's identity and policy engine, which enterprises.",
+      "after": "GitHub also documents delegated cloud repository work; no task or account eligibility was tested in this audit.",
+      "expected_occurrences": 1,
+      "reason": "qualify truncated Copilot description"
+    },
+    {
+      "collection": "products",
+      "key": "neon",
+      "field": "longDescription",
+      "offset": 262,
+      "before": "Humans who want Auth+Storage in one box still pick Supabase; humans who want Postgres as infrastructure pick Neon.",
+      "after": "Neon also advertises managed auth, object storage and functions alongside Postgres; availability and feature parity were not tested in this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove exclusive Supabase/Neon contrast"
+    },
+    {
+      "collection": "reviews",
+      "key": "neon-editorial-human",
+      "field": "body",
+      "offset": 350,
+      "before": "Humans who want Auth+Storage in one box still pick Supabase; humans who want Postgres as infrastructure pick Neon.",
+      "after": "Neon also advertises managed auth, object storage and functions alongside Postgres; availability and feature parity were not tested in this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove exclusive Supabase/Neon contrast"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "longDescription",
+      "offset": 193,
+      "before": "Docs, playground, and SDKs are why almost every demo starts here.",
+      "after": "The official quickstart documents API-key setup and JavaScript/Python SDKs. No API call was made in this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported OpenAI popularity claim"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "description",
+      "offset": 193,
+      "before": "Docs, playground, and SDKs are why almost every demo starts here.",
+      "after": "The official quickstart documents API-key setup and JavaScript/Python SDKs. No API call was made in this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported OpenAI popularity claim"
+    },
+    {
+      "collection": "reviews",
+      "key": "openai-platform-editorial-human",
+      "field": "body",
+      "offset": 292,
+      "before": "Docs, playground, and SDKs are why almost every demo starts here.",
+      "after": "The official quickstart documents API-key setup and JavaScript/Python SDKs. No API call was made in this audit.",
+      "expected_occurrences": 1,
+      "reason": "remove unsupported OpenAI popularity claim"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "pricing",
+      "offset": 53,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "products",
+      "key": "openai-platform",
+      "field": "longDescription",
+      "offset": 879,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 25758,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 20537,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 20070,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 22328,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 19083,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 19236,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 18633,
+      "before": "Separate from ChatGPT subscriptions.",
+      "after": "Developer API usage has distinct entitlements from ChatGPT app plans; this audit did not verify account billing.",
+      "expected_occurrences": 1,
+      "reason": "qualify absolute subscription separation"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "chatgpt|claude",
+      "field": "intro",
+      "offset": 0,
+      "before": "ChatGPT versus Claude is the default 2026 assistant comparison: OpenAI's consumer gravity against Anthropic's long-context and tool-use reputation. We score both with Twin Scores rather than a single winner banner.",
+      "after": "Compare the documented app and developer-platform access separately. The dated sources distinguish subscription entitlements and API billing; neither product's retained Twin Scores were re-evaluated in this audit.",
+      "expected_occurrences": 1,
+      "reason": "five documented comparison intros"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "cursor|github-copilot",
+      "field": "intro",
+      "offset": 0,
+      "before": "Cursor versus GitHub Copilot is the editor war inside VS Code's shadow. One is an AI-native fork; the other is the incumbent copilot with GitHub policy baked in.",
+      "after": "Compare editor interaction with delegated repository work. Cursor documents a Cloud Agents API; GitHub documents a Copilot cloud agent. These documentation checks do not establish which completes a task better.",
+      "expected_occurrences": 1,
+      "reason": "five documented comparison intros"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "openai-platform|anthropic-api",
+      "field": "intro",
+      "offset": 0,
+      "before": "OpenAI Platform versus Anthropic API is the two default LLM endpoints in 2026. Chat apps are twins of these pages — do not confuse the dashboard with ChatGPT Plus.",
+      "after": "Compare developer access and billing boundaries rather than consumer chat subscriptions. The sources establish selected API-access facts; no model-quality, latency or cost benchmark was run.",
+      "expected_occurrences": 1,
+      "reason": "five documented comparison intros"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "supabase|neon",
+      "field": "intro",
+      "offset": 0,
+      "before": "Supabase versus Neon is Firebase-shaped Postgres versus Postgres-as-branching-infrastructure. Auth and storage sit in one box at Supabase; Neon sells the database primitive.",
+      "after": "Compare documented credentials, backend features and branch operations for the intended workflow. The dated sources do not support reducing Neon to a database-only alternative or establish feature parity.",
+      "expected_occurrences": 1,
+      "reason": "five documented comparison intros"
+    },
+    {
+      "collection": "comparePairs",
+      "key": "vercel|cloudflare",
+      "field": "intro",
+      "offset": 0,
+      "before": "Vercel versus Cloudflare is a framework host versus a planet-scale edge. One makes Next.js feel native; the other makes DNS, Workers, and R2 feel native.",
+      "after": "Compare a documented deployment API with the relevant compute and pricing boundaries. The sources do not measure either platform's performance or prove a production workload fits a free plan.",
+      "expected_occurrences": 1,
+      "reason": "five documented comparison intros"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "offset": 0,
+      "before": "# Human vs agent software surfaces in 2026: original Twin Score research",
+      "after": "# Human vs agent software surfaces in 2026: original Twin Score research\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "offset": 0,
+      "before": "# How the Twin Score rubric actually works",
+      "after": "# How the Twin Score rubric actually works\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "offset": 0,
+      "before": "# Fake UGC is an SEO tactic that this directory refuses",
+      "after": "# Fake UGC is an SEO tactic that this directory refuses\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    },
+    {
+      "collection": "articles",
+      "key": "agent-capability-matrix-2026",
+      "field": "body",
+      "offset": 0,
+      "before": "# The capability matrix agents actually need",
+      "after": "# The capability matrix agents actually need\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    },
+    {
+      "collection": "articles",
+      "key": "is-agentic-publishing-directory",
+      "field": "body",
+      "offset": 0,
+      "before": "# What is-agentic publishing means for a product directory",
+      "after": "# What is-agentic publishing means for a product directory\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "offset": 0,
+      "before": "# ChatGPT vs Claude vs Gemini vs Perplexity vs Grok for real work in 2026",
+      "after": "# ChatGPT vs Claude vs Gemini vs Perplexity vs Grok for real work in 2026\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "offset": 0,
+      "before": "# Human advantage versus agent advantage: a gap table from 72 products",
+      "after": "# Human advantage versus agent advantage: a gap table from 72 products\n\nTwin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.",
+      "expected_occurrences": 1,
+      "reason": "global article evidence limits"
+    }
+  ]
+}
