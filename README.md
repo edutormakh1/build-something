@@ -43,7 +43,7 @@ Keys: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SER
 
 ## Hosting on Cloudflare Workers
 
-The two apps deploy as independent Workers using OpenNext. Supabase continues to provide accounts,
+The two apps are configured to deploy as independent Workers using OpenNext. Supabase continues to provide accounts,
 profiles and reviews; this hosting change does not migrate or modify the database.
 
 - `apps/people/wrangler.jsonc` → `build-something-people`
