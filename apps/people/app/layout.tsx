@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { BrandFonts, display, sans, JsonLd } from "@bs/ui";
 import { Experience } from "../components/experience";
-import { orgJsonLd, websiteJsonLd } from "@bs/seo";
+import { abs, orgJsonLd, siblingUrl, siteUrl, websiteJsonLd } from "@bs/seo";
 import "./globals.css";
 import "./geo-crawler.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://buildsomethingpeoplewant.com"),
+  metadataBase: new URL(siteUrl("people")),
   title: {
     default: "Build Something People Want — Twin Score software directory",
     template: "%s · Build Something People Want",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
-  authors: [{ name: "Edu Tor", url: "https://buildsomethingpeoplewant.com/authors/edu-tor" }],
+  authors: [{ name: "Edu Tor", url: abs("people", "/authors/edu-tor") }],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -30,14 +30,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <BrandFonts />
         <JsonLd data={[orgJsonLd("people"), websiteJsonLd("people")]} />
-        <link rel="alternate" type="application/rss+xml" title="RSS" href="https://buildsomethingpeoplewant.com/feed.xml" />
-        <link rel="alternate" type="application/atom+xml" title="Atom" href="https://buildsomethingpeoplewant.com/atom.xml" />
-        <link rel="alternate" type="text/plain" title="llms.txt" href="https://buildsomethingpeoplewant.com/llms.txt" />
-        <link rel="service-desc" type="application/vnd.oai.openapi+json" href="https://buildsomethingpeoplewant.com/openapi.json" />
-        <link rel="api-catalog" href="https://buildsomethingpeoplewant.com/.well-known/api-catalog" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href={abs("people", "/feed.xml")} />
+        <link rel="alternate" type="application/atom+xml" title="Atom" href={abs("people", "/atom.xml")} />
+        <link rel="alternate" type="text/plain" title="llms.txt" href={abs("people", "/llms.txt")} />
+        <link rel="service-desc" type="application/vnd.oai.openapi+json" href={abs("people", "/openapi.json")} />
+        <link rel="api-catalog" href={abs("people", "/.well-known/api-catalog")} />
       </head>
       <body>
-        <Experience>{children}</Experience>
+        <Experience twinUrl={siblingUrl("people")}>{children}</Experience>
       </body>
     </html>
   );

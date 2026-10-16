@@ -148,6 +148,12 @@ export function reviewJsonLd(site: SiteId, product: Product, review: Review, aut
 }
 
 export function personJsonLd(author: Author) {
+  const localOrigins: [string, SiteId][] = [
+    ["https://buildsomethingpeoplewant.com", "people"],
+    ["https://www.buildsomethingpeoplewant.com", "people"],
+    ["https://buildsomethingagentswant.com", "agents"],
+    ["https://www.buildsomethingagentswant.com", "agents"],
+  ];
   return {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -156,7 +162,10 @@ export function personJsonLd(author: Author) {
     jobTitle: author.role,
     description: author.bio,
     url: abs("people", `/authors/${author.slug}`),
-    sameAs: author.sameAs,
+    sameAs: author.sameAs.map((url) => {
+      const local = localOrigins.find(([origin]) => url === origin || url.startsWith(`${origin}/`));
+      return local ? `${siteUrl(local[1])}${url.slice(local[0].length)}` : url;
+    }),
     worksFor: { "@id": orgId("people") },
   };
 }

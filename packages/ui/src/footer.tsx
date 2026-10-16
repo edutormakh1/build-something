@@ -3,9 +3,11 @@ import type { Tone } from "./motion/tone";
 
 export function Footer({
   tone = "people",
+  twinUrl,
   children,
 }: {
   tone?: Tone;
+  twinUrl: string;
   children?: ReactNode;
 }) {
   return (
@@ -17,7 +19,7 @@ export function Footer({
               <p className="bs-colophon">Gallery colophon</p>
               <p>
                 Build Something People Want is edited by Edu Tor. Twin site:{" "}
-                <a href="https://buildsomethingagentswant.com">Build Something Agents Want</a>.
+                <a href={twinUrl}>Build Something Agents Want</a>.
               </p>
               <p>
                 <a href="/editorial-policy">Editorial policy</a> · <a href="/methodology">Methodology</a> ·{" "}
@@ -28,7 +30,7 @@ export function Footer({
             <>
               <p className="bs-colophon">Machine colophon</p>
               <p>
-                Twin of <a href="https://buildsomethingpeoplewant.com">Build Something People Want</a>. Dataset CC BY
+                Twin of <a href={twinUrl}>Build Something People Want</a>. Dataset CC BY
                 4.0. No fake MCP.
               </p>
               <p>

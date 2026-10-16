@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { siblingUrl } from "@bs/seo";
 
 const LINKS: [string, string][] = [
   ["Gallery", "/products"],
@@ -44,7 +45,7 @@ export function Footer() {
     <footer className="site">
       <p>
         Build Something People Want is edited by Edu Tor. Twin site:{" "}
-        <a href="https://buildsomethingagentswant.com">Build Something Agents Want</a>.
+        <a href={siblingUrl("people")}>Build Something Agents Want</a>.
       </p>
       <p>
         <a href="/editorial-policy">Editorial policy</a> · <a href="/methodology">Methodology</a> ·{" "}
