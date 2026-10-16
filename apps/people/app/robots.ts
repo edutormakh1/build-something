@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { AI_AND_SEARCH_BOTS, ROBOTS_DISALLOW } from "@bs/seo";
+import { abs, AI_AND_SEARCH_BOTS, ROBOTS_DISALLOW } from "@bs/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -11,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [...ROBOTS_DISALLOW],
       })),
     ],
-    sitemap: "https://buildsomethingpeoplewant.com/sitemap.xml",
+    sitemap: abs("people", "/sitemap.xml"),
   };
 }
