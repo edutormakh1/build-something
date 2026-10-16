@@ -1,13 +1,13 @@
 export type SiteId = "people" | "agents";
 
-export const PEOPLE_HOST = "buildsomethingpeoplewant.com";
-export const AGENTS_HOST = "buildsomethingagentswant.com";
+export const PEOPLE_HOST = "www.buildsomethingpeoplewant.com";
+export const AGENTS_HOST = "www.buildsomethingagentswant.com";
 
 export function siteUrl(site: SiteId): string {
   if (site === "people") {
-    return process.env.NEXT_PUBLIC_PEOPLE_SITE_URL || `https://${PEOPLE_HOST}`;
+    return (process.env.NEXT_PUBLIC_PEOPLE_SITE_URL || `https://${PEOPLE_HOST}`).replace(/\/+$/, "");
   }
-  return process.env.NEXT_PUBLIC_AGENTS_SITE_URL || `https://${AGENTS_HOST}`;
+  return (process.env.NEXT_PUBLIC_AGENTS_SITE_URL || `https://${AGENTS_HOST}`).replace(/\/+$/, "");
 }
 
 export function siblingUrl(site: SiteId): string {
@@ -15,7 +15,7 @@ export function siblingUrl(site: SiteId): string {
 }
 
 export function abs(site: SiteId, path: string): string {
-  const base = siteUrl(site).replace(/\/$/, "");
+  const base = siteUrl(site);
   const p = path.startsWith("/") ? path : `/${path}`;
   return `${base}${p}`;
 }

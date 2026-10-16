@@ -4,12 +4,12 @@ import {
   allCategories,
   allProducts,
   catalog,
-  getProduct,
   getReview,
   productsInCategory,
 } from "@bs/db";
 import type { SiteId } from "./sites";
 import { abs } from "./sites";
+import { curatedComparisons } from "./comparisons";
 
 export type UrlEntry = { path: string; title: string; lastmod?: string };
 
@@ -76,11 +76,10 @@ export function entityUrls(site: SiteId): UrlEntry[] {
     for (const a of allArticles()) {
       urls.push({ path: `/blog/${a.slug}`, title: a.title, lastmod: dateOnly(a.updatedAt) ?? dateOnly(a.publishedAt) ?? CATALOG_DAY });
     }
-    for (const pair of catalog.comparePairs) {
-      if (!getProduct(pair.a) || !getProduct(pair.b)) continue;
+    for (const comparison of curatedComparisons()) {
       urls.push({
-        path: `/compare/${pair.a}-vs-${pair.b}`,
-        title: `${pair.a} vs ${pair.b}`,
+        path: comparison.path,
+        title: `${comparison.a.slug} vs ${comparison.b.slug}`,
         lastmod: CATALOG_DAY,
       });
     }
