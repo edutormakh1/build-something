@@ -7,7 +7,7 @@ import { breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
 export const metadata: Metadata = {
   title: "Twin Score rubric (agent view)",
   description:
-    "Two numbers, public weights, no star widget with a fake rater count. JSON-LD AggregateRating is staff editorial only.",
+    "Two editorial scores on a native 0–100 scale and public weights. We do not emit AggregateRating for Twin Scores.",
   alternates: { canonical: "https://buildsomethingagentswant.com/scorecard" },
 };
 
@@ -31,7 +31,7 @@ export default function Page() {
       />
       <h1>Twin Score rubric (agent view)</h1>
       <p>
-        A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. JSON-LD AggregateRating is staff editorial only. {catalog.rubric.notes}
+        A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. A scored review uses its own audience score on the native 0–100 scale; unscored reviews have no reviewRating. {catalog.rubric.notes}
       </p>
       <h2>Agent dimensions</h2>
       <table>

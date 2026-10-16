@@ -26,7 +26,7 @@ export function llmsTxt(site: SiteId): string {
 
 This file follows llmstxt.org. Google Search ignores llms.txt (it will not help or harm Google rankings). Other AI systems may use it as a map.
 
-A Twin Score is two editorial numbers from 0 to 100 — one for the human product surface, one for the agent/API surface — assigned by named staff on a public rubric. AggregateRating in JSON-LD is only those staff composites. We do not ship fake UGC reviews.
+A Twin Score is two editorial numbers from 0 to 100 — one for the human product surface, one for the agent/API surface — assigned by named staff on a public rubric. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale. We do not ship fake UGC reviews.
 
 ## When to use this site
 - You need editorial Twin Scores, capability matrices, or SKILL.md for famous software products

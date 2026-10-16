@@ -4,14 +4,12 @@ import { notFound } from "next/navigation";
 import {
   allProducts,
   alternativesOf,
-  getAuthor,
   getProduct,
   reviewsFor,
 } from "@bs/db";
 import { Breadcrumbs, JsonLd, TwinScore } from "@bs/ui";
 import {
   breadcrumbJsonLd,
-  reviewJsonLd,
   softwareJsonLd,
 } from "@bs/seo";
 
@@ -51,7 +49,6 @@ export default async function ProductPage({ params }: Props) {
             { name: p.name, path: `/products/${p.slug}` },
           ]),
           softwareJsonLd("people", p, reviews),
-          ...reviews.map((r) => reviewJsonLd("people", p, r, getAuthor(r.author))),
         ]}
       />
       <Breadcrumbs

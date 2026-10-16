@@ -110,7 +110,7 @@ function homeMd(site: SiteId): string {
     site === "people"
       ? "Build Something People Want is a worldwide editorial directory of software scored for humans and agents. A Twin Score is two staff numbers from 0 to 100 on a public rubric — not crowdsourced stars and not invented user counts. The twin site keeps the same entity slugs for machines."
       : "Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs and Twin Scores; capability matrices, SKILL.md, OpenAPI, and a CC BY 4.0 dataset instead of magazine prose. We do not ship a fake MCP manifest.";
-  return `${h(1, ORG_NAME[site])}\n\n${lead}\n\n${h(2, "How Twin Scores work")}\n\n${h(3, "Two numbers, one entity")}\n\nEvery product has a human score and an agent score assigned by named staff using public apps and public docs. AggregateRating in JSON-LD is only those editorial composites. Meaning lives in server-rendered HTML even when a 3D canvas is present.\n\n${h(2, "Featured products")}\n\n${top}\n\nSee also: [methodology](/methodology), [scorecard](/scorecard), twin site ${siblingUrl(site)}.\n`;
+  return `${h(1, ORG_NAME[site])}\n\n${lead}\n\n${h(2, "How Twin Scores work")}\n\n${h(3, "Two numbers, one entity")}\n\nEvery product has a human score and an agent score assigned by named staff using public apps and public docs. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale. Meaning lives in server-rendered HTML even when a 3D canvas is present.\n\n${h(2, "Featured products")}\n\n${top}\n\nSee also: [methodology](/methodology), [scorecard](/scorecard), twin site ${siblingUrl(site)}.\n`;
 }
 
 function productsIndexMd(site: SiteId): string {

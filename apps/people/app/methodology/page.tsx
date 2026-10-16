@@ -23,7 +23,7 @@ export default function Page() {
       <h2>Sources and limits</h2>
       <p>Each product page states vendor, founded year, headquarters, and pricing as publicly described. Enterprise quote-only SKUs are labeled as such. Self-hosted versus SaaS editions may be collapsed into one entity with a note. Scores carry an updated date in the seed JSON.</p>
       <h3>What we will not do</h3>
-      <p>We will not list an MCP server that does not exist, we will not mark fake UGC as authentic, and we will not emit AggregateRating except for staff editorial composites. Read the editorial policy and the scorecard alongside this page.</p>
+      <p>We will not list an MCP server that does not exist, we will not mark fake UGC as authentic, and we do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale. Read the editorial policy and the scorecard alongside this page.</p>
 
     </article>
   );

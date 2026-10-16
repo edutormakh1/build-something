@@ -89,7 +89,9 @@ export function datasetJsonLd() {
 }
 
 export function softwareJsonLd(site: SiteId, product: Product, reviews: Review[]) {
-  const editorial = reviews.filter((r) => r.kind === "editorial" && r.status === "published");
+  // Preserve the existing three-argument interface; review rows do not establish
+  // an aggregate rating for the product's editorial Twin Scores.
+  void reviews;
   const url = abs(site, `/products/${product.slug}`);
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -109,23 +111,12 @@ export function softwareJsonLd(site: SiteId, product: Product, reviews: Review[]
       availability: "https://schema.org/OnlineOnly",
     },
   };
-  if (editorial.length) {
-    const score = site === "people" ? product.twin.human : product.twin.agent;
-    data.aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: (score / 20).toFixed(1),
-      bestRating: "5",
-      worstRating: "1",
-      ratingCount: editorial.length,
-      reviewCount: editorial.length,
-      description: "Editorial Twin Score converted to a 5-point scale. Not a user-count rating.",
-    };
-  }
   return data;
 }
 
 export function reviewJsonLd(site: SiteId, product: Product, review: Review, author: Author | undefined) {
-  const score = site === "people" ? review.scoreHuman ?? product.twin.human : review.scoreAgent ?? product.twin.agent;
+  const score = site === "people" ? review.scoreHuman : review.scoreAgent;
+  const hasScore = typeof score === "number" && Number.isFinite(score) && score >= 0 && score <= 100;
   return {
     "@context": "https://schema.org",
     "@type": "Review",
@@ -134,12 +125,14 @@ export function reviewJsonLd(site: SiteId, product: Product, review: Review, aut
     reviewBody: review.body.slice(0, 5000),
     datePublished: review.publishedAt,
     inLanguage: "en-US",
-    reviewRating: {
-      "@type": "Rating",
-      ratingValue: (score / 20).toFixed(1),
-      bestRating: "5",
-      worstRating: "1",
-    },
+    ...(hasScore ? {
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: score,
+        bestRating: 100,
+        worstRating: 0,
+      },
+    } : {}),
     author: {
       "@type": "Person",
       name: author?.name ?? "Build Something staff",

@@ -30,7 +30,7 @@ export default function Page() {
       />
       <h1>Twin Score rubric</h1>
       <p>
-        A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. {catalog.rubric.notes} JSON-LD AggregateRating, when present, is those staff scores scaled to 5, with reviewCount equal to editorial reviews — never a fake user total.
+        A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. {catalog.rubric.notes} A scored review uses its own audience score on the native 0–100 scale; unscored reviews have no reviewRating.
       </p>
       <h2>Human dimensions</h2>
       <table>

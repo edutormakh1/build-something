@@ -26,6 +26,8 @@ export default async function Page({ params }: Props) {
   const p = getProduct(r.product);
   const author = getAuthor(r.author);
   if (!p) notFound();
+  const reviewSchema = reviewJsonLd("people", p, r, author);
+  const rating = reviewSchema.reviewRating;
   return (
     <article className="prose">
       <JsonLd data={[
@@ -34,11 +36,15 @@ export default async function Page({ params }: Props) {
           { name: p.name, path: `/products/${p.slug}` },
           { name: r.title, path: `/reviews/${r.slug}` },
         ]),
-        reviewJsonLd("people", p, r, author),
+        reviewSchema,
       ]} />
       <p className="kicker">{r.kind} · {r.publishedAt} {r.sourceUrl ? "· public quote" : "· staff editorial"}</p>
       <h1>{r.title}</h1>
       <p>{r.body}</p>
+      <h2>Review score</h2>
+      <p>
+        {rating ? `Human review score: ${rating.ratingValue}/100.` : "Unscored review: no usable human review score is recorded."}
+      </p>
       <h2>How to read this review</h2>
       <p>
         Kind is {r.kind}. We never present fake UGC as authentic. User reviews, when they exist, require signup and admin approval and stay pending until then.

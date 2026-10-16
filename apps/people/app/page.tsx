@@ -49,7 +49,7 @@ export default function HomePage() {
       </p>
       <h2>What Twin Scores are</h2>
       <p>
-        A Twin Score is two editorial numbers from 0 to 100: one for the human surface, one for the agent surface. The rubric is public on the scorecard. AggregateRating in our JSON-LD is only those staff composites, never a fake reviewCount from anonymous users.
+        A Twin Score is two editorial numbers from 0 to 100: one for the human surface, one for the agent surface. The rubric is public on the scorecard. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale.
       </p>
       <h3>Why two sites</h3>
       <p>
