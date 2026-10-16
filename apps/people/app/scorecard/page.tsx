@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { catalog } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Twin Score rubric",
   description: "Public rubric for human and agent Twin Scores, with weights and a downloadable dataset.",
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/scorecard" },
+  alternates: { canonical: abs("people", "/scorecard") },
   openGraph: { title: "Twin Score rubric", description: "Public rubric for human and agent Twin Scores, with weights and a downloadable dataset." },
   twitter: { card: "summary_large_image", title: "Twin Score rubric", description: "Public rubric for human and agent Twin Scores, with weights and a downloadable dataset." },
 };
@@ -68,7 +68,7 @@ export default function Page() {
       </table>
       <p>
         CSV and JSON live on the agents twin:{" "}
-        <a href="https://buildsomethingagentswant.com/dataset/twin-scores.json">twin-scores.json</a> and the CSV sibling. License: CC BY 4.0.
+        <a href={abs("agents", "/dataset/twin-scores.json")}>twin-scores.json</a> and the CSV sibling. License: CC BY 4.0.
       </p>
     </article>
   );

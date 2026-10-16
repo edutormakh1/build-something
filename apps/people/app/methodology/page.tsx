@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: 'Methodology',
   description: 'How Twin Scores are assigned, what sources we use, and what we refuse to invent.',
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/methodology" },
+  alternates: { canonical: abs("people", "/methodology") },
   openGraph: { title: 'Methodology', description: 'How Twin Scores are assigned, what sources we use, and what we refuse to invent.' },
   twitter: { card: "summary_large_image", title: 'Methodology', description: 'How Twin Scores are assigned, what sources we use, and what we refuse to invent.' },
 };

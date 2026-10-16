@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { allCategories, allProducts, allArticles } from "@bs/db";
 import { JsonLd } from "@bs/ui";
 import { ProductCard } from "../components/product-card";
-import { itemListJsonLd, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, itemListJsonLd, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+
+export const metadata: Metadata = {
+  alternates: { canonical: abs("people", "/") },
+};
 
 export default function HomePage() {
   const products = allProducts()
@@ -85,7 +90,7 @@ export default function HomePage() {
         )) : <li>Essays ship with the catalog seed. See /blog after articles land.</li>}
       </ul>
       <p>
-        Agents should go to <a href="https://buildsomethingagentswant.com/for-agents">Build Something Agents Want developer resources</a>.
+        Agents should go to <a href={abs("agents", "/for-agents")}>Build Something Agents Want developer resources</a>.
         Public JSON API on this origin: <Link href="/api/v1/products">GET /api/v1/products</Link>
         {" · "}
         <Link href="/openapi.json">openapi.json</Link>
