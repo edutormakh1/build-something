@@ -2,10 +2,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { apiV1MethodGate, isNextInternalRequest, negotiate, shouldSkipAcceptNegotiation } from "@bs/seo";
 import { catalog } from "@bs/db";
 import { updateSession } from "@bs/auth/middleware";
+import { recoveryHeaders } from "@bs/auth/recovery";
 
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+  if (path === "/auth/recovery" || path === "/reset-password") {
+    return NextResponse.next({ headers: recoveryHeaders });
+  }
   const apiGate = apiV1MethodGate(req.method, path);
   if (apiGate) {
     return new NextResponse(apiGate.body, { status: apiGate.status, headers: apiGate.headers });

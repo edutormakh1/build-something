@@ -1,10 +1,11 @@
-// @ts-nocheck
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { supabaseAnonKey, supabaseUrl } from "./env";
+import { hasRealSupabase, supabaseAnonKey, supabaseUrl } from "./env";
+import { hasRecoveryConfig, recoveryHeaders } from "./recovery";
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
+  if (!hasRealSupabase() || !hasRecoveryConfig()) return response;
   const client = createServerClient(supabaseUrl(), supabaseAnonKey(), {
     cookies: {
       getAll() {
@@ -16,6 +17,9 @@ export async function updateSession(request: NextRequest) {
         cookiesToSet.forEach(({ name, value, options }) =>
           response.cookies.set(name, value, options),
         );
+        response.headers.set("Cache-Control", recoveryHeaders["Cache-Control"]);
+        response.headers.set("Pragma", recoveryHeaders.Pragma);
+        response.headers.set("Expires", recoveryHeaders.Expires);
       },
     },
   });

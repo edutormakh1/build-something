@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useActionState, useState } from "react";
+import { hasRecoveryConfig, recoveryRequestUrl, type PasswordState } from "@bs/auth/recovery";
 import { createBrowserSupabase } from "@bs/auth/browser";
 import { agentsSiteUrl, hasRealSupabase } from "@bs/auth";
 
@@ -67,7 +68,7 @@ export function LoginForm() {
         {" · "}
         <a href="/forgot-password">Forgot password</a>
       </p>
-      <p className="hall-fine">Reset emails return to {resetTo}</p>
+      <p className="hall-fine">Password reset returns to this site.</p>
       {msg ? <p role="status">{msg}</p> : null}
     </form>
   );
@@ -161,17 +162,25 @@ export function ForgotForm() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    if (!hasRealSupabase()) {
-      setMsg("Password reset needs real keys. The redirect would stay on this origin.");
+    if (!hasRecoveryConfig()) {
+      setMsg("Password reset is temporarily unavailable. Please try again later.");
       return;
     }
     setBusy(true);
-    const supabase = createBrowserSupabase();
-    const { error } = await supabase.auth.resetPasswordForEmail(String(fd.get("email")), {
-      redirectTo: doorUrl(),
-    });
-    setBusy(false);
-    setMsg(error ? error.message : "If the account exists, a reset email is on the way. It returns to this hall, not the people twin.");
+    setMsg("");
+    try {
+      const supabase = createBrowserSupabase();
+      const { error } = await supabase.auth.resetPasswordForEmail(String(fd.get("email") || ""), {
+        redirectTo: recoveryRequestUrl(window.location.origin),
+      });
+      setMsg(error
+        ? "We could not send a reset link. Please try again later."
+        : "If the account exists, a reset email is on the way. Open it in this browser, on this site.");
+    } catch {
+      setMsg("We could not send a reset link. Please try again later.");
+    } finally {
+      setBusy(false);
+    }
   }
   return (
     <form onSubmit={onSubmit} className="hall-form">
@@ -180,7 +189,34 @@ export function ForgotForm() {
       <button type="submit" disabled={busy}>
         {busy ? "Sending…" : "Send reset link"}
       </button>
+      <p className="hall-fine">Open the reset email in the same browser and on the same site where you requested it.</p>
       {msg ? <p role="status">{msg}</p> : null}
+    </form>
+  );
+}
+
+export function ResetPasswordForm({ action, continuePath }: {
+  action: (previous: PasswordState, formData: FormData) => Promise<PasswordState>;
+  continuePath: "/account" | "/";
+}) {
+  const [state, submit, pending] = useActionState<PasswordState, FormData>(action, { status: "idle", message: "" });
+  if (state.status === "success") {
+    return (
+      <div>
+        <p role="status">{state.message}</p>
+        <p><Link href={continuePath}>Continue</Link> · <Link href="/login">Log in</Link></p>
+      </div>
+    );
+  }
+  return (
+    <form action={submit} className="hall-form">
+      <label htmlFor="new-password">New password</label>
+      <input id="new-password" name="password" type="password" autoComplete="new-password" minLength={8} required />
+      <label htmlFor="confirm-password">Confirm new password</label>
+      <input id="confirm-password" name="confirmation" type="password" autoComplete="new-password" minLength={8} required />
+      <button type="submit" disabled={pending}>{pending ? "Updating…" : "Update password"}</button>
+      {state.message ? <p role="alert">{state.message}</p> : null}
+      <p><Link href="/forgot-password" prefetch={false}>Request a new reset link</Link></p>
     </form>
   );
 }
