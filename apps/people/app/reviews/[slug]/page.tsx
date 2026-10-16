@@ -7,7 +7,7 @@ import { breadcrumbJsonLd, reviewJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
-  return catalog.reviews.filter((r) => r.status === "published").map((r) => ({ slug: r.slug }));
+  return catalog.reviews.filter((r) => getReview(r.slug)).map((r) => ({ slug: r.slug }));
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

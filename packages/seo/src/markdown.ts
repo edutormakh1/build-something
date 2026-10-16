@@ -50,7 +50,12 @@ export function pageMarkdown(site: SiteId, pathname: string): { status: number; 
       return { status: 200, body: bestMd(c.slug) };
     }
     const cmp = path.match(/^\/compare\/([^/]+)-vs-([^/]+)$/);
-    if (cmp) return { status: 200, body: compareMd(cmp[1], cmp[2]) };
+    if (cmp) {
+      if (!getProduct(cmp[1]) || !getProduct(cmp[2])) {
+        return { status: 404, body: notFoundMd(site, path) };
+      }
+      return { status: 200, body: compareMd(cmp[1], cmp[2]) };
+    }
     const alt = path.match(/^\/alternatives\/([^/]+)$/);
     if (alt) {
       const p = getProduct(alt[1]);
@@ -248,7 +253,7 @@ Human ${p.twin.human}. Agent ${p.twin.agent}. Updated ${p.twin.updated}. Rubric:
 
 ## Alternatives
 
-${p.alternatives.map((s) => `- ${s}`).join("\n")}
+${p.alternatives.filter((slug) => getProduct(slug)).map((slug) => `- ${slug}`).join("\n")}
 `;
 }
 

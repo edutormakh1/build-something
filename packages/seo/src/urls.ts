@@ -4,6 +4,8 @@ import {
   allCategories,
   allProducts,
   catalog,
+  getProduct,
+  getReview,
   productsInCategory,
 } from "@bs/db";
 import type { SiteId } from "./sites";
@@ -65,7 +67,7 @@ export function entityUrls(site: SiteId): UrlEntry[] {
     }
   }
   if (site === "people") {
-    for (const r of catalog.reviews.filter((x) => x.status === "published")) {
+    for (const r of catalog.reviews.filter((r) => getReview(r.slug))) {
       urls.push({ path: `/reviews/${r.slug}`, title: r.title, lastmod: dateOnly(r.publishedAt) ?? CATALOG_DAY });
     }
     for (const a of allAuthors()) {
@@ -75,6 +77,7 @@ export function entityUrls(site: SiteId): UrlEntry[] {
       urls.push({ path: `/blog/${a.slug}`, title: a.title, lastmod: dateOnly(a.updatedAt) ?? dateOnly(a.publishedAt) ?? CATALOG_DAY });
     }
     for (const pair of catalog.comparePairs) {
+      if (!getProduct(pair.a) || !getProduct(pair.b)) continue;
       urls.push({
         path: `/compare/${pair.a}-vs-${pair.b}`,
         title: `${pair.a} vs ${pair.b}`,

@@ -23,7 +23,7 @@ export function serializeProduct(prod: Product) {
     category: prod.category,
     twin: prod.twin,
     capabilities: prod.capabilities,
-    alternatives: prod.alternatives,
+    alternatives: prod.alternatives.filter((slug) => Boolean(getProduct(slug))),
     pricing: prod.pricing,
   };
 }

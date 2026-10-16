@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { allAuthors, catalog, getAuthor } from "@bs/db";
+import { allAuthors, catalog, getAuthor, getReview } from "@bs/db";
 import { JsonLd } from "@bs/ui";
 import { breadcrumbJsonLd, personJsonLd } from "@bs/seo";
 
@@ -23,7 +23,7 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   const a = getAuthor(slug);
   if (!a) notFound();
-  const reviews = catalog.reviews.filter((r) => r.author === a.slug && r.status === "published").slice(0, 20);
+  const reviews = catalog.reviews.filter((r) => r.author === a.slug && getReview(r.slug)).slice(0, 20);
   const posts = catalog.articles.filter((p) => p.author === a.slug);
   return (
     <article className="prose">
