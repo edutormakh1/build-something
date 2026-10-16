@@ -7,7 +7,7 @@ Worldwide Twin Score directory. Two sites, one catalog:
 
 Owner: Edu Tor ([edutormakh1](https://github.com/edutormakh1)). Remote: https://github.com/edutormakh1/build-something.git
 
-Public catalog pages render from `packages/db/seed/catalog.json` so the sites work before Supabase secrets land. No fake UGC. Editorial Twin Scores only.
+Public catalog pages read the committed `packages/db/seed/catalog.json`. Account submissions are separate and do not publish automatically. Twin Scores are retained legacy editorial estimates without attached firsthand test logs. No fake UGC.
 
 ## Stack
 
@@ -44,7 +44,7 @@ Keys: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SER
 ## Hosting on Cloudflare Workers
 
 The two apps are configured to deploy as independent Workers using OpenNext. Supabase continues to provide accounts,
-profiles and reviews; this hosting change does not migrate or modify the database.
+profiles and pending review submissions; public reviews are read from the committed catalog. This hosting change does not migrate or modify the database.
 
 - `apps/people/wrangler.jsonc` → `build-something-people`
 - `apps/agents/wrangler.jsonc` → `build-something-agents`
@@ -98,7 +98,7 @@ Vercel remains a rollback option. Both projects build from this monorepo: root d
 
 ## Admin
 
-`/admin` on the people app lists profiles when the signed-in user has `is_admin`. Approve members in Supabase (`profiles.status`). Users cannot set `is_admin` on themselves through the public form. Approved `can_review` users may insert pending user/agent reviews.
+`/admin` on the people app lists profiles when the signed-in user has `is_admin`. The public form does not offer an admin-role field. Database-side permission enforcement has not been verified by this editorial audit. Account/profile approvals and pending submissions are separate from the committed public catalog; approving a database row does not publish a review here. No automated submission-to-publication workflow is enabled in this version.
 
 ## Unique feature
 

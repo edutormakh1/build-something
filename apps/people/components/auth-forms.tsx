@@ -281,7 +281,7 @@ export function BusinessProfileForm({ purpose }: { purpose: "list" | "review" | 
       return;
     }
     if (!hasRealSupabase()) {
-      setMsg("Profile saved in spirit only until keys exist. Expected status: pending.");
+      setMsg("The submission service is unavailable; no business profile was saved.");
       return;
     }
     setBusy(true);
@@ -310,7 +310,7 @@ export function BusinessProfileForm({ purpose }: { purpose: "list" | "review" | 
     setMsg(
       error
         ? error.message
-        : "Membership card submitted. Status stays pending until an editor approves listing or reviews. You cannot set is_admin.",
+        : "Business profile submitted as pending. Membership permissions and publication are separate; submitting this card does not publish a listing or review.",
     );
   }
 
@@ -360,7 +360,7 @@ export function ReviewDraftForm() {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     if (!hasRealSupabase()) {
-      setMsg("Reviews stay pending until keys and an editor exist.");
+      setMsg("The submission service is unavailable; no review was submitted.");
       return;
     }
     setBusy(true);
@@ -385,13 +385,13 @@ export function ReviewDraftForm() {
     setMsg(
       error
         ? error.message
-        : "Review filed as pending. An editor publishes named user reviews; we never fake UGC.",
+        : "Review submitted as pending. Submission does not publish a public review; the publication workflow is not enabled in this version.",
     );
   }
   return (
     <form onSubmit={onSubmit} className="hall-form long-form">
       <h2>File a user review</h2>
-      <p>Approved members with can_review may insert pending reviews. Kind is user. Status starts pending.</p>
+      <p>This form requests a pending user submission. The configured database service decides whether to accept this request. This audit has not verified its permissions or a publication workflow.</p>
       <label htmlFor="product">Product slug</label>
       <input id="product" name="product" required placeholder="chatgpt" />
       <label htmlFor="title">Title</label>

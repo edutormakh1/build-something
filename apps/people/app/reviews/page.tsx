@@ -28,10 +28,10 @@ export default async function Page() {
     <article className="prose">
       <h1>Write a review</h1>
       <p>
-        User reviews stay pending until an editor approves them. We never present fake UGC as authentic. You do not need this form to walk the gallery.
+        Submissions are stored separately as pending when the submission service is configured. Public reviews are read from the committed catalog; approving a database row does not publish it here. No automated submission-to-publication workflow is enabled in this version. We never present fake UGC as authentic. You do not need this form to walk the gallery.
       </p>
       <h2>Who can file</h2>
-      <p>Create an account first. Complete the membership card only when you want to review. Approved can_review members may insert pending reviews.</p>
+      <p>Create an account first. Complete the membership card only when you want to request a review. The configured database service decides whether to accept a pending submission; this audit has not verified its permissions.</p>
       <h3>Start</h3>
       {!signedIn ? (
         <p><Link href="/signup">Sign up</Link> or <Link href="/login">log in</Link>.</p>
@@ -39,7 +39,7 @@ export default async function Page() {
         <BusinessProfileForm purpose="review" />
       ) : (
         <>
-          {!canReview ? <p>Your card is in. Editors still grant can_review. You can draft below; inserts stay pending.</p> : null}
+          {!canReview ? <p>This account is not marked can_review. A database permission check may reject submission; no public review will be published by this form.</p> : null}
           <ReviewDraftForm />
         </>
       )}
