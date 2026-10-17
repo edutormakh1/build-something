@@ -15,6 +15,7 @@ import { allCanonical } from "./urls";
 import { resolveComparison, type ComparisonPage } from "./comparisons";
 import { nativeScore } from "./native-score";
 import { RESEARCH_LIMITS, SCORE_LIMITS, SUBMISSION_LIMITS, peopleContactContent, peopleEditorialPolicyContent } from "./page-content";
+import { getCohortProduct, getCohortComparison, COHORT_LEGACY_CONTENT_LABEL, type CohortProduct, type CohortComparison, type CohortProvenance, type CohortClaim, type CohortSource } from "./cohort";
 
 function h(level: number, text: string): string {
   return `${"#".repeat(level)} ${text}`;
@@ -184,13 +185,49 @@ function productsIndexMd(site: SiteId): string {
   return withScoreLimits(`${h(1, "All products")}\n\nA worldwide catalog of ${allProducts().length} software products with Twin Scores for humans and agents. Filter on the HTML site; this markdown list is complete.\n\n${h(2, "Directory")}\n\n${h(3, "Published entities")}\n\n${rows}\n`);
 }
 
+function documentaryText(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\|/g, "\\|");
+}
+
+function documentaryProvenanceMd(dossier: CohortProvenance): string {
+  return `Responsible human editor: unassigned. Researcher: ${dossier.researcher}. Method: ${dossier.method}. Checked: ${dossier.checked_on}. Product not tested.\n\nUnknowns describe the limits of this documentation review, not proof that a feature is absent. Documentation checks do not validate retained scores or grades.`;
+}
+
+function documentaryClaimMd(claim: CohortClaim, sources: CohortSource[]): string {
+  const links = claim.source_ids.map(id => {
+    const source = sources.find(source => source.id === id);
+    return source ? `[${id}](${source.url})` : "";
+  }).join(", ") || "Unknown; no supporting source established for this claim.";
+  return `**${claim.id} — ${claim.evidence_status}**: ${documentaryText(claim.statement)} Documentation checked: ${claim.checked_on}. Scope: ${documentaryText(claim.scope)}. Version: ${documentaryText(claim.version)}. Limitations: ${documentaryText(claim.limitations)} Sources: ${links}`;
+}
+
+function documentaryLinksMd(dossier: CohortProduct | CohortComparison, site: SiteId): string {
+  const sources = dossier.sources.map(source => `- [${source.id}: ${documentaryText(source.title)}](${source.url}). Checked: ${source.checked_on}. Limits: ${documentaryText(source.limitations)}`).join("\n");
+  const related = dossier.related_paths.map(path => `- [${path}](${site === "agents" && path.startsWith("/compare/") ? abs("people", path) : path})`).join("\n");
+  return `### Primary documentation\n\n${sources}\n\n### Related decisions\n\n${related}`;
+}
+
+function productDossierMd(dossier: CohortProduct, site: SiteId): string {
+  const decision = site === "people"
+    ? `${documentaryText(dossier.people.question)}\n\n${dossier.people.decision_checks.map(check => `- ${documentaryText(check)}`).join("\n")}`
+    : `${documentaryText(dossier.agents.surface)}\n\n### Preflight\n\n${dossier.agents.preflight.map(check => `- ${documentaryText(check)}`).join("\n")}\n\n### Stop conditions\n\n${dossier.agents.stop_conditions.map(condition => `- ${documentaryText(condition)}`).join("\n")}`;
+  return `${COHORT_LEGACY_CONTENT_LABEL}\n\n## Documentation dossier\n\n${decision}\n\n${documentaryProvenanceMd(dossier)}\n\n### Claims and unknowns\n\n${dossier.claims.map(claim => documentaryClaimMd(claim, dossier.sources)).join("\n\n")}\n\n${documentaryLinksMd(dossier, site)}\n\n`;
+}
+
+function comparisonDossierMd(dossier: CohortComparison, a: string, b: string): string {
+  const cell = (ids: string[]) => dossier.claims.filter(claim => ids.includes(claim.id)).map(claim => documentaryClaimMd(claim, dossier.sources)).join("; ");
+  const rows = dossier.rows.map(row => `| ${documentaryText(row.topic)} | ${cell(row.a_claim_ids)} | ${cell(row.b_claim_ids)} |`).join("\n");
+  return `${COHORT_LEGACY_CONTENT_LABEL}\n\n## Documentation dossier\n\n${documentaryText(dossier.question)}\n\n${dossier.decision_checks.map(check => `- ${documentaryText(check)}`).join("\n")}\n\n${documentaryProvenanceMd(dossier)}\n\n| Decision boundary | ${a} | ${b} |\n|---|---|---|\n${rows}\n\n${documentaryLinksMd(dossier, "people")}\n\n`;
+}
+
 function productMd(site: SiteId, slug: string): string {
   const p = getProduct(slug)!;
   const cap = p.capabilities;
+  const dossier = getCohortProduct(slug);
   const revs = reviewsFor(slug)
     .map((r) => `- [${r.title}](${site === "people" ? `/reviews/${r.slug}` : abs("people", `/reviews/${r.slug}`)}) (${r.kind})`)
     .join("\n");
-  return withScoreLimits(`${h(1, p.name)}\n\n${p.longDescription}\n\n${h(2, "Twin Score")}\n\nHuman ${score(p.twin.human)}. Agent ${score(p.twin.agent)}. Catalog score date ${p.twin.updated}. Rubric: /scorecard.\n\n${h(3, "Capability matrix")}\n\n- API: ${cap.api}\n- MCP: ${cap.mcp}\n- CLI: ${cap.cli}\n- Docs: ${cap.docs}\n- Auth: ${cap.auth}\n- SDKs: ${cap.sdks.join(", ") || "none listed"}\n\n${h(2, "Facts")}\n\nVendor ${p.vendor}. Founded ${p.founded}. HQ ${p.headquarters}. Pricing: ${p.pricing}. Website: ${p.website}.\n\n${h(2, "Editorial reviews")}\n\n${revs || "None yet."}\n\n${h(2, "Agent resources")}\n\n- [SKILL.md](${abs("agents", `/skills/${slug}`)})\n- [Raw skill download](${abs("agents", `/skills/${slug}/raw`)})\n\nTwin page: ${siblingUrl(site)}/products/${slug}\n`);
+  return withScoreLimits(`${h(1, p.name)}\n\n${p.longDescription}\n\n${dossier ? productDossierMd(dossier, site) : ""}${h(2, "Twin Score")}\n\nHuman ${score(p.twin.human)}. Agent ${score(p.twin.agent)}. Catalog score date ${p.twin.updated}. Rubric: /scorecard.\n\n${h(3, "Capability matrix")}\n\n- API: ${cap.api}\n- MCP: ${cap.mcp}\n- CLI: ${cap.cli}\n- Docs: ${cap.docs}\n- Auth: ${cap.auth}\n- SDKs: ${cap.sdks.join(", ") || "none listed"}\n\n${h(2, "Facts")}\n\nVendor ${p.vendor}. Founded ${p.founded}. HQ ${p.headquarters}. Pricing: ${p.pricing}. Website: ${p.website}.\n\n${h(2, "Editorial reviews")}\n\n${revs || "None yet."}\n\n${h(2, "Agent resources")}\n\n- [SKILL.md](${abs("agents", `/skills/${slug}`)})\n- [Raw skill download](${abs("agents", `/skills/${slug}/raw`)})\n\nTwin page: ${siblingUrl(site)}/products/${slug}\n`);
 }
 
 function categoryMd(site: SiteId, slug: string): string {
@@ -213,7 +250,8 @@ function bestMd(slug: string): string {
 
 function compareMd({ a: pa, b: pb, intro: curatedIntro }: ComparisonPage): string {
   const intro = curatedIntro ?? `${pa.name} versus ${pb.name} compared on Twin Scores.`;
-  return withScoreLimits(`${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${score(pa.twin.human)} | ${score(pa.twin.agent)} |\n| ${pb.name} | ${score(pb.twin.human)} | ${score(pb.twin.agent)} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`);
+  const dossier = getCohortComparison(pa.slug, pb.slug);
+  return withScoreLimits(`${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${dossier ? comparisonDossierMd(dossier, pa.name, pb.name) : ""}${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${score(pa.twin.human)} | ${score(pa.twin.agent)} |\n| ${pb.name} | ${score(pb.twin.human)} | ${score(pb.twin.agent)} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`);
 }
 
 function altMd(slug: string): string {
@@ -268,6 +306,7 @@ export function skillMd(slug: string): string {
   const p = getProduct(slug);
   if (!p) return "";
   const cap = p.capabilities;
+  const dossier = getCohortProduct(slug);
   return withScoreLimits(`---
 name: ${p.slug}
 description: Operate ${p.name} as an agent using public APIs, CLIs, and docs. Twin Score agent ${score(p.twin.agent)}.
@@ -277,13 +316,13 @@ description: Operate ${p.name} as an agent using public APIs, CLIs, and docs. Tw
 
 ${p.longDescription}
 
-## When to use
+${dossier ? productDossierMd(dossier, "agents") : ""}## When to use
 
 Use this skill when a user asks to integrate, script, or evaluate ${p.name} (${p.vendor}).
 
 ## When not to use
 
-Do not claim an MCP server exists unless the capability matrix says so (current MCP level: ${cap.mcp}). Do not invent user-count ratings.
+${dossier ? "See the cohort dossier and its limits for documented MCP roles and access scope. Legacy capability grades do not establish a callable external MCP endpoint." : `Do not claim an MCP server exists unless the capability matrix says so (current MCP level: ${cap.mcp}).`} Do not invent user-count ratings.
 
 ## Capability matrix
 

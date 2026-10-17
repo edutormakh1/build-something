@@ -4,11 +4,13 @@ import { createRequire } from "node:module";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import sidecar from "../packages/db/seed/editorial-cohort-e02.json";
 import { allProducts, catalog, getProduct } from "../packages/db/src/catalog";
-import { COHORT_LEGACY_CONTENT_LABEL, getCohortComparison, getCohortProduct, type CohortClaim } from "../packages/seo/src/cohort";
+import { COHORT_LEGACY_CONTENT_LABEL, getCohortComparison, getCohortProduct, type CohortClaim, type CohortProduct, type CohortComparison } from "../packages/seo/src/cohort";
 import { resolveComparison } from "../packages/seo/src/comparisons";
 import { pageMarkdown, skillMd } from "../packages/seo/src/markdown";
 import { allCanonical } from "../packages/seo/src/urls";
-import AgentsProduct from "../apps/agents/app/products/[slug]/page";
+import AgentsProduct, { generateMetadata as agentsMetadata, generateStaticParams as agentsParams } from "../apps/agents/app/products/[slug]/page";
+import PeopleProduct, { generateMetadata as peopleMetadata, generateStaticParams as peopleParams } from "../apps/people/app/products/[slug]/page";
+import Compare, { generateMetadata as compareMetadata, generateStaticParams as compareParams } from "../apps/people/app/compare/[pair]/page";
 import Skill from "../apps/agents/app/skills/[slug]/page";
 import { GET as rawSkill } from "../apps/agents/app/skills/[slug]/raw/route";
 import { GET as agentsMarkdown } from "../apps/agents/app/md/[[...path]]/route";
@@ -16,6 +18,7 @@ import { GET as agentsMarkdown } from "../apps/agents/app/md/[[...path]]/route";
 vi.mock("@bs/ui", async () => ({
   ...await import("../packages/ui/src/twin-score"),
   ...await import("../packages/ui/src/json-ld"),
+  ...await import("../packages/ui/src/breadcrumbs"),
 }));
 const requireApp = createRequire(new URL("../apps/agents/package.json", import.meta.url));
 const React = requireApp("react");
@@ -383,5 +386,200 @@ describe("C1/C2 reviewed-fixture rehearsal of protected cohort representations",
     expect(await response.text()).toBe(expected);
     const html = renderToStaticMarkup(await Skill(params(slug)));
     expect(decode(html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/)![1])).toBe(expected);
+  });
+});
+
+const neutralMcp = "See the cohort dossier and its limits for documented MCP roles and access scope. Legacy capability grades do not establish a callable external MCP endpoint.";
+const pairParams = (a: string, b: string) => ({ params: Promise.resolve({ pair: `${a}-vs-${b}` }) });
+const renderProduct = async (site: "people" | "agents", slug: string) => renderToStaticMarkup(await (site === "people" ? PeopleProduct : AgentsProduct)(params(slug))) as string;
+const renderComparison = async (a: string, b: string) => renderToStaticMarkup(await Compare(pairParams(a, b))) as string;
+const section = (html: string) => html.match(/<section aria-label="Documentation dossier">([\s\S]*?)<\/section>/)?.[1] ?? "";
+function labelCount(body: string, count: number) {
+  // Full exact string, without normalizing whitespace, punctuation or case.
+  expect(body.split(COHORT_LEGACY_CONTENT_LABEL).length - 1).toBe(count);
+}
+function expectDossier(body: string, dossier: CohortProduct | CohortComparison) {
+  expect(body).toContain("Responsible human editor: unassigned");
+  expect(body).toContain("Researcher: automated agent");
+  expect(body).toContain("Method: documentation review");
+  expect(body).toContain(`Checked: ${dossier.checked_on}`);
+  expect(body).toContain("Product not tested");
+  expect(body).not.toMatch(/test fixture reviewer|test-fixture-only|reviewed_sha|review_status|Named editor:/);
+  for (const claim of dossier.claims) {
+    for (const field of [claim.id, claim.statement, claim.evidence_status, claim.scope, claim.version, claim.checked_on, claim.limitations]) expect(body, `${claim.id}: ${field}`).toContain(field);
+  }
+  for (const source of dossier.sources) {
+    expect(body).toContain(source.id);
+    expect(body).toContain(source.url);
+  }
+}
+async function productOutputs(slug: string) {
+  const raw = await rawSkill(new Request("http://localhost/"), params(slug));
+  const skillHtml = renderToStaticMarkup(await Skill(params(slug))) as string;
+  return [await renderProduct("people", slug), await renderProduct("agents", slug), md("people", `/products/${slug}`), md("agents", `/products/${slug}`), skillMd(slug), skillHtml, await raw.text()];
+}
+
+describe("E02 actual reviewed dossier consumers", () => {
+  it.each(slugs)("renders all %s claims, sources and distinct audience decisions on real HTML/MD/skill consumers", async slug => {
+    reviewed();
+    const dossier = getCohortProduct(slug)!;
+    const peopleHtml = await renderProduct("people", slug), agentsHtml = await renderProduct("agents", slug);
+    const peopleMd = md("people", `/products/${slug}`), agentsMd = md("agents", `/products/${slug}`), skill = skillMd(slug);
+    for (const body of [decode(peopleHtml), decode(agentsHtml), peopleMd, agentsMd, skill]) {
+      labelCount(body, 1);
+      expectDossier(body, dossier);
+    }
+    expect(section(peopleHtml)).not.toBe("");
+    expect(section(agentsHtml)).not.toBe("");
+    for (const body of [decode(section(peopleHtml)), peopleMd]) {
+      expect(body).toContain(dossier.people.question);
+      for (const check of dossier.people.decision_checks) expect(body).toContain(check);
+      expect(body).not.toContain(dossier.agents.stop_conditions[0]);
+    }
+    for (const body of [decode(section(agentsHtml)), agentsMd, skill]) {
+      expect(body).toContain(dossier.agents.surface);
+      for (const item of [...dossier.agents.preflight, ...dossier.agents.stop_conditions]) expect(body).toContain(item);
+      expect(body).not.toContain(dossier.people.question);
+    }
+    expect(peopleHtml.indexOf(COHORT_LEGACY_CONTENT_LABEL)).toBeLessThan(peopleHtml.indexOf('<header class="piece-head">'));
+    expect(agentsHtml.indexOf(COHORT_LEGACY_CONTENT_LABEL)).toBeLessThan(agentsHtml.indexOf('<header class="piece-head">'));
+    expect(peopleHtml.indexOf('<section aria-label="Documentation dossier">')).toBeGreaterThan(peopleHtml.indexOf("Twin page for agents:"));
+    expect(peopleHtml.indexOf('</section>')).toBeLessThan(peopleHtml.indexOf('<h2>Capability matrix</h2>'));
+    expect(agentsHtml.indexOf('<section aria-label="Documentation dossier">')).toBeGreaterThan(agentsHtml.indexOf("Meaning is in this HTML"));
+    expect(agentsHtml.indexOf('</section>')).toBeLessThan(agentsHtml.indexOf('<h2>API / MCP / CLI / docs / auth</h2>'));
+    for (const source of dossier.sources) for (const html of [peopleHtml, agentsHtml]) expect(html).toContain(`href="${source.url.replace(/&/g, "&amp;")}"`);
+    for (const path of dossier.related_paths) {
+      expect(peopleMd).toContain(`](${path})`);
+      expect(peopleHtml).toContain(`href="${path}"`);
+      const agentPath = path.startsWith("/compare/") ? `https://www.buildsomethingpeoplewant.com${path}` : path;
+      for (const body of [agentsMd, skill]) expect(body).toContain(`](${agentPath})`);
+      expect(agentsHtml).toContain(`href="${agentPath}"`);
+    }
+    expect(decode(agentsHtml)).toContain(neutralMcp);
+    expect(skill).toContain(neutralMcp);
+    expect(visible(agentsHtml)).toContain(`Auth: ${getProduct(slug)!.capabilities.auth}`);
+    expect(visible(agentsHtml)).not.toContain(`MCP is ${getProduct(slug)!.capabilities.mcp}.`);
+    expect(skill).not.toContain("Do not claim an MCP server exists unless the capability matrix says so");
+    const raw = await rawSkill(new Request("http://localhost/"), params(slug));
+    const pre = renderToStaticMarkup(await Skill(params(slug))) as string;
+    labelCount(decode(pre), 1);
+    for (const body of [await raw.text(), decode(pre.match(/<pre[^>]*>([\s\S]*?)<\/pre>/)![1]), pageMarkdown("agents", `/skills/${slug}`).body]) {
+      labelCount(body, 1); expectDossier(body, dossier); expect(body).toBe(skill);
+    }
+  });
+
+  it.each(pairs)("renders %s vs %s as a documentary decision table with exact claim-to-column mapping", async (a, b) => {
+    reviewed();
+    const dossier = getCohortComparison(a, b)!;
+    const html = await renderComparison(a, b), body = md("people", dossier.path);
+    for (const output of [decode(html), body]) {
+      labelCount(output, 1); expectDossier(output, dossier);
+      expect(output).toContain(dossier.question);
+      for (const check of dossier.decision_checks) expect(output).toContain(check);
+      for (const path of dossier.related_paths) expect(output).toContain(path);
+    }
+    expect(html.indexOf('<section aria-label="Documentation dossier">')).toBeGreaterThan(html.indexOf(pairsBefore.find(p => p.a === a && p.b === b)!.intro));
+    expect(html.indexOf('</section>')).toBeLessThan(html.indexOf('<h2>Twin Scores side by side</h2>'));
+    const rows = [...section(html).matchAll(/<tr>([\s\S]*?)<\/tr>/g)].slice(1);
+    expect(rows).toHaveLength(dossier.rows.length);
+    dossier.rows.forEach((row, index) => {
+      const cells = [...rows[index][1].matchAll(/<td>([\s\S]*?)<\/td>/g)].map(m => decode(m[1]));
+      expect(cells).toHaveLength(2);
+      row.a_claim_ids.forEach(id => expect(cells[0]).toContain(id));
+      row.b_claim_ids.forEach(id => expect(cells[1]).toContain(id));
+      const mdRow = body.split("\n").find(line => line.startsWith(`| ${row.topic} |`))!.split("|");
+      row.a_claim_ids.forEach(id => expect(mdRow[2]).toContain(id));
+      row.b_claim_ids.forEach(id => expect(mdRow[3]).toContain(id));
+    });
+  });
+
+  it.each(noncohort)("keeps every $slug noncohort consumer byte-identical with a reviewed fixture", async ({ slug }) => {
+    mutable.review_status = "draft"; mutable.review = null;
+    const before = await productOutputs(slug);
+    reviewed();
+    const after = await productOutputs(slug);
+    expect(after).toEqual(before);
+    for (const body of after) { labelCount(decode(body), 0); expect(body).not.toContain("E02-"); }
+  });
+
+  it.each(otherPairs)("keeps curated noncohort $a vs $b HTML/MD byte-identical and dossier-free", async ({ a, b }) => {
+    mutable.review_status = "draft"; mutable.review = null;
+    const before = [await renderComparison(a, b), md("people", `/compare/${a}-vs-${b}`)];
+    reviewed();
+    const after = [await renderComparison(a, b), md("people", `/compare/${a}-vs-${b}`)];
+    expect(after).toEqual(before);
+    for (const body of after) { labelCount(decode(body), 0); expect(body).not.toContain("E02-"); }
+  });
+
+  it.each(slugs)("closed/malformed provenance renders the original %s outputs without labels or dossier content", async slug => {
+    mutable.review_status = "draft"; mutable.review = null;
+    const baseline = await productOutputs(slug);
+    for (const [status, review] of [["draft", fixtureReview], ["reviewed", null], ["reviewed", { ...fixtureReview, reviewer: " " }], ["reviewed", { ...fixtureReview, reviewed_sha: "A".repeat(40) }]] as const) {
+      mutable.review_status = status; mutable.review = review;
+      const actual = await productOutputs(slug);
+      expect(actual).toEqual(baseline);
+      for (const output of actual) { labelCount(decode(output), 0); expect(output).not.toContain("E02-"); }
+    }
+  });
+
+  it.each(pairs)("closed/malformed provenance keeps %s vs %s original HTML/MD bytes", async (a, b) => {
+    mutable.review_status = "draft"; mutable.review = null;
+    const baseline = [await renderComparison(a, b), md("people", `/compare/${a}-vs-${b}`)];
+    for (const [status, review] of [["draft", fixtureReview], ["reviewed", null], ["reviewed", { ...fixtureReview, review_file: false }]] as const) {
+      mutable.review_status = status; mutable.review = review;
+      const actual = [await renderComparison(a, b), md("people", `/compare/${a}-vs-${b}`)];
+      expect(actual).toEqual(baseline);
+      actual.forEach(output => { labelCount(decode(output), 0); expect(output).not.toContain("E02-"); });
+    }
+  });
+
+  it("preserves all published metadata, static params and canonical inventory while active", async () => {
+    mutable.review_status = "draft"; mutable.review = null;
+    const before = { products: await Promise.all(slugs.map(slug => peopleMetadata(params(slug)))), agents: await Promise.all(slugs.map(slug => agentsMetadata(params(slug)))), comparisons: await Promise.all(pairs.map(([a, b]) => compareMetadata(pairParams(a, b)))), params: [peopleParams(), agentsParams(), compareParams()], canonical: [allCanonical("people"), allCanonical("agents")] };
+    reviewed();
+    expect({ products: await Promise.all(slugs.map(slug => peopleMetadata(params(slug)))), agents: await Promise.all(slugs.map(slug => agentsMetadata(params(slug)))), comparisons: await Promise.all(pairs.map(([a, b]) => compareMetadata(pairParams(a, b)))), params: [peopleParams(), agentsParams(), compareParams()], canonical: [allCanonical("people"), allCanonical("agents")] }).toEqual(before);
+    for (const [a, b] of pairs) {
+      expect(pageMarkdown("people", `/compare/${b}-vs-${a}`)).toEqual({ status: 308, location: `/compare/${a}-vs-${b}`, body: "" });
+      await expect(Compare(pairParams(b, a))).rejects.toMatchObject({ digest: expect.stringContaining("NEXT_REDIRECT;replace;") });
+    }
+    expect(pageMarkdown("people", "/compare/chatgpt-vs-cursor")).toMatchObject({ status: 200, robots: "noindex, follow" });
+    for (const output of [await renderComparison("chatgpt", "cursor"), md("people", "/compare/chatgpt-vs-cursor")]) { labelCount(output, 0); expect(output).not.toContain("E02-"); }
+  });
+
+  it.each(["draft", "hidden"] as const)("does not leak cohort claims for synthetic %s entities", async status => {
+    reviewed();
+    catalog.products = productsBefore.map(p => p.slug === "chatgpt" ? { ...p, status } : p);
+    expect(pageMarkdown("people", "/products/chatgpt").status).toBe(404);
+    expect(pageMarkdown("agents", "/products/chatgpt").status).toBe(404);
+    expect(skillMd("chatgpt")).toBe("");
+    await expect(PeopleProduct(params("chatgpt"))).rejects.toMatchObject({ digest: "NEXT_HTTP_ERROR_FALLBACK;404" });
+    await expect(AgentsProduct(params("chatgpt"))).rejects.toMatchObject({ digest: "NEXT_HTTP_ERROR_FALLBACK;404" });
+    await expect(Compare(pairParams("chatgpt", "claude"))).rejects.toMatchObject({ digest: "NEXT_HTTP_ERROR_FALLBACK;404" });
+    const raw = await rawSkill(new Request("http://localhost/"), params("chatgpt"));
+    expect(raw.status).toBe(404); expect(await raw.text()).not.toContain("E02-");
+  });
+
+  it("escapes dossier strings in actual SSR instead of interpreting source text as HTML", async () => {
+    reviewed();
+    sidecar.products.chatgpt.claims[0].statement = '<img src="x" onerror="alert(1)">';
+    for (const html of [await renderProduct("people", "chatgpt"), await renderProduct("agents", "chatgpt"), await renderComparison("chatgpt", "claude")]) {
+      expect(html).toContain("&lt;img"); expect(html).not.toContain('<img src="x"');
+    }
+    for (const body of [md("people", "/products/chatgpt"), md("agents", "/products/chatgpt"), skillMd("chatgpt"), md("people", "/compare/chatgpt-vs-claude")]) {
+      expect(body).toContain("&lt;img"); expect(body).not.toContain('<img src="x"');
+    }
+  });
+
+  it("keeps the existing structured-data bytes unchanged when dossier content becomes active", async () => {
+    const schemas = (html: string) => [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
+    mutable.review_status = "draft"; mutable.review = null;
+    const before = [];
+    for (const slug of slugs) before.push(schemas(await renderProduct("people", slug)), schemas(await renderProduct("agents", slug)));
+    for (const [a, b] of pairs) before.push(schemas(await renderComparison(a, b)));
+    reviewed();
+    const after = [];
+    for (const slug of slugs) after.push(schemas(await renderProduct("people", slug)), schemas(await renderProduct("agents", slug)));
+    for (const [a, b] of pairs) after.push(schemas(await renderComparison(a, b)));
+    expect(after).toEqual(before);
   });
 });
