@@ -195,7 +195,7 @@ export async function smokePreview(mode, options = {}) {
         assert.ok(html.body.includes(previewOrigins[app === "people" ? "agents" : "people"]), "Twin link must use sibling preview");
         function canonicalHtml(response, route) {
           const values = [...response.body.matchAll(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"[^>]*>/g)].map(m => m[1].replaceAll("&amp;", "&"));
-          assert.deepEqual(values, [`${previewOrigins[app]}${route}`], `${app} ${route} canonical`);
+          assert.deepEqual(values, [`${previewOrigins[app]}${route === "/" ? "" : route}`], `${app} ${route} canonical`);
         }
         canonicalHtml(html, "/");
         assert.match(html.body, /<meta name="robots" content="index, follow"/, "Preview keeps ordinary HTML indexability metadata");
