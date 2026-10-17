@@ -24,6 +24,13 @@ const xmlValues = xml => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => 
 const tokenSet = text => [...new Set((text ?? "").split(",").map(t => t.trim().toLowerCase()).filter(Boolean))].sort();
 const requestKey = (app, route, method, headers) => JSON.stringify([app, method, route, Object.entries(headers).sort(([a], [b]) => a.localeCompare(b))]);
 
+function validateWebpAsset(bytes, disk, budget, route) {
+  assert.equal(bytes.toString("ascii", 0, 4), "RIFF", `${route}: RIFF signature`);
+  assert.equal(bytes.toString("ascii", 8, 12), "WEBP", `${route}: WebP signature`);
+  assert.ok(bytes.length <= budget, `${route}: WebP payload exceeds byte budget`);
+  assert.equal(sha(bytes), sha(disk), `${route}: WebP bytes differ from built asset`);
+}
+
 export function validatePreviewHeaders(rawHeaders, baselineVary, rejectRouterVary = false) {
   // Read raw pairs, since Headers.get() alone would hide multiple header fields.
   const robots = [], vary = [];
@@ -284,6 +291,14 @@ export async function smokePreview(mode, options = {}) {
         }
         const art = await check("/art/brand-mark-3d.png", { accept: "*/*", type: "image/png" });
         assert.equal(sha(art.bytes), sha(await readFile(path.join(appDir, ".open-next/assets/art/brand-mark-3d.png"))), "Static PNG bytes differ from build");
+        for (const [route, byteBudget] of [
+          ["/art/brand-mark-display-v1.webp", 60 * 1024],
+          ["/art/brand-mark-environment-v1.webp", 180 * 1024],
+          [`/art/${app}-hero-display-v1.webp`, (app === "people" ? 320 : 350) * 1024],
+        ]) {
+          const get = await check(route, { accept: "*/*", type: "image/webp" });
+          validateWebpAsset(get.bytes, await readFile(path.join(appDir, ".open-next/assets", route)), byteBudget, route);
+        }
         // There is no favicon in either app's committed public/app tree.
         await check("/favicon.ico", { accept: "*/*", status: 404 });
         await check("/BUILD_ID", { accept: "*/*" });

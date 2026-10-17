@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { allProducts } from "@bs/db";
-import { JsonLd } from "@bs/ui";
+import { JsonLd, STILLS } from "@bs/ui";
 import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 import { ProductCard } from "../components/product-card";
 
@@ -30,7 +30,7 @@ export default function Page() {
       ]} />
       <figure className="fallback-relic">
         <img
-          src="/art/agents-hero-3d.png"
+          src={STILLS.agents.hero}
           alt="Obsidian relic with gold filament circuitry, lit by moonlight in a night exhibition hall"
           width={1536}
           height={1024}

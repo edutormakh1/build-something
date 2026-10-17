@@ -9,7 +9,7 @@ export default function TransitVeil({ tone }: { tone: Tone }) {
     <div className="bs-transit" aria-hidden="true">
       <Scene
         className="bs-scene"
-        still={STILLS[tone].mark}
+        still={STILLS[tone].environmentMark}
         mode="transit"
         lookAt={[0, 0, 0]}
         alpha

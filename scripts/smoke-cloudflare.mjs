@@ -2,6 +2,7 @@
 // Uses disposable local state and OS-assigned loopback ports; never deploys.
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import { createWriteStream } from "node:fs";
 import { access, mkdir, mkdtemp, readFile, rm } from "node:fs/promises";
 import { createServer } from "node:net";
@@ -22,7 +23,16 @@ Object.assign(env, {
   NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-placeholder",
 });
 const pnpm = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+const sha = bytes => createHash("sha256").update(bytes).digest("hex");
+let requests = 0;
 let active;
+
+function validateWebpAsset(bytes, disk, budget, route) {
+  assert.equal(bytes.toString("ascii", 0, 4), "RIFF", `${route}: RIFF signature`);
+  assert.equal(bytes.toString("ascii", 8, 12), "WEBP", `${route}: WebP signature`);
+  assert.ok(bytes.length <= budget, `${route}: WebP payload exceeds byte budget`);
+  assert.equal(sha(bytes), sha(disk), `${route}: WebP bytes differ from built asset`);
+}
 
 async function stop(child) {
   if (!child?.pid || child.exitCode !== null || child.signalCode !== null) return;
@@ -85,6 +95,7 @@ async function run(app) {
       if (spawnError) throw spawnError;
       if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Worker exited ${child.exitCode}; see ${logPath}`);
       try {
+        requests++;
         const response = await fetch(`${origin}/api/v1/products/chatgpt`, { signal: AbortSignal.timeout(1000) });
         await response.body?.cancel();
         if (response.status === 200) { ready = true; break; }
@@ -92,8 +103,9 @@ async function run(app) {
       await delay(500);
     }
     assert.ok(ready, `Worker not ready within 60 seconds; see ${logPath}`);
-    async function check(route, { accept = "text/html", status = 200, type = "text/html", marker, json, headers = {} } = {}) {
+    async function check(route, { accept = "text/html", status = 200, type = "text/html", marker, json, headers = {}, webpBudget } = {}) {
       const started = performance.now();
+      const n = ++requests;
       const response = await fetch(`${origin}${route}`, { headers: { accept }, redirect: "manual", signal: AbortSignal.timeout(15000) });
       const bytes = Buffer.from(await response.arrayBuffer());
       const body = bytes.toString("utf8");
@@ -103,8 +115,9 @@ async function run(app) {
       if (marker) assert.ok(body.includes(marker), `${route}: missing ${marker}`);
       for (const [name, expected] of Object.entries(headers)) assert.match(response.headers.get(name) ?? "", expected, `${route}: ${name}`);
       if (json) json(JSON.parse(body));
+      if (webpBudget !== undefined) validateWebpAsset(bytes, await readFile(path.join(root, "apps", app, ".open-next/assets", route)), webpBudget, route);
       passed++;
-      console.log(JSON.stringify({ app, route, accept, status: response.status, type: response.headers.get("content-type"), bytes: bytes.length, elapsedMs: +(performance.now() - started).toFixed(1), cache: response.headers.get("x-nextjs-cache"), openNextCache: response.headers.get("x-opennext-cache"), headers: Object.fromEntries(Object.keys(headers).map((name) => [name, response.headers.get(name)])) }));
+      console.log(JSON.stringify({ n, app, route, accept, status: response.status, type: response.headers.get("content-type"), bytes: bytes.length, elapsedMs: +(performance.now() - started).toFixed(1), cache: response.headers.get("x-nextjs-cache"), openNextCache: response.headers.get("x-opennext-cache"), headers: Object.fromEntries(Object.keys(headers).map((name) => [name, response.headers.get(name)])) }));
       return body;
     }
     const html = await check("/", { marker: "<h1", headers: { "x-content-type-options": /^nosniff$/, vary: /accept/i } });
@@ -131,6 +144,11 @@ async function run(app) {
     assert.equal(cssURL.origin, origin, "stylesheet must stay on loopback");
     await check(cssURL.pathname, { type: "text/css", headers: { "cache-control": /immutable/ } });
     await check("/art/brand-mark-3d.png", { type: "image/png" });
+    for (const [route, webpBudget] of [
+      ["/art/brand-mark-display-v1.webp", 60 * 1024],
+      ["/art/brand-mark-environment-v1.webp", 180 * 1024],
+      [`/art/${app}-hero-display-v1.webp`, (app === "people" ? 320 : 350) * 1024],
+    ]) await check(route, { accept: "*/*", type: "image/webp", webpBudget });
     if (app === "agents") {
       await check("/skills/chatgpt", { marker: "ChatGPT" });
       await check("/skills/chatgpt/raw", { accept: "text/html", type: "text/markdown", marker: "ChatGPT" });
@@ -154,3 +172,4 @@ async function run(app) {
 
 try { for (const app of ["people", "agents"]) await run(app); }
 catch (error) { console.error(error); process.exitCode = 1; }
+finally { console.log(JSON.stringify({ requests, scope: "both apps, including readiness requests" })); }

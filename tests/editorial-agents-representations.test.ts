@@ -4,6 +4,7 @@ import { allProducts, getProduct, productsInCategory } from "../packages/db/src/
 import { abs } from "../packages/seo/src/sites";
 
 vi.mock("@bs/ui", async () => ({
+  ...await import("../packages/ui/src/motion/tone"),
   ...await import("../packages/ui/src/twin-score"),
   ...await import("../packages/ui/src/json-ld"),
 }));

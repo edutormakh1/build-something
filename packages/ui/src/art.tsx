@@ -21,5 +21,5 @@ export function HallArt({ tone, alt }: { tone: Tone; alt?: string }) {
 }
 
 export function BrandMarkArt({ alt = "" }: { alt?: string }) {
-  return <img className="bs-relic" src="/art/brand-mark-3d.png" alt={alt} width={56} height={56} />;
+  return <img className="bs-relic" src={STILLS.people.mark} alt={alt} width={56} height={56} />;
 }
