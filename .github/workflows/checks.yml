@@ -32,3 +32,26 @@ jobs:
       - run: pnpm build:cloudflare
       - run: pnpm check:cloudflare
       - run: pnpm smoke:cloudflare
+  preview:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      WRANGLER_SEND_METRICS: "false"
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:9
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: public-anon-placeholder
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm cloudflare:preview:build people
+      - run: pnpm cloudflare:preview:build agents
+      - run: pnpm cloudflare:preview:check people
+      - run: pnpm cloudflare:preview:check agents
+      - run: pnpm cloudflare:preview:smoke local

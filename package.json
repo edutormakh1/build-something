@@ -13,7 +13,11 @@
     "check:cloudflare": "pnpm --filter @bs/people check:cloudflare && pnpm --filter @bs/agents check:cloudflare",
     "deploy:cloudflare": "pnpm --filter @bs/people deploy:cloudflare && pnpm --filter @bs/agents deploy:cloudflare",
     "typecheck": "pnpm --filter @bs/people exec tsc --noEmit && pnpm --filter @bs/agents exec tsc --noEmit",
-    "smoke:cloudflare": "node scripts/smoke-cloudflare.mjs"
+    "smoke:cloudflare": "node scripts/smoke-cloudflare.mjs",
+    "cloudflare:preview:build": "node scripts/cloudflare-preview.mjs build",
+    "cloudflare:preview:check": "node scripts/cloudflare-preview.mjs check",
+    "cloudflare:preview:deploy": "node scripts/cloudflare-preview.mjs deploy",
+    "cloudflare:preview:smoke": "node scripts/smoke-cloudflare-preview.mjs"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
