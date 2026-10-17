@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@bs/ui";
-import { abs, breadcrumbJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, peopleContactContent } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -15,12 +15,12 @@ export default function Page() {
     <article className="prose">
       <JsonLd data={breadcrumbJsonLd("people", [{ name: "Home", path: "/" }, { name: 'Contact', path: "/contact" }])} />
       
-      <h1>Contact the editors</h1>
-      <p>Email editor@buildsomethingpeoplewant.com for corrections, product submissions after you create an account, and press. This is a worldwide English publication; we do not run a walk-in newsroom.</p>
-      <h2>What to include</h2>
-      <p>Product slug if it exists, URLs to public docs, and the factual error. We do not accept ghostwritten five-star quotes.</p>
-      <h3>Agents</h3>
-      <p>Machines should prefer {abs("agents", "/for-agents")} and the API. Humans can use this form of words and the email address above.</p>
+      <h1>{peopleContactContent.title}</h1>
+      <p>{peopleContactContent.openingParagraph}</p>
+      <h2>{peopleContactContent.whatToIncludeHeading}</h2>
+      <p>{peopleContactContent.whatToIncludeParagraph}</p>
+      <h3>{peopleContactContent.agentsHeading}</h3>
+      <p>{peopleContactContent.agentsParagraphPrefix}{abs("agents", "/for-agents")}{peopleContactContent.agentsParagraphSuffix}</p>
 
     </article>
   );

@@ -1,4 +1,5 @@
 import {
+  allArticles,
   allProducts,
   catalog,
   getArticle,
@@ -12,14 +13,16 @@ import {
 import { abs, ORG_NAME, ORG_TAGLINE, siblingUrl, siteUrl, type SiteId } from "./sites";
 import { allCanonical } from "./urls";
 import { resolveComparison, type ComparisonPage } from "./comparisons";
+import { nativeScore } from "./native-score";
+import { RESEARCH_LIMITS, SCORE_LIMITS, SUBMISSION_LIMITS, peopleContactContent, peopleEditorialPolicyContent } from "./page-content";
 
 function h(level: number, text: string): string {
   return `${"#".repeat(level)} ${text}`;
 }
 
-const SCORE_LIMITS = "Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.";
-const RESEARCH_LIMITS = "The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned. Professional history and firsthand product evaluations are not independently verified in this evidence register.";
-const SUBMISSION_LIMITS = "Submissions are stored separately as pending when the submission service is configured. Public reviews are read from the committed catalog; approving a database row does not publish it here. No automated submission-to-publication workflow is enabled in this version.";
+function score(value: unknown): number | "n/a" {
+  return nativeScore(value) ?? "n/a";
+}
 
 function withScoreLimits(body: string): string {
   return body.includes(SCORE_LIMITS) ? body : `${body}\n${SCORE_LIMITS}\n`;
@@ -44,6 +47,12 @@ export function pageMarkdown(site: SiteId, pathname: string): MarkdownResult {
   if (path === "/about") return { status: 200, body: aboutMd(site) };
   if (path === "/api") return { status: 200, body: apiMd(site) };
   if (path === "/for-agents") return { status: 200, body: forAgentsMd(site) };
+  if (site === "people") {
+    if (path === "/editorial-policy") return { status: 200, body: editorialPolicyMd() };
+    if (path === "/contact") return { status: 200, body: contactMd() };
+    if (path === "/blog") return { status: 200, body: journalMd() };
+    if (path === "/submit") return { status: 200, body: submitMd() };
+  }
 
   const prod = path.match(/^\/products\/([^/]+)$/);
   if (prod) {
@@ -119,12 +128,47 @@ export function pageMarkdown(site: SiteId, pathname: string): MarkdownResult {
   return { status: 404, body: notFoundMd(site, path) };
 }
 
+function editorialPolicyMd(): string {
+  const content = peopleEditorialPolicyContent;
+  return `${h(1, content.title)}\n\n${content.openingParagraph}\n\n${h(2, content.independenceHeading)}\n\n${content.independenceParagraph}\n\n${h(3, content.aiAssistanceHeading)}\n\n${content.aiAssistanceParagraph}\n`;
+}
+
+function contactMd(): string {
+  const content = peopleContactContent;
+  return `${h(1, "Contact")}\n\n${content.openingParagraph}\n\n${h(2, content.whatToIncludeHeading)}\n\n${content.whatToIncludeParagraph}\n\n${h(3, content.agentsHeading)}\n\n${content.agentsParagraphPrefix}${abs("agents", "/for-agents")}${content.agentsParagraphSuffix}\n`;
+}
+
+function journalMd(): string {
+  const entries = allArticles().map(article => `- [${article.title}](/blog/${article.slug}) — ${getAuthor(article.author)?.name ?? article.author} · ${article.publishedAt}\n\n${article.description}`).join("\n\n");
+  return `${h(1, "Blog")}\n\nEditorial essays and analysis of retained Twin Score estimates. Bylines are catalog attributions; firsthand product testing is not documented.\n\n${h(2, "Essays")}\n\n${entries}\n`;
+}
+
+function submitMd(): string {
+  return `${h(1, "Submit a product")}\n\nCreate an account, then complete the business profile if you want to request a listing. The listing pitch requires at least 400 characters. Listings remain editorial decisions. Use the HTML submission page for your current account state and form.\n\n${SUBMISSION_LIMITS}\n\n${h(2, "Next steps")}\n\n- [Create an account](/signup)\n- [Log in](/login)\n- [HTML submission page](/submit)\n- [Editorial policy](/editorial-policy)\n`;
+}
+
+function resourceLinksMd(site: SiteId): string {
+  const example = allProducts()[0];
+  return [
+    ["API index", abs(site, "/api/v1")],
+    ["Published products JSON", abs(site, "/api/v1/products")],
+    ...(example ? [[`Reviews for ${example.name}`, abs(site, `/api/v1/reviews?product=${example.slug}`)]] : []),
+    ["OpenAPI", abs(site, "/openapi.json")],
+    ["API catalog", abs(site, "/.well-known/api-catalog")],
+    ["llms.txt", abs(site, "/llms.txt")],
+    ["llms-full.txt", abs(site, "/llms-full.txt")],
+    ["Agents skill index", abs("agents", "/.well-known/agent-skills/index.json")],
+    ["Twin Score dataset JSON", abs("agents", "/dataset/twin-scores.json")],
+    ["Twin Score dataset CSV", abs("agents", "/dataset/twin-scores.csv")],
+  ].map(([label, url]) => `- [${label}](${url})`).join("\n");
+}
+
 function homeMd(site: SiteId): string {
   const top = allProducts()
     .slice()
     .sort((a, b) => (site === "people" ? b.twin.human - a.twin.human : b.twin.agent - a.twin.agent))
     .slice(0, 12)
-    .map((p) => `- [${p.name}](/products/${p.slug}) — Twin Score human ${p.twin.human}, agent ${p.twin.agent}`)
+    .map((p) => `- [${p.name}](/products/${p.slug}) — Twin Score human ${score(p.twin.human)}, agent ${score(p.twin.agent)}`)
     .join("\n");
   const lead =
     site === "people"
@@ -135,7 +179,7 @@ function homeMd(site: SiteId): string {
 
 function productsIndexMd(site: SiteId): string {
   const rows = allProducts()
-    .map((p) => `- [${p.name}](/products/${p.slug}) (${p.vendor}) human ${p.twin.human} / agent ${p.twin.agent}`)
+    .map((p) => `- [${p.name}](/products/${p.slug}) (${p.vendor}) human ${score(p.twin.human)} / agent ${score(p.twin.agent)}`)
     .join("\n");
   return withScoreLimits(`${h(1, "All products")}\n\nA worldwide catalog of ${allProducts().length} software products with Twin Scores for humans and agents. Filter on the HTML site; this markdown list is complete.\n\n${h(2, "Directory")}\n\n${h(3, "Published entities")}\n\n${rows}\n`);
 }
@@ -144,9 +188,9 @@ function productMd(site: SiteId, slug: string): string {
   const p = getProduct(slug)!;
   const cap = p.capabilities;
   const revs = reviewsFor(slug)
-    .map((r) => `- [${r.title}](/reviews/${r.slug}) (${r.kind})`)
+    .map((r) => `- [${r.title}](${site === "people" ? `/reviews/${r.slug}` : abs("people", `/reviews/${r.slug}`)}) (${r.kind})`)
     .join("\n");
-  return withScoreLimits(`${h(1, p.name)}\n\n${p.longDescription}\n\n${h(2, "Twin Score")}\n\nHuman ${p.twin.human}. Agent ${p.twin.agent}. Catalog score date ${p.twin.updated}. Rubric: /scorecard.\n\n${h(3, "Capability matrix")}\n\n- API: ${cap.api}\n- MCP: ${cap.mcp}\n- CLI: ${cap.cli}\n- Docs: ${cap.docs}\n- Auth: ${cap.auth}\n- SDKs: ${cap.sdks.join(", ") || "none listed"}\n\n${h(2, "Facts")}\n\nVendor ${p.vendor}. Founded ${p.founded}. HQ ${p.headquarters}. Pricing: ${p.pricing}. Website: ${p.website}.\n\n${h(2, "Editorial reviews")}\n\n${revs || "None yet."}\n\nTwin page: ${siblingUrl(site)}/products/${slug}\n`);
+  return withScoreLimits(`${h(1, p.name)}\n\n${p.longDescription}\n\n${h(2, "Twin Score")}\n\nHuman ${score(p.twin.human)}. Agent ${score(p.twin.agent)}. Catalog score date ${p.twin.updated}. Rubric: /scorecard.\n\n${h(3, "Capability matrix")}\n\n- API: ${cap.api}\n- MCP: ${cap.mcp}\n- CLI: ${cap.cli}\n- Docs: ${cap.docs}\n- Auth: ${cap.auth}\n- SDKs: ${cap.sdks.join(", ") || "none listed"}\n\n${h(2, "Facts")}\n\nVendor ${p.vendor}. Founded ${p.founded}. HQ ${p.headquarters}. Pricing: ${p.pricing}. Website: ${p.website}.\n\n${h(2, "Editorial reviews")}\n\n${revs || "None yet."}\n\n${h(2, "Agent resources")}\n\n- [SKILL.md](${abs("agents", `/skills/${slug}`)})\n- [Raw skill download](${abs("agents", `/skills/${slug}/raw`)})\n\nTwin page: ${siblingUrl(site)}/products/${slug}\n`);
 }
 
 function categoryMd(site: SiteId, slug: string): string {
@@ -162,14 +206,14 @@ function bestMd(slug: string): string {
   const items = productsInCategory(slug)
     .slice()
     .sort((a, b) => b.twin.human - a.twin.human)
-    .map((p, i) => `${i + 1}. [${p.name}](/products/${p.slug}) — human Twin Score ${p.twin.human}`)
+    .map((p, i) => `${i + 1}. [${p.name}](/products/${p.slug}) — human Twin Score ${score(p.twin.human)}`)
     .join("\n");
   return withScoreLimits(`${h(1, `Best ${c.name} software in 2026`)}\n\nRanking by retained legacy editorial estimates for ${c.name}. Not a paid placement list and not a fake user poll.\n\n${h(2, "Ranked list")}\n\n${h(3, "How we ordered it")}\n\nWe sort published catalog products in this category by the human Twin Score. Agent scores live on the twin site.\n\n${items}\n`);
 }
 
 function compareMd({ a: pa, b: pb, intro: curatedIntro }: ComparisonPage): string {
   const intro = curatedIntro ?? `${pa.name} versus ${pb.name} compared on Twin Scores.`;
-  return withScoreLimits(`${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${pa.twin.human} | ${pa.twin.agent} |\n| ${pb.name} | ${pb.twin.human} | ${pb.twin.agent} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`);
+  return withScoreLimits(`${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${score(pa.twin.human)} | ${score(pa.twin.agent)} |\n| ${pb.name} | ${score(pb.twin.human)} | ${score(pb.twin.agent)} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`);
 }
 
 function altMd(slug: string): string {
@@ -177,7 +221,7 @@ function altMd(slug: string): string {
   const alts = p.alternatives
     .map(getProduct)
     .filter((x): x is NonNullable<typeof x> => Boolean(x))
-    .map((x) => `- [${x.name}](/products/${x.slug}) — human ${x.twin.human}, agent ${x.twin.agent}`)
+    .map((x) => `- [${x.name}](/products/${x.slug}) — human ${score(x.twin.human)}, agent ${score(x.twin.agent)}`)
     .join("\n");
   return withScoreLimits(`${h(1, `Alternatives to ${p.name}`)}\n\n${p.name} is made by ${p.vendor}. These editorial alternatives share a job-to-be-done, not an affiliate relationship.\n\n${h(2, "Shortlist")}\n\n${h(3, "Why these")}\n\nWe link only to other published catalog entities.\n\n${alts}\n`);
 }
@@ -186,7 +230,7 @@ function reviewMd(slug: string): string {
   const r = getReview(slug)!;
   const p = getProduct(r.product);
   const author = getAuthor(r.author);
-  return withScoreLimits(`${h(1, r.title)}\n\n${r.body}\n\n${h(2, "About this review")}\n\n${r.kind === "public_quote" ? "Public documentation note (editorial paraphrase). Unscored documentation note." : "Review attribution recorded in the catalog; no firsthand test record attached."} Kind: ${r.kind}. Status: ${r.status}. Author: ${author?.name ?? r.author}. Product: ${p?.name ?? r.product}. ${r.sourceUrl ? `Source: ${r.sourceUrl}` : "Catalog editorial attribution; not UGC."}\n\n${h(3, "Scores")}\n\nHuman ${r.scoreHuman ?? "n/a"}; agent ${r.scoreAgent ?? "n/a"}.\n`);
+  return withScoreLimits(`${h(1, r.title)}\n\n${r.body}\n\n${h(2, "About this review")}\n\n${r.kind === "public_quote" ? "Public documentation note (editorial paraphrase). Unscored documentation note." : "Review attribution recorded in the catalog; no firsthand test record attached."} Kind: ${r.kind}. Status: ${r.status}. Author: ${author?.name ?? r.author}. Product: ${p?.name ?? r.product}. ${r.sourceUrl ? `Source: ${r.sourceUrl}` : "Catalog editorial attribution; not UGC."}\n\n${h(3, "Scores")}\n\nHuman ${score(r.scoreHuman)}; agent ${score(r.scoreAgent)}.\n`);
 }
 
 function authorMd(slug: string): string {
@@ -209,7 +253,7 @@ function aboutMd(site: SiteId): string {
 }
 
 function apiMd(site: SiteId): string {
-  return withScoreLimits(`${h(1, "API docs")}\n\nPublic JSON API sourced from the committed catalog. No key is required for read. Numeric scores and capability grades are retained catalog judgments; documentation checks do not validate product quality.\n\n${RESEARCH_LIMITS}\n\nEndpoints: ${abs(site, "/api/v1")}, ${abs(site, "/api/v1/products")}, ${abs(site, "/api/v1/reviews")}. OpenAPI: ${abs(site, "/openapi.json")}. Errors retain RFC 9457 application/problem+json.\n\nDataset JSON includes rubric notes; CSV contains the same legacy numeric estimates without a separate evidence record.\n`);
+  return withScoreLimits(`${h(1, "API docs")}\n\nPublic JSON API sourced from the committed catalog. No key is required for read. Numeric scores and capability grades are retained catalog judgments; documentation checks do not validate product quality.\n\n${RESEARCH_LIMITS}\n\nEndpoints: ${abs(site, "/api/v1")}, ${abs(site, "/api/v1/products")}, ${abs(site, "/api/v1/reviews")}. OpenAPI: ${abs(site, "/openapi.json")}. Errors retain RFC 9457 application/problem+json.\n\nDataset JSON includes rubric notes; CSV contains the same legacy numeric estimates without a separate evidence record.\n\n${h(2, "Public resources")}\n\n${resourceLinksMd(site)}\n`);
 }
 
 function forAgentsMd(site: SiteId): string {
@@ -217,7 +261,7 @@ function forAgentsMd(site: SiteId): string {
     site === "agents"
       ? "Build Something Agents Want developer resources"
       : "For agents";
-  return withScoreLimits(`${h(1, title)}\n\nMachine-readable catalog, Twin Score dataset, OpenAPI, llms.txt, and SKILL.md files. ${RESEARCH_LIMITS} Dataset exports retain legacy estimates; they reproduce summaries, not the original scoring observations. Use these when you need structured facts. Do not use them when you need a human screenshot walkthrough — that lives on the people site.\n\n${h(2, "When to use")}\n\n- You need slugs, Twin Scores, and capability matrices\n- You need SKILL.md for a product\n- You need RFC 9457 errors from the API\n\n${h(3, "When not to use")}\n\n- You want fake UGC\n- You want an unofficial MCP we did not ship\n- You want Argentina-local listings; this directory is worldwide\n`);
+  return withScoreLimits(`${h(1, title)}\n\nMachine-readable catalog, Twin Score dataset, OpenAPI, llms.txt, and SKILL.md files. ${RESEARCH_LIMITS} Dataset exports retain legacy estimates; they reproduce summaries, not the original scoring observations. Use these when you need structured facts. Do not use them when you need a human screenshot walkthrough — that lives on the people site.\n\n${h(2, "When to use")}\n\n- You need slugs, Twin Scores, and capability matrices\n- You need SKILL.md for a product\n- You need RFC 9457 errors from the API\n\n${h(3, "When not to use")}\n\n- You want fake UGC\n- You want an unofficial MCP we did not ship\n- You want Argentina-local listings; this directory is worldwide\n\n${h(2, "Public resources")}\n\n${resourceLinksMd(site)}\n\n- [People journal](${abs("people", "/blog")})\n- [Editorial policy](${abs("people", "/editorial-policy")})\n`);
 }
 
 export function skillMd(slug: string): string {
@@ -226,7 +270,7 @@ export function skillMd(slug: string): string {
   const cap = p.capabilities;
   return withScoreLimits(`---
 name: ${p.slug}
-description: Operate ${p.name} as an agent using public APIs, CLIs, and docs. Twin Score agent ${p.twin.agent}.
+description: Operate ${p.name} as an agent using public APIs, CLIs, and docs. Twin Score agent ${score(p.twin.agent)}.
 ---
 
 # ${p.name} skill
@@ -267,7 +311,7 @@ ${p.website}
 
 ## Twin Score
 
-Human ${p.twin.human}. Agent ${p.twin.agent}. Catalog score date ${p.twin.updated}. Rubric: ${abs("agents", "/scorecard")}
+Human ${score(p.twin.human)}. Agent ${score(p.twin.agent)}. Catalog score date ${p.twin.updated}. Rubric: ${abs("agents", "/scorecard")}
 
 ## Alternatives
 
