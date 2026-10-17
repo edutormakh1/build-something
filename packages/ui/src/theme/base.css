@@ -282,10 +282,23 @@ button:active, .bs-btn:active { transform: translateY(1px); }
   z-index: 60;
   pointer-events: none;
   background: color-mix(in srgb, var(--paper) 28%, transparent);
+  /* Stay hidden after the nominal interval even if React cleanup runs late. */
+  opacity: 0;
+  visibility: hidden;
+  animation-name: bs-transit-dismiss;
+  animation-duration: 720ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bs-transit-dismiss {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   body::before { animation: none; }
+  .bs-transit { animation: none; }
   .card:hover, .bs-card:hover { transform: none; }
   *, *::before, *::after {
     scroll-behavior: auto !important;
