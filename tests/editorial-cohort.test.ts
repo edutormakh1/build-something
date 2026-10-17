@@ -301,10 +301,15 @@ describe("E02 documentary evidence and protected data boundary", () => {
     expect(text("anthropic-api")).toContain("https://api.anthropic.com/v1/messages");
     expect(text("anthropic-api")).toContain("required with multi-workspace keys, optional with single-workspace keys and not used with WIF tokens");
     expect(text("anthropic-api")).toContain("detailed Messages parameter schema was not retrieved");
-    expect(text("supabase")).toContain("Re-check before activation");
+    const supabaseLimitation = sidecar.products.supabase.claims.find(claim => claim.id === "E02-supabase-C02")!.limitations;
+    expect(supabaseLimitation).toBe("Status as documented on 2026-10-17; check the current Supabase API-key page before relying on legacy anon/service_role keys. No failure, revocation, key rotation or migration was observed.");
+    expect(sidecar.products.supabase.agents.preflight[2]).toBe("Check the current Supabase API-key page for legacy-key deprecation status before relying on anon/service_role keys.");
     expect(text("supabase")).toContain("by the end of 2026");
     expect(text("neon")).toContain("Launch and Scale Backend lists");
-    expect(text("cloudflare")).toContain("do not prove this app fits Free");
+    const cloudflareLimitation = sidecar.products.cloudflare.claims.find(claim => claim.id === "E02-cloudflare-C01")!.limitations;
+    expect(cloudflareLimitation).toContain("advertised allowances alone do not establish a deployment's suitability for Workers Free");
+    expect(cloudflareLimitation).toContain("rendered HTML is not automatically a direct static asset");
+    expect(cloudflareLimitation).toContain("No traffic, account tier or CPU was measured");
     expect(sidecar.groups[1].claims[0].limitations).toContain("base is not stated");
   });
 
@@ -581,5 +586,63 @@ describe("E02 actual reviewed dossier consumers", () => {
     for (const slug of slugs) after.push(schemas(await renderProduct("people", slug)), schemas(await renderProduct("agents", slug)));
     for (const [a, b] of pairs) after.push(schemas(await renderComparison(a, b)));
     expect(after).toEqual(before);
+  });
+});
+
+const internalPublicationCopy = /\bactivation\b|If included in a dossier|our project|this project/;
+async function activePublicProductOutputs(slug: string): Promise<Record<string, string>> {
+  const html = renderToStaticMarkup(await Skill(params(slug))) as string;
+  const raw = await rawSkill(new Request("http://localhost/"), params(slug));
+  const negotiated = await agentsMarkdown(new Request(`http://localhost/md/skills/${slug}`), { params: Promise.resolve({ path: ["skills", slug] }) });
+  return {
+    "People HTML": decode(await renderProduct("people", slug)),
+    "Agents HTML": decode(await renderProduct("agents", slug)),
+    "People Markdown": md("people", `/products/${slug}`),
+    "Agents Markdown": md("agents", `/products/${slug}`),
+    "skillMd": skillMd(slug),
+    "skill HTML": decode(html),
+    "skill pre": decode(html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/)![1]),
+    "raw skill": await raw.text(),
+    "negotiated skill Markdown": await negotiated.text(),
+  };
+}
+
+describe("reader-facing documentary limitations under the actual reviewed fixture", () => {
+  it.each(slugs)("keeps internal publication instructions out of every active %s public representation", async slug => {
+    reviewed();
+    const dossier = getCohortProduct(slug)!;
+    expect(dossier).toBeDefined();
+    for (const [surface, output] of Object.entries(await activePublicProductOutputs(slug))) {
+      expect(output, `${slug}: ${surface}`).toContain(dossier.claims[0].id);
+      labelCount(output, 1);
+      expect(output, `${slug}: ${surface}`).not.toMatch(internalPublicationCopy);
+    }
+  });
+
+  it.each(pairs)("keeps internal publication instructions out of active %s vs %s HTML and Markdown", async (a, b) => {
+    reviewed();
+    const dossier = getCohortComparison(a, b)!;
+    expect(dossier).toBeDefined();
+    for (const output of [decode(await renderComparison(a, b)), md("people", dossier.path)]) {
+      expect(output).toContain(dossier.claims[0].id);
+      labelCount(output, 1);
+      expect(output).not.toMatch(internalPublicationCopy);
+    }
+  });
+
+  it("keeps the dated Supabase limitation and current-page check useful and identical across active HTML/Markdown/skill consumers", async () => {
+    reviewed();
+    expect(getCohortProduct("supabase")).toBeDefined();
+    const limitation = "Status as documented on 2026-10-17; check the current Supabase API-key page before relying on legacy anon/service_role keys. No failure, revocation, key rotation or migration was observed.";
+    const preflight = "Check the current Supabase API-key page for legacy-key deprecation status before relying on anon/service_role keys.";
+    const outputs = await activePublicProductOutputs("supabase");
+    for (const output of [...Object.values(outputs), decode(await renderComparison("supabase", "neon")), md("people", "/compare/supabase-vs-neon")]) {
+      expect(output).toContain("E02-supabase-C02");
+      expect(output).toContain(limitation);
+      expect(output).toContain("by the end of 2026");
+      expect(output).toContain("https://supabase.com/docs/guides/getting-started/api-keys");
+      expect(output).not.toMatch(internalPublicationCopy);
+    }
+    for (const surface of ["Agents HTML", "Agents Markdown", "skillMd", "skill HTML", "skill pre", "raw skill", "negotiated skill Markdown"]) expect(outputs[surface], surface).toContain(preflight);
   });
 });

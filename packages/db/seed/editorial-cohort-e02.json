@@ -13,7 +13,7 @@
     "Product not tested; documentation checks do not validate retained scores, grades or product quality.",
     "Responsible human editor: unassigned. Automated research does not verify catalog bylines or professional identities.",
     "Unknowns record the limits of this research, not proof that a feature is absent.",
-    "Temporal documentation, including the S11 deprecation announcement, must be re-checked before future activation.",
+    "Documentation reflects the pages checked on 2026-10-17; current conditions, including legacy-key deprecation status, may differ.",
     "Vendor documentation is linked and paraphrased; its redistribution licence was not established. Stack Overflow data/content rights remain ODbL/DbCL, with user contributions CC BY-SA. No source material is relicensed as the existing CC BY 4.0 dataset."
   ],
   "sources": [
@@ -84,7 +84,7 @@
       "checked_on": "2026-10-17",
       "method": "documentation review",
       "retrieval_status": "retrieved",
-      "limitations": "No account checked; credit amount, expiry, plan eligibility and regional terms not verified. Do not flatten to never-included API access.",
+      "limitations": "Monthly API credits for Max and Team are documented; credit amount, expiry, plan eligibility and regional terms were not verified. No account was checked.",
       "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
     },
     {
@@ -104,7 +104,7 @@
       "checked_on": "2026-10-17",
       "method": "documentation review",
       "retrieval_status": "retrieved",
-      "limitations": "No permissions, plan or task tested. Do not claim Copilot has no MCP or exposes an external endpoint for third-party agents; these are different questions. No generic task API claim accepted.",
+      "limitations": "Cloud agent's documented use of a GitHub MCP server with repository context by default and additional MCP servers does not establish a callable endpoint for third-party agents. A generic external task API was not established; permissions, plan and task behavior were not tested.",
       "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
     },
     {
@@ -114,7 +114,7 @@
       "checked_on": "2026-10-17",
       "method": "documentation review",
       "retrieval_status": "retrieved",
-      "limitations": "Documentation only; no keys retrieved/rotated, project accessed or RLS policy evaluated. This does not authorize an app credential migration. If included in a dossier, re-check the dated end2026 deprecation announcement before activation; no migration or automatic revocation inferred.",
+      "limitations": "Documentation review only; no keys were retrieved or rotated, no project was accessed and no RLS policy was tested. The legacy-key deprecation announcement was documented on 2026-10-17; check the current Supabase API-key page before relying on legacy anon/service_role keys. No revocation, key failure or migration was observed.",
       "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
     },
     {
@@ -154,7 +154,7 @@
       "checked_on": "2026-10-17",
       "method": "documentation review",
       "retrieval_status": "retrieved",
-      "limitations": "No deployment created, token issued or Next build compatibility/cost tested. Do not claim this project used the endpoint.",
+      "limitations": "The deployment operation is documented; no deployment was created or token issued, and Next build compatibility and cost were not tested.",
       "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
     },
     {
@@ -164,7 +164,7 @@
       "checked_on": "2026-10-17",
       "method": "documentation review",
       "retrieval_status": "retrieved",
-      "limitations": "No account tier, traffic or production CPU observed. Published HTML is not automatically a direct static asset, and advertised allowances do not establish this app fits Free.",
+      "limitations": "No account tier, traffic or production CPU was measured. Rendered HTML is not automatically a direct static asset; advertised allowances alone do not establish a deployment's suitability for Workers Free.",
       "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
     },
     {
@@ -184,7 +184,7 @@
       "checked_on": "2026-10-17",
       "method": "documentation review",
       "retrieval_status": "retrieved",
-      "limitations": "Vendor plan guidance only, not legal advice or a determination that our project is eligible. No price, contract or account choice made.",
+      "limitations": "The published Hobby plan guidance requires personal non-commercial use. Account eligibility and applicable terms were not assessed; no legal determination, price, contract or account choice was made.",
       "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
     },
     {
@@ -708,7 +708,7 @@
           "version": "documentary statement as of 2026-10-17",
           "checked_on": "2026-10-17",
           "evidence_status": "documented",
-          "limitations": "Re-check before activation. No failure, revocation, key rotation or migration was observed or authorized."
+          "limitations": "Status as documented on 2026-10-17; check the current Supabase API-key page before relying on legacy anon/service_role keys. No failure, revocation, key rotation or migration was observed."
         },
         {
           "id": "E02-supabase-C03",
@@ -745,7 +745,7 @@
         "preflight": [
           "Distinguish publishable keys from backend secret keys and user authentication.",
           "Inspect seeding and Include data options before assuming a preview contains no data.",
-          "Re-check the dated legacy-key deprecation statement before future activation."
+          "Check the current Supabase API-key page for legacy-key deprecation status before relying on anon/service_role keys."
         ],
         "stop_conditions": [
           "Stop if a backend secret would be exposed to a client.",
@@ -910,7 +910,7 @@
           "version": "pricing documentation checked 2026-10-17",
           "checked_on": "2026-10-17",
           "evidence_status": "documented",
-          "limitations": "No traffic, account tier or CPU was measured; rendered HTML is not automatically a direct static asset and these allowances do not prove this app fits Free."
+          "limitations": "No traffic, account tier or CPU was measured; rendered HTML is not automatically a direct static asset, and advertised allowances alone do not establish a deployment's suitability for Workers Free."
         },
         {
           "id": "E02-cloudflare-C02",
