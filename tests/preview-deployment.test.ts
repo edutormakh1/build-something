@@ -120,6 +120,36 @@ describe("isolated preview process and artifact lifecycle", () => {
     expect(env).not.toHaveProperty("DATABASE_URL"); expect(env).not.toHaveProperty("NODE_OPTIONS"); expect(env).not.toHaveProperty("CLOUDFLARE_API_TOKEN");
     expect(env.NEXT_PUBLIC_SUPABASE_ANON_KEY).toBe("public-anon-placeholder");
   });
+  it("preserves caller-owned queue identity and disposable tooling directories unchanged", () => {
+    const ownContext = {
+      AMB_JOB: "opaque-own-job", AMB_WORKSPACE: "opaque-own-workspace", AMB_SERVICE: "opaque-own-service",
+      XDG_CONFIG_HOME: "/disposable/config", XDG_CACHE_HOME: "/disposable/cache",
+    };
+    expect(safeEnvironment(ownContext)).toMatchObject(ownContext);
+    for (const key of Object.keys(ownContext)) expect(safeEnvironment({})).not.toHaveProperty(key);
+  });
+  it("rejects unrelated environment and fixes offline, telemetry and public inputs even for deploy", () => {
+    const unsafe = {
+      DATABASE_URL: "private", SUPABASE_SERVICE_ROLE_KEY: "private", SUPABASE_URL: "private",
+      CLOUDFLARE_API_TOKEN: "explicit-token", CLOUDFLARE_ACCOUNT_ID: "explicit-account",
+      CLOUDFLARE_API_KEY: "explicit-key", CLOUDFLARE_EMAIL: "explicit-email", AWS_SECRET_ACCESS_KEY: "private",
+      NODE_OPTIONS: "--require=unsafe", NODE_PATH: "/unsafe", HTTP_PROXY: "http://unsafe", HTTPS_PROXY: "http://unsafe",
+      ALL_PROXY: "http://unsafe", npm_config_proxy: "http://unsafe", ARBITRARY_INPUT: "unsafe",
+      COREPACK_ENABLE_NETWORK: "1", npm_config_offline: "false", NO_UPDATE_NOTIFIER: "0",
+      CI: "false", NEXT_TELEMETRY_DISABLED: "0", WRANGLER_SEND_METRICS: "true", BS_PREVIEW: "0",
+      NEXT_PUBLIC_PEOPLE_SITE_URL: "https://unsafe.test", NEXT_PUBLIC_AGENTS_SITE_URL: "https://unsafe.test",
+      NEXT_PUBLIC_SUPABASE_URL: "https://real-database.test", NEXT_PUBLIC_SUPABASE_ANON_KEY: "real-key",
+    };
+    const fixed = {
+      ...previewSettings("people").vars, CI: "true", NEXT_TELEMETRY_DISABLED: "1", WRANGLER_SEND_METRICS: "false",
+      COREPACK_ENABLE_NETWORK: "0", npm_config_offline: "true", NO_UPDATE_NOTIFIER: "1",
+    };
+    expect(safeEnvironment(unsafe)).toEqual(fixed);
+    expect(safeEnvironment(unsafe, true)).toEqual({
+      ...fixed, CLOUDFLARE_API_TOKEN: unsafe.CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID: unsafe.CLOUDFLARE_ACCOUNT_ID,
+      CLOUDFLARE_API_KEY: unsafe.CLOUDFLARE_API_KEY, CLOUDFLARE_EMAIL: unsafe.CLOUDFLARE_EMAIL,
+    });
+  });
 });
 
 

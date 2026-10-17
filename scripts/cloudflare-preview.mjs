@@ -32,10 +32,12 @@ export function previewSettings(app) {
 }
 
 export function safeEnvironment(input = process.env, operational = false) {
-  const allowed = ["PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "SystemRoot"];
+  const allowed = ["PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "SystemRoot",
+    "AMB_JOB", "AMB_WORKSPACE", "AMB_SERVICE", "XDG_CONFIG_HOME", "XDG_CACHE_HOME"];
   if (operational) allowed.push("CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_KEY", "CLOUDFLARE_EMAIL");
   const env = Object.fromEntries(allowed.flatMap(key => input[key] === undefined ? [] : [[key, input[key]]]));
-  return { ...env, ...previewSettings("people").vars, CI: "true", NEXT_TELEMETRY_DISABLED: "1", WRANGLER_SEND_METRICS: "false" };
+  return { ...env, ...previewSettings("people").vars, CI: "true", NEXT_TELEMETRY_DISABLED: "1", WRANGLER_SEND_METRICS: "false",
+    COREPACK_ENABLE_NETWORK: "0", npm_config_offline: "true", NO_UPDATE_NOTIFIER: "1" };
 }
 
 export async function readPreviewConfig(root, app) {

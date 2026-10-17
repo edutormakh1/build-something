@@ -14,11 +14,13 @@ import { setTimeout as delay } from "node:timers/promises";
 const root = fileURLToPath(new URL("../", import.meta.url));
 // Inherit no account tokens or real database configuration.
 const env = Object.fromEntries(
-  ["PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "SystemRoot"].flatMap((key) =>
+  ["PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "SystemRoot",
+    "AMB_JOB", "AMB_WORKSPACE", "AMB_SERVICE", "XDG_CONFIG_HOME", "XDG_CACHE_HOME"].flatMap((key) =>
     process.env[key] === undefined ? [] : [[key, process.env[key]]]),
 );
 Object.assign(env, {
   CI: "true", NEXT_TELEMETRY_DISABLED: "1", WRANGLER_SEND_METRICS: "false",
+  COREPACK_ENABLE_NETWORK: "0", npm_config_offline: "true", NO_UPDATE_NOTIFIER: "1",
   NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:9",
   NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-placeholder",
 });
@@ -85,7 +87,7 @@ async function run(app) {
     const port = await freePort();
     let inspectorPort = await freePort();
     while (inspectorPort === port) inspectorPort = await freePort();
-    const origin = `http://127.0.0.1:${port}`;
+    const origin = `http://localhost:${port}`;
     child = active = launch(["--filter", `@bs/${app}`, "exec", "wrangler", "dev", "--local", "--ip", "127.0.0.1", "--port", String(port), "--inspector-port", String(inspectorPort), "--persist-to", state, "--show-interactive-dev-session=false"], log);
     let spawnError;
     child.once("error", (error) => { spawnError = error; });
