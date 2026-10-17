@@ -311,12 +311,13 @@
       ],
       "acceptance": "Mismas entidades/hechos y estados entre representaciones; evitar fallback vacío en páginas canónicas; query/search según contrato; crawlers de búsqueda permitidos sin afirmar que training bots mejoran SEO. Mantener contratos existentes o preparar propuesta específica.",
       "risk": "T2/T3 for contract changes",
-      "status": "pending",
+      "status": "in_progress",
       "agent_role": "worker",
       "review_required": true,
       "review_evidence": null,
       "review_sha": null,
-      "blocked_by_access": []
+      "blocked_by_access": [],
+      "implementation_status": "U three-file extraction integrated6fd00eb plus Leadpublicexports; independentimplementationreview stillrequired. M/S pending."
     },
     {
       "id": "P01",
@@ -337,11 +338,11 @@
       ],
       "acceptance": "Partir de las trazas locales C01: Agents presentó LCP4.288s y desplazamiento0.261 con throttling/software GPU; no son métricas de usuarios. Atribuir los desplazamientos con nodos/rectángulos y medir CLS con ventanas de sesión. Corregir la causa concreta mediante geometría/carga/animación mínima, conservar contenido y navegación sin WebGL/JS. Comparar varias muestras reproducibles antes/después en ambas apps; objetivo local CLS<=0.1 sin empeorar People y reducir el coste dominante observado. Documentar límites y separar métricas locales de CWV de campo. No editar imágenes ni contratar optimización remota sin propuesta concreta de archivos/coste.",
       "risk": "T2",
-      "status": "in_progress",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "P01-implementation-review3.md PASS scoped: CSSCLSfix + reviewed concretecostproposal. Actual image/CPUreduction remainsfutureA1/A2/B.",
+      "review_sha": "9224e21e9daf51d18c85431cff66788fa3432850",
       "blocked_by_access": []
     },
     {
@@ -375,7 +376,8 @@
       "review_required": true,
       "review_evidence": null,
       "review_sha": null,
-      "blocked_by_access": []
+      "blocked_by_access": [],
+      "operational_status": "Two new permanent previews deployed e012f52;639hostedHTTP PASS; CPUtails/freefitness/plan/logcoverage unresolved; freshhostedreview running. Existing5Workers unchanged. No DNS/Auth/paidupgrade."
     },
     {
       "id": "D02",
@@ -508,11 +510,11 @@
       ],
       "acceptance": "Propuesta acotada con spans before/after, preservación de todo otro dato y manifest/proyección explícitos; corregir investigación/identidad no sustentada y repetición/referencia a cálculos inexistentes, sin inventar datos o experiencia. Tests reales de HTML/metadata/Markdown; revisión independiente antes de producción.",
       "risk": "T2 narrow reviewed extension",
-      "status": "in_progress",
+      "status": "passed",
       "agent_role": "worker",
       "review_required": true,
-      "review_evidence": null,
-      "review_sha": null,
+      "review_evidence": "D01-E01F-implementation-review1.md independentPASS:434tests/types/lint/freshbuilds/localHTTP and independent14span/208manifestpreservationproof.",
+      "review_sha": "e012f52e93dc0448bf23b74fc1969ba6792c2b59",
       "blocked_by_access": []
     }
   ],

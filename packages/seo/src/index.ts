@@ -9,3 +9,10 @@ export * from "./headers";
 export * from "./problem";
 export * from "./llms";
 export * from "./api";
+export {
+  SCORE_LIMITS,
+  RESEARCH_LIMITS,
+  SUBMISSION_LIMITS,
+  peopleEditorialPolicyContent,
+  peopleContactContent,
+} from "./page-content";
