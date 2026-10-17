@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { negotiate, normalizeWorkerRequest, shouldSkipAcceptNegotiation, skillMd } from "@bs/seo";
+import { isNextInternalRequest, negotiate, normalizeWorkerRequest, shouldSkipAcceptNegotiation, skillMd } from "@bs/seo";
 import { GET as skillIndex } from "../apps/agents/app/.well-known/agent-skills/index.json/route";
 import { GET as rawSkill } from "../apps/agents/app/skills/[slug]/raw/route";
 
@@ -106,6 +106,70 @@ describe("raw Worker RSC normalization", () => {
     expect(normalized).not.toBe(input);
     expect(normalized.headers.get("accept")).toBe("*/*");
     expect(normalized.url).toBe(input.url);
+  });
+});
+
+describe("native Flight Worker transport", () => {
+  it("keeps C07 acceptable to the real negotiator after Flight markers are removed", () => {
+    const input = new Request("http://localhost:20623/products/chatgpt", {
+      headers: { accept: "text/x-component", rsc: "1" },
+    });
+    expect(negotiate(input.headers.get("accept"), ["text/html", "text/markdown"])).toBeNull();
+    const normalized = normalizeWorkerRequest(input);
+    const middlewareHeaders = new Headers(normalized.headers);
+    middlewareHeaders.delete("rsc");
+    expect(isNextInternalRequest(middlewareHeaders)).toBe(false);
+    expect(negotiate(middlewareHeaders.get("accept"), ["text/html", "text/markdown"])).toBe("text/html");
+    expect(normalized.headers.get("rsc")).toBe("1");
+  });
+
+  it.each([
+    ["GET", "text/x-component"],
+    ["HEAD", "text/x-component"],
+    ["GET", "text/x-component; charset=utf-8; q=0.5"],
+    ["HEAD", "TEXT/X-COMPONENT;q=1.000"],
+    ["GET", "application/json, text/x-component;q=0.25"],
+  ])("preserves the raw %s Flight request while making %s middleware-compatible", (method, accept) => {
+    const controller = new AbortController();
+    const input = request({ accept, "next-router-state-tree": "%5B%5D", "next-router-prefetch": "1", "x-custom": "keep" }, {
+      method, signal: controller.signal, redirect: "manual", cache: "no-store", credentials: "omit",
+      referrer: "http://localhost:4310/products", referrerPolicy: "same-origin", integrity: "sha256-fixture", keepalive: true,
+    });
+    const normalized = normalizeWorkerRequest(input);
+    expect(normalized).not.toBe(input);
+    expect(normalized.headers.get("accept")).toBe("*/*");
+    expect(input.headers.get("accept")).toBe(accept);
+    const expectedHeaders = new Headers(input.headers);
+    expectedHeaders.set("accept", "*/*");
+    expect(Object.fromEntries(normalized.headers)).toEqual(Object.fromEntries(expectedHeaders));
+    for (const key of ["url", "method", "redirect", "credentials", "cache", "mode", "integrity", "keepalive", "referrer", "referrerPolicy"] as const) {
+      expect(normalized[key]).toBe(input[key]);
+    }
+    controller.abort("unit cancellation");
+    expect(normalized.signal.aborted).toBe(true);
+    expect(normalized.signal.reason).toBe(input.signal.reason);
+  });
+
+  it.each([
+    { rsc: undefined }, { rsc: "0" }, { rsc: "true" }, { rsc: "01" },
+    { action: "" }, { action: "action-id" }, { method: "POST" }, { method: "PUT" },
+    { accept: "text/x-component;q=0" }, { accept: "text/x-component;q=0.000, text/html" },
+    { accept: "text/x-component;q=-1" }, { accept: "text/x-component;q=1.1" },
+    { accept: "text/x-component;q=invalid" }, { accept: "text/x-component;q=1;q=0" },
+    { accept: "application/xml" }, { accept: "text/x-component;q=0, application/json" },
+    { path: "/api/v1/products" }, { path: "/_next/static/chunk.js" }, { path: "/skills/chatgpt/raw" },
+    { path: "/md/products/chatgpt" }, { path: "/robots.txt" }, { path: "/.well-known/api-catalog" }, { path: "/sitemap.xml" },
+  ])("leaves nonqualifying native transport unchanged: %j", (options) => {
+    const headers = new Headers({ accept: options.accept ?? "text/x-component", rsc: "1" });
+    if ("rsc" in options) {
+      if (options.rsc === undefined) headers.delete("rsc");
+      else headers.set("rsc", options.rsc);
+    }
+    if ("action" in options) headers.set("next-action", options.action!);
+    const input = new Request(`http://localhost:4310${options.path ?? "/products/chatgpt"}?view=full`, {
+      method: options.method ?? "GET", headers,
+    });
+    expect(normalizeWorkerRequest(input)).toBe(input);
   });
 });
 
