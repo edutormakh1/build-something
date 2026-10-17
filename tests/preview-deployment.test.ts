@@ -129,8 +129,16 @@ describe("preview HTTP evidence guards without network", () => {
     expect(validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "Accept"], "accept")).toBe("Accept");
     expect(() => validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "x-robots-tag", "noindex, nofollow"])).toThrow();
     expect(() => validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "Accept, Accept-Encoding"], "Accept")).toThrow(/STOP/);
-    expect(() => validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "Accept, rsc"])).toThrow(/RSC/);
-    expect(() => validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "next-router-state-tree"])).toThrow(/RSC/);
+    expect(() => validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "Accept, rsc"], undefined, true)).toThrow(/RSC/);
+    expect(() => validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "next-router-state-tree"], undefined, true)).toThrow(/RSC/);
+  });
+  it("preserves inherited native-route Vary while still rejecting any hosted token change", async () => {
+    const { validatePreviewHeaders } = await import("../scripts/smoke-cloudflare-preview.mjs");
+    const inherited = "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch,Accept";
+    const raw = ["X-Robots-Tag", "noindex, nofollow", "Vary", inherited];
+    expect(validatePreviewHeaders(raw, inherited.toLowerCase())).toBe(inherited);
+    expect(() => validatePreviewHeaders([...raw.slice(0, -1), inherited + ", Accept-Encoding"], inherited)).toThrow(/STOP/);
+    expect(() => validatePreviewHeaders(raw, inherited, true)).toThrow(/RSC/);
   });
   it("accounts for every request/hop in one bounded counter", async () => {
     const { createRequestBudget } = await import("../scripts/smoke-cloudflare-preview.mjs");

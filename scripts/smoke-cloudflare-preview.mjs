@@ -24,7 +24,7 @@ const xmlValues = xml => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => 
 const tokenSet = text => [...new Set((text ?? "").split(",").map(t => t.trim().toLowerCase()).filter(Boolean))].sort();
 const requestKey = (app, route, method, headers) => JSON.stringify([app, method, route, Object.entries(headers).sort(([a], [b]) => a.localeCompare(b))]);
 
-export function validatePreviewHeaders(rawHeaders, baselineVary) {
+export function validatePreviewHeaders(rawHeaders, baselineVary, rejectRouterVary = false) {
   // Read raw pairs, since Headers.get() alone would hide multiple header fields.
   const robots = [], vary = [];
   for (let i = 0; i < rawHeaders.length; i += 2) {
@@ -33,7 +33,7 @@ export function validatePreviewHeaders(rawHeaders, baselineVary) {
   }
   assert.deepEqual(robots, [noindex], "Expected exactly one overriding robots field");
   const rawVary = vary.join(", ");
-  assert.ok(!tokenSet(rawVary).some(t => t === "rsc" || t.startsWith("next-router-")), "Unexpected RSC-router Vary field");
+  if (rejectRouterVary) assert.ok(!tokenSet(rawVary).some(t => t === "rsc" || t.startsWith("next-router-")), "Unexpected RSC-router Vary field on negotiated R1 probe/target");
   if (baselineVary !== undefined) assert.deepEqual(tokenSet(rawVary), tokenSet(baselineVary), "Hosted Vary differs from localhost baseline; STOP and investigate, no edge delta is preapproved");
   return rawVary;
 }
@@ -180,7 +180,7 @@ export async function smokePreview(mode, options = {}) {
             rawHeaders: response.rawHeaders.map((value, i) => i % 2 && response.rawHeaders[i - 1].toLowerCase() === "set-cookie" ? "<redacted>" : value) };
           await appendFile(recordsPath, JSON.stringify(record) + "\n");
           if (response.status >= 500) summary.observed5xx++;
-          const vary = validatePreviewHeaders(response.rawHeaders, mode === "hosted" && Object.hasOwn(baseline.vary, key) ? baseline.vary[key] : undefined);
+          const vary = validatePreviewHeaders(response.rawHeaders, mode === "hosted" && Object.hasOwn(baseline.vary, key) ? baseline.vary[key] : undefined, expected.r1 === true);
           if (mode === "local") baseline.vary[key] = vary;
           else if (expected.baselineVary) assert.ok(Object.hasOwn(baseline.vary, key), "Matching localhost Vary baseline is missing");
           assert.ok(response.status < 500, `Observed ${response.status} application/platform error`);
@@ -226,10 +226,10 @@ export async function smokePreview(mode, options = {}) {
         await check("/products/google-inbox", { status: 410 });
         await check("/products/google-inbox", { accept: "text/markdown", status: 410 });
         for (const route of ["/compare/chatgpt-vs-perplexity", "/compare/stripe-vs-figma", "/compare/stripe-vs-figma?from=d01"]) {
-          if (app === "agents") { await check(route, { accept: "text/markdown", status: 404, baselineVary: true }); continue; }
+          if (app === "agents") { await check(route, { accept: "text/markdown", status: 404, baselineVary: true, r1: true }); continue; }
           const target = route.includes("chatgpt-vs-perplexity") ? "/compare/perplexity-vs-chatgpt" : "/compare/figma-vs-stripe";
-          await check(route, { accept: "text/markdown", status: 308, location: target, baselineVary: true });
-          await check(target, { accept: "text/markdown", type: "text/markdown", baselineVary: true });
+          await check(route, { accept: "text/markdown", status: 308, location: target, baselineVary: true, r1: true });
+          await check(target, { accept: "text/markdown", type: "text/markdown", baselineVary: true, r1: true });
         }
         if (app === "people") {
           const uncurated = await check("/compare/figma-vs-stripe", { type: "text/html" });
@@ -282,7 +282,8 @@ export async function smokePreview(mode, options = {}) {
           const compressed = await check(route, { accept: "*/*", headers: { "accept-encoding": "gzip, br" } });
           assert.equal(sha(compressed.bytes), sha(disk), "Compressed/decoded bytes");
         }
-        await check("/art/brand-mark-3d.png", { accept: "*/*", type: "image/png" });
+        const art = await check("/art/brand-mark-3d.png", { accept: "*/*", type: "image/png" });
+        assert.equal(sha(art.bytes), sha(await readFile(path.join(appDir, ".open-next/assets/art/brand-mark-3d.png"))), "Static PNG bytes differ from build");
         // There is no favicon in either app's committed public/app tree.
         await check("/favicon.ico", { accept: "*/*", status: 404 });
         await check("/BUILD_ID", { accept: "*/*" });
