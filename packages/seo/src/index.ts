@@ -16,3 +16,13 @@ export {
   peopleEditorialPolicyContent,
   peopleContactContent,
 } from "./page-content";
+export {
+  getCohortProduct,
+  getCohortComparison,
+  COHORT_LEGACY_CONTENT_LABEL,
+  type CohortProduct,
+  type CohortComparison,
+  type CohortClaim,
+  type CohortSource,
+  type CohortProvenance,
+} from "./cohort";
