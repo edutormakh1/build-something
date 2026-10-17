@@ -130,7 +130,7 @@ export async function smokePreview(mode, options = {}) {
   }
   const budget = createRequestBudget();
   const summary = { mode, source, requests: 0, observed5xx: 0, catchDiagnostics: mode === "local" ? 0 : null,
-    hostedCpu: "unmeasured", freeTierFitness: "pending", hostedLogs: mode === "hosted" ? "separate account evidence required" : "not applicable", apps: {}, failures: [] };
+    hostedCpu: "unmeasured", freeTierFitness: "pending", hostedLogs: mode === "hosted" ? "separate account evidence required" : "not applicable", apps: {}, cleanup: [], failures: [] };
   const request = options.request ?? rawRequest;
   let active; let wasInterrupted = false;
   const interrupted = () => { wasInterrupted = true; void stop(active); };
@@ -203,13 +203,19 @@ export async function smokePreview(mode, options = {}) {
         for (const route of ["/products/chatgpt", "/categories/design", ...(app === "people" ? ["/compare/perplexity-vs-chatgpt"] : ["/skills/chatgpt"])]) {
           const page = await check(route, { type: "text/html" }); canonicalHtml(page, route);
           const md = await check(route, { accept: "text/markdown", type: "text/markdown", marker: "#", baselineVary: true });
-          assert.ok(md.headers.link?.includes(`${previewOrigins[app]}${route}`), "Markdown canonical Link");
+          if (route.startsWith("/compare/") || md.headers.link !== undefined) {
+            assert.equal(md.headers.link, `<${previewOrigins[app]}${route}>; rel="canonical"`, "Markdown canonical Link");
+          }
           await check(`/md${route}`, { type: "text/markdown" });
         }
         const rsc = await check("/products/chatgpt", { accept: "text/markdown", headers: { rsc: "1" }, type: "text/x-component" });
         assert.ok(!rsc.headers["x-nextjs-rewritten-path"], "RSC must not rewrite to Markdown");
+        const control = await check("/products/chatgpt", { accept: "*/*", headers: { rsc: "1" }, type: "text/x-component" });
+        assert.deepEqual(tokenSet(rsc.headers.vary), tokenSet(control.headers.vary), "Native RSC transport Vary must match wildcard control");
         await check("/products/chatgpt", { method: "HEAD", accept: "text/markdown", headers: { rsc: "1" }, type: "text/x-component" });
-        await check("/products/chatgpt", { accept: "text/markdown", headers: { rsc: "0" }, type: "text/markdown", baselineVary: true });
+        for (const marker of ["0", "true", "1, 1"]) {
+          await check("/products/chatgpt", { accept: "text/markdown", headers: { rsc: marker }, type: "text/markdown", baselineVary: true });
+        }
         await check("/api/v1/products", { accept: "application/json", type: "application/json", marker: "chatgpt" });
         await check("/api/v1/products/chatgpt", { accept: "application/json", type: "application/json", marker: "chatgpt" });
         await check("/api/v1/products/d01-unknown", { accept: "application/json", status: 404, type: "application/problem+json" });
@@ -305,8 +311,11 @@ export async function smokePreview(mode, options = {}) {
           }
         } finally {
           if (state) await rm(state, { recursive: true, force: true });
-          if (port) assert.equal(await tcpReady(port), false, "Owned HTTP port still open");
-          if (inspector) assert.equal(await tcpReady(inspector), false, "Owned inspector port still open");
+          const httpClosed = !port || !(await tcpReady(port));
+          const inspectorClosed = !inspector || !(await tcpReady(inspector));
+          summary.cleanup.push({ app, httpPort: port, inspectorPort: inspector, httpClosed, inspectorClosed, stateRemoved: Boolean(state) });
+          assert.ok(httpClosed, "Owned HTTP port still open");
+          assert.ok(inspectorClosed, "Owned inspector port still open");
         }
         assert.equal(catches, 0, "Preview catch diagnostics observed in owned runtime");
       }
