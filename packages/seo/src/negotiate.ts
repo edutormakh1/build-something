@@ -54,6 +54,8 @@ export const HTML_CONTENT_TYPE = "text/html; charset=utf-8";
 export const PROBLEM_JSON = "application/problem+json";
 
 export function shouldSkipAcceptNegotiation(pathname: string): boolean {
+  // The raw skill route already serves fixed Markdown and enforces publication.
+  if (/^\/skills\/[^/]+\/raw$/.test(pathname)) return true;
   if (/\.(?:png|jpe?g|gif|webp|avif|svg|ico|css|js|map|woff2?|ttf|txt|xml|json|csv)$/i.test(pathname)) {
     return true;
   }

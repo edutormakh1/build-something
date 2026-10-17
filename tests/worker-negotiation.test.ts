@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { normalizeWorkerRequest } from "@bs/seo";
+import { negotiate, normalizeWorkerRequest, shouldSkipAcceptNegotiation, skillMd } from "@bs/seo";
+import { GET as skillIndex } from "../apps/agents/app/.well-known/agent-skills/index.json/route";
+import { GET as rawSkill } from "../apps/agents/app/skills/[slug]/raw/route";
 
 const url = "http://localhost:4310/products/chatgpt?view=full#details";
 function request(headers: HeadersInit = {}, init: RequestInit = {}) {
@@ -104,5 +106,59 @@ describe("raw Worker RSC normalization", () => {
     expect(normalized).not.toBe(input);
     expect(normalized.headers.get("accept")).toBe("*/*");
     expect(normalized.url).toBe(input.url);
+  });
+});
+
+describe("fixed raw skill resource", () => {
+  it("keeps the advertised Markdown download on its authoritative raw handler", async () => {
+    const index: { skills: { name: string; markdown: string }[] } = await skillIndex().json();
+    const advertised = index.skills.find(skill => skill.name === "chatgpt")!;
+    const path = new URL(advertised.markdown).pathname;
+    expect(path).toBe("/skills/chatgpt/raw");
+    const input = new Request(`http://localhost:4310${path}`, { headers: { accept: "text/markdown" } });
+    expect(negotiate(input.headers.get("accept"), ["text/html", "text/markdown"])).toBe("text/markdown");
+    expect(shouldSkipAcceptNegotiation(path), "middleware must not rewrite the advertised resource to /md").toBe(true);
+    expect(normalizeWorkerRequest(input)).toBe(input);
+    const response = await rawSkill(input, { params: Promise.resolve({ slug: advertised.name }) });
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toBe("text/markdown; charset=utf-8");
+    expect(await response.text()).toBe(skillMd(advertised.name));
+  });
+
+  it.each(["GET", "HEAD"])("preserves raw %s request identity, Accept, RSC and query", method => {
+    const input = new Request("http://localhost:4310/skills/chatgpt/raw?download=1&label=a%2Fb", {
+      method,
+      headers: { accept: "text/markdown", rsc: "1", "next-router-state-tree": "%5B%5D", "x-custom": "keep" },
+    });
+    const normalized = normalizeWorkerRequest(input);
+    expect(normalized).toBe(input);
+    expect(normalized.method).toBe(method);
+    expect(normalized.url).toBe("http://localhost:4310/skills/chatgpt/raw?download=1&label=a%2Fb");
+    expect(Object.fromEntries(normalized.headers)).toEqual({ accept: "text/markdown", rsc: "1", "next-router-state-tree": "%5B%5D", "x-custom": "keep" });
+  });
+
+  it.each(["/skills/chatgpt/raw", "/skills/unknown-skill/raw", "/skills/a%2Fb/raw"])("skips only the raw resource shape without decoding %s", path => {
+    expect(shouldSkipAcceptNegotiation(path)).toBe(true);
+  });
+
+  it.each([
+    "/skills/chatgpt", "/skills/chatgpt/raw/extra", "/skills/chatgpt/raw/", "/skills//raw",
+    "/skills/raw", "/skills/a/b/raw", "/skills/chatgpt/rawish", "/skills/chatgpt/RAW",
+    "/skill/chatgpt/raw", "/skills/chatgpt/raw?download=1", "/skills/chatgpt%2Fraw",
+  ])("does not broaden the pathname filter or strip queries for %s", path => {
+    expect(shouldSkipAcceptNegotiation(path)).toBe(false);
+  });
+
+  it.each(["text/html", "text/markdown"])("keeps the normal skill page negotiable as %s", accept => {
+    expect(shouldSkipAcceptNegotiation("/skills/chatgpt")).toBe(false);
+    expect(negotiate(accept, ["text/html", "text/markdown"])).toBe(accept);
+    const input = new Request("http://localhost:4310/skills/chatgpt", { headers: { accept, rsc: "1" } });
+    const output = normalizeWorkerRequest(input);
+    if (accept === "text/html") expect(output).toBe(input);
+    else {
+      expect(output).not.toBe(input);
+      expect(output.headers.get("accept")).toBe("*/*");
+      expect(output.headers.get("rsc")).toBe("1");
+    }
   });
 });

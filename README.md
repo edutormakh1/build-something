@@ -39,7 +39,9 @@ Supabase project (already exists, schema already applied — do not drop):
 - region: sa-east-1
 - URL: `https://slkrntjfavigfhbkeyoa.supabase.co`
 
-Keys: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+The apps use `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; these are public build inputs.
+`SUPABASE_SERVICE_ROLE_KEY` is privileged and is not required by the current app code. Never put it in
+`NEXT_PUBLIC_*`, browser bundles, committed files or public Wrangler vars. Keep private credentials in their existing secret store.
 
 ## Hosting on Cloudflare Workers
 
@@ -60,8 +62,19 @@ pnpm check:cloudflare
 
 `build:cloudflare` builds both Next.js apps and adapts them to the Workers runtime.
 `check:cloudflare` bundles both Workers locally with Wrangler's `--dry-run`; it does not publish.
-For local runtime checks, run either `pnpm --filter @bs/people preview:cloudflare` or
-`pnpm --filter @bs/agents preview:cloudflare`. The previews build first.
+For isolated local validation, use the guarded preview flow from a clean committed checkout:
+
+```bash
+pnpm cloudflare:preview:build people
+pnpm cloudflare:preview:check people
+pnpm cloudflare:preview:build agents
+pnpm cloudflare:preview:check agents
+pnpm cloudflare:preview:smoke local
+```
+
+These commands build, dry-run and smoke local Workers without publishing. They validate preview configuration,
+source/artifact markers, placeholder public Supabase settings and preview noindex behaviour. They do not certify
+production settings, account capacity or hosted behaviour. On Ubuntu, run through the checkout's own AMB queues.
 
 The catalog can build without Supabase credentials. For a deployment with working sign-in, provide
 `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` at **build time** in both apps' ignored
@@ -69,24 +82,77 @@ The catalog can build without Supabase credentials. For a deployment with workin
 Keep the existing production project and data. The site origins in each Wrangler configuration
 are the existing domains, so links and password-reset redirects continue to target those domains.
 
-After authenticating Wrangler with the intended permanent Cloudflare account (`wrangler login`,
-or `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the deployment environment):
+### Production replacement runbook
 
-```bash
-pnpm deploy:cloudflare
-```
+**Both configured production names are occupied.** The recorded account inventory found
+`build-something-people` and `build-something-agents` running a different implementation with an
+`API` service binding to `build-something-api`, plus `ASSETS` and `SITE`. The current configs/dry-runs
+instead contain `WORKER_SELF_REFERENCE`, `ASSETS` and two public site URL vars. Deploying these configs
+blindly can remove the old bindings. Authentication alone is not a deployment prerequisite check.
 
-First verify both resulting `workers.dev` URLs, including HTML and Markdown negotiation, API errors,
-static art and sign-in. Then attach the existing custom domains to their respective Workers through
-Cloudflare. Domain activation requires access to the authoritative DNS zones. Do not remove the
-Vercel deployments until the custom domains and auth redirects are verified on Cloudflare.
+Execute the following sequence for **one specifically reviewed target at a time**:
+
+1. **Refresh the inventory before any write.** Verify the intended account identity, actual Workers plan,
+   exact script name, current deployments/versions, complete bindings and settings, service dependencies,
+   routes, custom domains and preview settings. The recorded inventory is historical; absent custom domains
+   do not establish that a Worker or binding is unused. Preserve all five legacy Workers
+   (`build-something-people`, `build-something-agents`, `build-something-api`, `keepanalog-correcciones`,
+   `keepanalog-resumidor`) and both existing preview Workers/settings except for an individually reviewed target operation.
+2. **Capture rollback before replacement.** For each target, save its current **deployment ID** and all
+   **version IDs/traffic allocations**, plus a complete binding/settings snapshot, in the secure operational
+   record outside the repository. Include routes/domain attachments and dependency versions; record secret
+   binding names/references without exporting secret values into logs or source. Preserve the old versions,
+   their assets and dependent services. Verify access to the selected rollback version and the ability to
+   restore required settings before deploying.
+3. **Write down an executable per-target rollback procedure.** The pinned Wrangler **4.151.1** local
+   `rollback --help` specifies `rollback [version-id]` and `--name`: the argument is a **Worker version ID**,
+   not a deployment ID. Prepare the appropriate command below with that target's verified prior stable
+   version ID and the verified account environment. Do not leave the ID unset or omit it and rely on defaults.
+
+   ```bash
+   pnpm --filter @bs/people exec wrangler rollback "${PEOPLE_ROLLBACK_VERSION_ID:?record the verified People version ID}" --name build-something-people
+   pnpm --filter @bs/agents exec wrangler rollback "${AGENTS_ROLLBACK_VERSION_ID:?record the verified Agents version ID}" --name build-something-agents
+   ```
+
+   These are separate rollback commands, not deployment steps. Recheck the installed CLI's help if the pin
+   changes. If the existing deployment splits traffic across versions, prepare a verified procedure to restore
+   that distribution; a single-version rollback is not equivalent. Also specify how to restore bindings/settings,
+   routes, DNS and domain attachments and verify the old service: do not assume a code rollback restores them all.
+4. **Reconcile every old binding and dependency.** Compare the snapshot with the proposed SELF/ASSETS
+   configuration. Retain each old binding, including `API` and `SITE`, or explicitly cover its retirement and
+   affected consumers in the migration review for that exact target. Resolve any required config changes
+   before deployment; the checked-in production configs do not by themselves prove this reconciliation.
+5. **Establish production readiness for the exact candidate.** Require reviewed source and matching build
+   artifacts, reviewed binding/config diffs, the actual account plan and attributable CPU/log evidence, and real
+   production Supabase public build settings. Verify Auth redirect allowlists, cookie/origin behaviour and
+   recovery/SMTP dependencies with the owner. A placeholder local build or the existing dry-run is not this evidence.
+   No Paid plan, zone upgrade or other new spending is authorized by this runbook.
+6. **Prepare domain and mail preservation.** Export the complete current Vercel/Cloudflare DNS zones,
+   domain attachments and redirect rules, and registrar NS/DS settings before any change. Preserve the existing
+   HTTPS `www` destinations, apex-to-www/HTTP-to-HTTPS redirects, URL paths and queries, and every mail,
+   verification, delegated-subdomain and API record. Empty public MX/TXT answers are not evidence that mail
+   is unused. Confirm actual target TLS/CAA readiness and a reviewed per-host cutover and rollback procedure;
+   do not use a broad wildcard route or improvise an NS move. Keep Vercel hosting, domain/project attachments
+   and old DNS configuration available for rollback. No destructive mail/DNS operation is authorized here.
+7. **Deploy and verify only the reviewed target.** Deployment is a separate target operation after the above
+   gates, not a follow-up to login. The manual root `deploy:cloudflare` script affects **both occupied names**;
+   use it only when both replacements and their sequence meet these prerequisites. Record the new deployment
+   and version IDs, then check the target's HTML/Markdown, advertised skill raw downloads, API/status contracts,
+   assets and Auth configuration before switching its web traffic. Preserve preview noindex settings. Verify
+   apex/www TLS, redirects with paths/queries, canonical origins and unchanged mail/API records after cutover;
+   use the recorded per-target rollback on failure. Do not delete Vercel fallback after a successful root GET.
+
+The normal migration is already authorized; these are evidence and target-review gates, not a new routine
+human approval flow. Missing account ownership/access or materially new irreversible scope must be resolved
+separately. Current account/zone status, CPU fit, full DNS/mail inventory, production Auth settings and target
+TLS/rollback readiness must be established before cutover; this document does not claim they are satisfied.
 
 The configuration uses a read-only Workers Static Assets cache for build-time catalog pages,
 with cache interception to avoid loading the full Next.js server for cached pages. Account pages
 and APIs remain dynamic. It does not provision R2, D1, KV, or paid services. Revalidation and
 runtime cache writes require replacing this read-only cache with a persistent ISR cache. Deploying to Workers does not remove Supabase's
-own limits. Cloudflare Free has a shared account quota of 100,000 dynamic requests/day and 10 ms
-CPU/request, so verify production CPU usage before treating it as a sufficient free hosting plan.
+own limits. Verify the actual account plan, applicable request/CPU limits and measured production workload
+before treating the available hosting tier as sufficient; local dry-runs do not establish Free-plan fit.
 See [Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/) and
 [limits](https://developers.cloudflare.com/workers/platform/limits/).
 
