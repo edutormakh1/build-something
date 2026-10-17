@@ -99,6 +99,21 @@ export function allCanonical(site: SiteId): UrlEntry[] {
   return out;
 }
 
+export function sitemapEntries(site: SiteId, name: string): UrlEntry[] | undefined {
+  if (name !== "pages.xml" && name !== "products.xml" && name !== "editorial.xml") return undefined;
+  const editorialPages = site === "people"
+    ? ["/blog", "/methodology", "/editorial-policy", "/scorecard"]
+    : ["/methodology", "/scorecard", "/about", "/for-agents", "/api"];
+  return allCanonical(site).filter(({ path }) => {
+    const owner = editorialPages.includes(path) || (site === "people" && /^\/(?:blog|reviews|authors)\//.test(path))
+      ? "editorial.xml"
+      : /^\/(?:products|alternatives|skills|categories|best|compare)\//.test(path)
+        ? "products.xml"
+        : "pages.xml";
+    return owner === name;
+  });
+}
+
 function xmlEscape(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
