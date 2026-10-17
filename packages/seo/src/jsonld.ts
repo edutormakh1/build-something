@@ -1,4 +1,5 @@
 import type { Article, Author, Product, Review } from "@bs/db";
+import { nativeScore } from "./native-score";
 import { abs, ORG_NAME, ORG_TAGLINE, siteUrl, type SiteId } from "./sites";
 
 function orgId(site: SiteId): string {
@@ -110,8 +111,8 @@ export function softwareJsonLd(site: SiteId, product: Product, reviews: Review[]
 }
 
 export function reviewJsonLd(site: SiteId, product: Product, review: Review, author: Author | undefined) {
-  const score = site === "people" ? review.scoreHuman : review.scoreAgent;
-  const hasScore = typeof score === "number" && Number.isFinite(score) && score >= 0 && score <= 100;
+  const score = nativeScore(site === "people" ? review.scoreHuman : review.scoreAgent);
+  const hasScore = score !== undefined;
   return {
     "@context": "https://schema.org",
     "@type": "Review",
