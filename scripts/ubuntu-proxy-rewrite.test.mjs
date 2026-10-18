@@ -134,6 +134,13 @@ try {
         const auth = await check("auth", "/reset-password", { accept: "text/markdown" });
         assert.equal(auth.status, 200); assert.match(auth.headers["cache-control"], /private.*no-store/);
         assert.equal(auth.headers["referrer-policy"], "no-referrer"); assert.equal(auth.headers["x-robots-tag"], "noindex, nofollow");
+        const recovery = await check("recovery", "/auth/recovery?next=https%3A%2F%2Fevil.invalid%2F&redirect=%2F%2Fevil.invalid", { accept: "text/html" });
+        assert.equal(recovery.status, 303);
+        assert.equal(recovery.headers.location, `${env[`NEXT_PUBLIC_${app.toUpperCase()}_SITE_URL`]}/reset-password?error=unavailable`);
+        assert.equal(recovery.headers["cache-control"], "private, no-store");
+        assert.equal(recovery.headers.pragma, "no-cache"); assert.equal(recovery.headers.expires, "0");
+        assert.equal(recovery.headers["referrer-policy"], "no-referrer"); assert.equal(recovery.headers["x-robots-tag"], "noindex, nofollow");
+        assert.ok(!recovery.headers["set-cookie"]); assert.equal(recovery.body, "");
       }
     } finally {
       await stop(child);

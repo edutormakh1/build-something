@@ -27,6 +27,8 @@ let supabase: ReturnType<typeof client>;
 beforeEach(() => {
   vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://recovery.invalid");
   vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "local-mocked-public-key-not-a-secret");
+  vi.stubEnv("NEXT_PUBLIC_PEOPLE_SITE_URL", undefined);
+  vi.stubEnv("NEXT_PUBLIC_AGENTS_SITE_URL", undefined);
   supabase = client();
   mocks.client.mockReset().mockResolvedValue(supabase);
   mocks.session.mockReset().mockImplementation(() => NextResponse.next());
@@ -125,10 +127,20 @@ function passwords(password = "new-password", confirmation = password) {
 }
 
 describe.each(["people", "agents"])("%s route/action integration", app => {
-  async function invoke(url: string) {
+  const publicOrigin = `https://www.buildsomething${app}want.com`;
+  function expectRedirect(response: Response, destination: string) {
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe(destination);
+    expect(response.headers.get("cache-control")).toBe("private, no-store");
+    expect(response.headers.get("pragma")).toBe("no-cache");
+    expect(response.headers.get("expires")).toBe("0");
+    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+    expect(response.headers.get("referrer-policy")).toBe("no-referrer");
+  }
+  async function invoke(url: string, headers: Record<string, string> = {}) {
     const userland = app === "people" ? await import("../apps/people/app/auth/recovery/route") : await import("../apps/agents/app/auth/recovery/route");
     const route = new AppRouteRouteModule({ definition: { kind: "APP_ROUTE", page: "/auth/recovery/route", pathname: "/auth/recovery", filename: "route", bundlePath: "" }, userland, resolvedPagePath: "/auth/recovery/route", distDir: ".next", relativeProjectDir: ".", nextConfigOutput: undefined });
-    return route.handle(new NextRequest(url), { renderOpts: { supportsDynamicResponse: true, experimental: {} }, sharedContext: { buildId: "mock-recovery" }, prerenderManifest: { preview: {} } });
+    return route.handle(new NextRequest(url, { headers }), { renderOpts: { supportsDynamicResponse: true, experimental: {} }, sharedContext: { buildId: "mock-recovery" }, prerenderManifest: { preview: {} } });
   }
   it("retains all session cookies on the actual Next 303 response", async () => {
     supabase.auth.exchangeCodeForSession.mockImplementationOnce(async () => {
@@ -138,20 +150,49 @@ describe.each(["people", "agents"])("%s route/action integration", app => {
       return { data: { session: { access_token: "fake" }, user: { id: "member" } }, error: null };
     });
     const response = await invoke("http://localhost:4310/auth/recovery?code=valid&next=https://evil.invalid");
-    expect(response.status).toBe(303);
-    expect(response.headers.get("location")).toBe("http://localhost:4310/reset-password");
+    expectRedirect(response, `${publicOrigin}/reset-password`);
     expect(response.headers.get("set-cookie")).toContain("sb-mocked-auth-token.0=chunk-one");
     expect(response.headers.get("set-cookie")).toContain("sb-mocked-auth-token.1=chunk-two");
-    expect(response.headers.get("cache-control")).toContain("no-store");
-    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
-    expect(response.headers.get("referrer-policy")).toBe("no-referrer");
+    expect(supabase.auth.exchangeCodeForSession).toHaveBeenCalledWith("valid");
+    expect(supabase.auth.getUser).toHaveBeenCalledOnce();
   });
   it("returns no-store failure even with an older valid user", async () => {
     const response = await invoke("http://localhost:4311/auth/recovery?error_code=otp_expired");
-    expect(response.status).toBe(303);
-    expect(response.headers.get("location")).toBe("http://localhost:4311/reset-password?error=invalid");
-    expect(response.headers.get("cache-control")).toContain("no-store");
+    expectRedirect(response, `${publicOrigin}/reset-password?error=invalid`);
     expect(supabase.auth.getUser).not.toHaveBeenCalled();
+  });
+  it("returns a public failure behind HTTPS forwarding without contacting Auth", async () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "public-anon-placeholder");
+    const response = await invoke("https://127.0.0.1:4310/auth/recovery", {
+      host: new URL(publicOrigin).host, "x-forwarded-proto": "https",
+    });
+    expectRedirect(response, `${publicOrigin}/reset-password?error=unavailable`);
+    expect(mocks.client).not.toHaveBeenCalled();
+    expect(response.headers.get("set-cookie")).toBeNull();
+  });
+  it.each(["success", "unavailable", "provider-error", "exchange-error", "user-mismatch"])("uses the configured origin for %s despite attacker URL/headers/query", async outcome => {
+    const configuredOrigin = `https://www.${app}.example.invalid`;
+    vi.stubEnv(app === "people" ? "NEXT_PUBLIC_PEOPLE_SITE_URL" : "NEXT_PUBLIC_AGENTS_SITE_URL", `${configuredOrigin}/`);
+    if (outcome === "unavailable") vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "public-anon-placeholder");
+    if (outcome === "exchange-error") supabase.auth.exchangeCodeForSession.mockRejectedValueOnce(Error("private-provider-detail"));
+    if (outcome === "user-mismatch") supabase.auth.getUser.mockResolvedValueOnce({ data: { user: { id: "other" } }, error: null });
+    const query = "code=valid%2Bencoded&next=https://evil.invalid/takeover&redirect=//evil.invalid&error_redirect=https://evil.invalid" +
+      (outcome === "provider-error" ? "&error_code=otp_expired" : "");
+    const response = await invoke(`https://request-attacker.invalid/auth/recovery?${query}`, {
+      host: "host-attacker.invalid", "x-forwarded-host": "forwarded-attacker.invalid",
+      "x-forwarded-proto": "https",
+    });
+    const error = outcome === "success" ? "" : `?error=${outcome === "unavailable" ? "unavailable" : "invalid"}`;
+    expectRedirect(response, `${configuredOrigin}/reset-password${error}`);
+    expect(response.headers.get("set-cookie")).toBeNull();
+    expect(supabase.auth.updateUser).not.toHaveBeenCalled();
+    if (["unavailable", "provider-error"].includes(outcome)) expect(mocks.client).not.toHaveBeenCalled();
+    else expect(supabase.auth.exchangeCodeForSession).toHaveBeenCalledWith("valid+encoded");
+    if (outcome === "exchange-error") expect(supabase.auth.getUser).not.toHaveBeenCalled();
+    if (outcome === "success" || outcome === "user-mismatch") {
+      expect(supabase.auth.getUser).toHaveBeenCalledOnce();
+      expect(supabase.auth.exchangeCodeForSession.mock.invocationCallOrder[0]).toBeLessThan(supabase.auth.getUser.mock.invocationCallOrder[0]);
+    }
   });
   it("runs the actual server action and revalidates before update", async () => {
     const { updatePassword } = app === "people" ? await import("../apps/people/app/reset-password/actions") : await import("../apps/agents/app/reset-password/actions");
