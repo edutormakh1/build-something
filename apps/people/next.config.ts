@@ -9,6 +9,9 @@ const security = [
 ];
 
 const nextConfig: NextConfig = {
+  // Preserve the original origin in req.url for same-origin Markdown rewrites
+  // behind an HTTPS proxy forwarding to a loopback HTTP listener.
+  skipMiddlewareUrlNormalize: true,
   transpilePackages: ["@bs/db", "@bs/ui", "@bs/seo", "@bs/auth", "three"],
   poweredByHeader: false,
   eslint: { ignoreDuringBuilds: true },

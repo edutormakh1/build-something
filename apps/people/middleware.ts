@@ -30,7 +30,9 @@ export async function middleware(req: NextRequest) {
     });
   }
   if (chosen === "text/markdown") {
-    const url = req.nextUrl.clone();
+    // Keep Next's exact request origin so this stays an internal rewrite.
+    // nextUrl normalizes 127.0.0.1 to localhost (see skipMiddlewareUrlNormalize).
+    const url = new URL(req.url);
     url.pathname = path === "/" ? "/md" : `/md${path}`;
     const res = NextResponse.rewrite(url);
     res.headers.set("vary", "Accept");
