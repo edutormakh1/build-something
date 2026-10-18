@@ -2,7 +2,7 @@
 
 Ubuntu puede permanecer encendido para servir visitantes con Next mientras los
 builds/checks pesados esperan la noche. Este helper sólo prepara candidatos:
-no sirve HTTP, instala dependencias, hace pull, publica, promueve releases,
+instala dependencias únicamente con `prepare` offline; no sirve HTTP, hace pull, publica, promueve releases,
 reinicia apps, crea túneles ni cambia auth/DNS. No inicia un LLM ni un flujo de
 «automejora», no verifica hechos ni aprueba PRs. No requiere Workers Paid para
 cómputo del origen; electricidad/Internet y límites de servicios siguen contando.
@@ -19,11 +19,14 @@ PLAN no requiere estado ni configuración, no invoca Git/AMB/pnpm ni lee secreto
 ```sh
 node scripts/ubuntu-nightly.mjs --task build
 node scripts/ubuntu-nightly.mjs --task check
+node scripts/ubuntu-nightly.mjs --task prepare
 ```
 
-Después de revisión e integración, Root debe preparar **otro checkout dedicado**,
-registrarlo previamente en AMB, con dependencias ya instaladas y el commit
-revisado completo (incluido este runner). No usar el checkout principal, uno de
+Después de revisión e integración, Root debe preparar **otro linked git worktree dedicado**,
+registrarlo previamente en AMB y fijar el commit revisado completo (incluido este
+runner). Puede empezar sin `node_modules`: `prepare` instala sólo de noche desde
+el store local, sin copiar dependencias mutables de otro worktree ni instalar de
+día. No usar el checkout principal, un clon independiente, uno de
 desarrollo, otro agente ni el directorio de una release que atienda visitantes.
 Este trabajo no crea ese checkout. Desde su raíz, el contrato de ejecución es:
 
@@ -34,10 +37,15 @@ Este trabajo no crea ese checkout. Desde su raíz, el contrato de ejecución es:
 ```
 
 Los valores son ejemplos inválidos, no configuración activa. No hay shell ni
-comandos configurables. `build` ejecuta secuencialmente `pnpm --filter @bs/people
+comandos configurables. `prepare` ejecuta exactamente `pnpm install --offline
+--frozen-lockfile --ignore-scripts` bajo perfil AMB **setup**: sin scripts de
+ciclo de vida, actualizaciones automáticas, descarga de registry ni fallback
+remoto. Si falta algo en el store, falla una vez y detiene la secuencia; Root
+resolverá esa falta por separado. No se ejecutó una instalación en esta entrega.
+`build` ejecuta secuencialmente `pnpm --filter @bs/people
 build` y `pnpm --filter @bs/agents build`: Next normal, sin OpenNext/deploy.
 `check` ejecuta `pnpm lint`, `pnpm typecheck`, `pnpm test` en ese orden. Todos
-pasan por `amb run build|check -- node ...` y sus entrypoints/cola/límites
+pasan por `amb run setup|check|build -- node ...` y sus entrypoints/cola/límites
 existentes (Vitest hasta dos workers). No ejecutar estos comandos pesados de día.
 
 Antes de encolar y tras obtener turno se comprueban raíz física, identidad AMB,
@@ -48,6 +56,11 @@ ignorados). Se repite antes de cada fase. No se ejecuta código recién descarga
 envs ni credenciales; Root debe mantener cualquier configuración de ese checkout
 aislada y apta para checks/builds sin servicios remotos. Esto no es aislamiento
 contra modificaciones maliciosas simultáneas del mismo usuario.
+Para la primera noche Root configurará los inputs públicos Supabase de prueba
+en la unidad aún inactiva: URL loopback y clave pública `public-anon-placeholder`.
+Los `.example` no contienen valores de credenciales. No leer stores de env ni
+configurar auth de producción. Si prepare cambia un lockfile/archivo rastreado,
+el guard de limpieza siguiente rechaza check/build; no se restaura ni oculta.
 
 El lock exclusivo privado está fuera del código en
 `~/.local/state/build-something-nightly/<workspace-id>/run.lock`, modo 0600 bajo
@@ -67,7 +80,7 @@ o fallo del sistema puede retrasar cualquier temporizador de software.
 Cada fase tiene **un intento**. No se puede clasificar fiablemente un error de
 pnpm como red transitoria; ni exit 125 ni texto de error autorizan reintentos.
 Sin bucle hasta verde, publicación remota ni reintentos de escrituras.
-Sólo se registran fase y estado/código; la salida de checks/builds se descarta
+Sólo se registran fase y estado/código; la salida de prepare/check/build se descarta
 para no volcar valores sensibles al journal. Diagnóstico posterior requiere una
 operación local explícita. Estados: PLAN/OK=0, FAILED=1, LOCKED=73,
 DEFERRED_WINDOW=75, REFUSED=78, cancelación INT=130/TERM-HUP=143.
@@ -77,8 +90,18 @@ DEFERRED_WINDOW=75, REFUSED=78, cancelación INT=130/TERM-HUP=143.
 Los dos `.example` **no están instalados**. Reemplazar rutas, Node/PATH, identidad
 y pin sólo tras revisión; el timer referencia el servicio sin `.example` y usa
 `Persistent=false`: una noche omitida se salta. No habilitar timer, linger,
-WakeSystem, túnel ni servicios como parte de esta entrega. Cambiar `--task build`
-por `check` selecciona las comprobaciones, sin instalar un segundo timer.
+WakeSystem, túnel ni servicios como parte de esta entrega. El servicio oneshot
+ejecuta **prepare → check → build**, con el mismo pin/paths/id y una admisión AMB
+por tarea. El primer exit no cero detiene los siguientes ExecStart; nunca publica,
+promueve ni reinicia. `TimeoutStartSec=3h` evita el default corto de arranque;
+no amplía la ventana: cada runner conserva su corte antes de las 06:00.
+
+Antes de activar, Root debe comprobar de nuevo el propietario del daemon de la
+cola Task Spooler seleccionada: `queue_ready`/`tsp -S` puede autoarrancarlo si no
+existe. Debe vivir fuera del futuro cgroup de la unidad, para que el cierre de
+ésta no mate una cola compartida. Root ya identificó el propietario del socket
+real en una sesión externa; este delta no hizo inventarios ni reinició la cola.
+Las precauciones operativas finales se completarán al configurar, no aquí.
 
 Nice=15, CPUWeight=10 e IOWeight=10 son propuestas locales de baja prioridad;
 AMB mueve el trabajo a su propio scope, de modo que esos pesos no demuestran

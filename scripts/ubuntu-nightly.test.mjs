@@ -5,7 +5,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, unlinkSync, w
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { acquireLock, commands, guardAdmission, guardWorkspace, main, nightWindow, parseArgs,
+import { acquireLock, ambProfile, commands, guardAdmission, guardWorkspace, main, nightWindow, parseArgs,
   runProcess, runTasks, STATUS } from './ubuntu-nightly.mjs';
 
 const at = (iso) => Date.parse(iso);
@@ -15,6 +15,66 @@ function fixture(t) {
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   return dir;
 }
+
+const PREPARE = ['pnpm', 'install', '--offline', '--frozen-lockfile', '--ignore-scripts'];
+
+test('prepare is explicit, fixed offline argv with setup admission; existing profiles stay unchanged', async () => {
+  assert.deepEqual(commands('prepare'), [PREPARE]);
+  assert.equal(parseArgs(['--task', 'prepare']).execute, false);
+  assert.equal(await main(['--task', 'prepare']), 0); // PLAN only; no Git/AMB/install.
+  assert.deepEqual(['prepare', 'check', 'build'].map(ambProfile), ['setup', 'check', 'build']);
+  assert.throws(() => ambProfile('setup'), /REFUSED/);
+  assert.throws(() => parseArgs(['--task', 'prepare', '--online']), /REFUSED/);
+});
+
+test('prepare inherits post-admission window guards and propagates cancellation to its own child', async () => {
+  let starts = 0, guards = 0;
+  const opts = { task: 'prepare', guard: () => { guards++; },
+    run: async () => { starts++; return 0; }, now: () => at('2026-10-18T09:00:00Z') };
+  assert.equal(await runTasks(opts), STATUS.DEFERRED_WINDOW);
+  assert.equal(starts, 0); assert.equal(guards, 0);
+  let clock = at('2026-10-18T08:59:54Z');
+  assert.equal(await runTasks({ ...opts, now: () => clock,
+    guard: () => { clock = at('2026-10-18T09:00:00Z'); } }), STATUS.DEFERRED_WINDOW);
+  assert.equal(starts, 0);
+  const controller = new AbortController();
+  let timer;
+  try {
+    const rc = await runTasks({ ...opts, now: night, signal: controller.signal,
+      run: async (argv, admitted) => {
+        starts++;
+        assert.deepEqual(argv, PREPARE);
+        assert.equal(admitted.deadline, at('2026-10-18T08:59:55Z'));
+        timer = setTimeout(() => controller.abort(143), 100);
+        // Simulated install process only: no package manager or fake job clock.
+        return runProcess([process.execPath, '-e', 'setInterval(()=>{},100)'],
+          { ...admitted, now: Date.now, deadline: Date.now() + 2000, graceMs: 30 });
+      } });
+    assert.equal(rc, 143); assert.equal(starts, 1); assert.equal(guards, 1);
+  } finally { clearTimeout(timer); }
+});
+
+test('failed prepare is terminal; inert oneshot orders tasks without ignoring failure before check/build', async () => {
+  for (const failure of [1, 125]) {
+    const calls = [];
+    const rc = await runTasks({ task: 'prepare', now: night, guard() {},
+      run: async (argv) => { calls.push(argv); return failure; } });
+    assert.equal(rc, STATUS.FAILED);
+    assert.deepEqual(calls, [PREPARE]); // Store miss/other failure: one attempt, no fallback.
+  }
+  const unit = readFileSync(new URL('../ops/ubuntu/build-something-nightly.service.example', import.meta.url), 'utf8');
+  const starts = unit.split('\n').filter((line) => line.startsWith('ExecStart='));
+  assert.match(unit, /^Type=oneshot$/m);
+  assert.deepEqual(starts.map((line) => line.match(/--task (\w+)/)[1]), ['prepare', 'check', 'build']);
+  assert.equal(new Set(starts.map((line) => line.replace(/--task \w+/, '--task TASK'))).size, 1);
+  for (const line of starts) assert.match(line, /^ExecStart=\/REPLACE_ABSOLUTE_NODE /);
+  assert.doesNotMatch(unit, /^SuccessExitStatus=/m);
+  assert.match(unit, /^TimeoutStartSec=3h$/m);
+  assert.match(unit, /^TimeoutStopSec=4s$/m);
+  assert.match(unit, /^KillMode=control-group$/m);
+  assert.match(unit, /^Restart=no$/m);
+  // This checks systemd's stop-on-failure contract statically, without starting a unit.
+});
 
 test('window is [03,06) Buenos Aires independently of host TZ, in summer and winter', () => {
   const previous = process.env.TZ;

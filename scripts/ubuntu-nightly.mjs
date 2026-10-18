@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Local candidate builds only. No deployment, installs, source updates or services.
+// Local candidates only; preparation is offline with lifecycle scripts disabled.
+// No deployment, source updates or services.
 import { spawn, execFileSync } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { closeSync, fstatSync, lstatSync, mkdirSync, openSync, readFileSync,
@@ -27,6 +28,9 @@ export function nightWindow(now = new Date()) {
 }
 
 export function commands(task) {
+  if (task === 'prepare') return [
+    ['pnpm', 'install', '--offline', '--frozen-lockfile', '--ignore-scripts'],
+  ];
   if (task === 'build') return [
     ['pnpm', '--filter', '@bs/people', 'build'],
     ['pnpm', '--filter', '@bs/agents', 'build'],
@@ -35,6 +39,11 @@ export function commands(task) {
     ['pnpm', 'lint'], ['pnpm', 'typecheck'], ['pnpm', 'test'],
   ];
   throw new Error('REFUSED');
+}
+
+export function ambProfile(task) {
+  commands(task);
+  return task === 'prepare' ? 'setup' : task;
 }
 
 export function parseArgs(args) {
@@ -180,7 +189,7 @@ export async function main(args = process.argv.slice(2)) {
     const opts = parseArgs(args);
     if (!opts.execute) {
       console.log(JSON.stringify({ status: 'PLAN', task: opts.task, timezone: ZONE,
-        window: '[03:00,06:00)', commands: commands(opts.task), attemptsPerPhase: 1 }));
+        window: '[03:00,06:00)', commands: commands(opts.task), ambProfile: ambProfile(opts.task), attemptsPerPhase: 1 }));
       return STATUS.OK;
     }
     if (!nightWindow().allowed) return STATUS.DEFERRED_WINDOW;
@@ -201,7 +210,7 @@ export async function main(args = process.argv.slice(2)) {
     lock = acquireLock(dir);
     const window = nightWindow();
     if (!window.allowed) return STATUS.DEFERRED_WINDOW;
-    const rc = await runProcess(['amb', 'run', opts.task, '--', process.execPath, SCRIPT,
+    const rc = await runProcess(['amb', 'run', ambProfile(opts.task), '--', process.execPath, SCRIPT,
       ...args, '--admitted', lock.token], { cwd: opts.workspace,
       deadline: window.end - STOP_MARGIN_MS, signal: controller.signal, stdio: 'inherit' });
     return [0, 75, 130, 143].includes(rc) ? rc : STATUS.FAILED;
