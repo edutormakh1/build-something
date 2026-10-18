@@ -1,0 +1,21 @@
+# INERT EXAMPLE. Root must replace EVERY REPLACE_* value after review.
+# Dedicated candidate checkout only; never the serving release or a dev checkout.
+[Unit]
+Description=Build Something local nightly candidate (no publication)
+
+[Service]
+Type=oneshot
+WorkingDirectory=/REPLACE_DEDICATED_NIGHT_CHECKOUT
+ExecStart=/REPLACE_ABSOLUTE_NODE /REPLACE_DEDICATED_NIGHT_CHECKOUT/scripts/ubuntu-nightly.mjs --execute --task build --workspace /REPLACE_DEDICATED_NIGHT_CHECKOUT --workspace-id REPLACE_AMB_WORKSPACE_ID --source REPLACE_REVIEWED_40_HEX_COMMIT
+# Explicit tool PATH; no credential EnvironmentFile. Preserve AMB's entrypoints.
+Environment=PATH=/home/edutor/t3/infra/workspaces/bin:/REPLACE_NODE_BIN:/home/edutor/.local/bin:/usr/bin:/bin
+UMask=0077
+Nice=15
+CPUWeight=10
+IOWeight=10
+KillMode=control-group
+TimeoutStopSec=4s
+Restart=no
+# AMB executes commands in its own scope; these weights are advisory for this
+# unit, not a replacement for AMB budgets or proof of child-scope resource caps.
+# No [Install]: invoked only by the separately reviewed timer.
