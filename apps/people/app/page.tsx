@@ -19,14 +19,12 @@ export default function HomePage() {
   return (
     <article>
       <div className="opening">
-        <p className="kicker">Editorial · Worldwide · English · Catalog attribution: Edu Tor</p>
-        <h1>Software scored for the humans who actually use it</h1>
+        <h1>Find software for the way you work.</h1>
         <p className="standfirst">
-          A worldwide gallery of products people actually want. Twin Scores, named authors, no fake user reviews.
+          Explore products, comparisons and essays. Twin Scores are legacy editorial estimates.
         </p>
         <p className="hero-actions">
-          <Link href="/products" className="btn">Walk the gallery</Link>
-          <Link href="/signup" className="btn ghost">Come in</Link>
+          <Link href="/products" className="btn">Explore products</Link>
         </p>
       </div>
       <JsonLd
@@ -46,19 +44,9 @@ export default function HomePage() {
         ]}
       />
       <div className="prose">
-      <p>
-        Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We retain legacy editorial estimates, catalog bylines and essays — not crowdsourced star ratings or invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
-      </p>
-      <p>
-        Every product page answers a buying question in the opening paragraph, then walks H2 to H3 with a capability snapshot, pricing as publicly stated, and links to alternatives. Public catalog pages render from committed seed JSON, so the site is readable before secrets land — including by AI crawlers that do not execute JavaScript or a 3D canvas.
-      </p>
       <h2>What Twin Scores are</h2>
       <p>
         Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The rubric is public on the scorecard. We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale.
-      </p>
-      <h3>Why two sites</h3>
-      <p>
-        People and agents do not want the same page. People want prose, comparisons, and a magazine that does not look like purple SaaS. Agents want matrices, SKILL.md, CSV, and OpenAPI. Same graph, two contracts.
       </p>
       <h2>Featured products by human Twin Score</h2>
       </div>
@@ -68,6 +56,18 @@ export default function HomePage() {
         ))}
       </div>
       <div className="prose">
+      <h2>About the catalog</h2>
+      <p>Editorial · Worldwide · English · Catalog attribution: Edu Tor</p>
+      <p>
+        Build Something People Want is a worldwide editorial directory of software products scored for humans and agents. We retain legacy editorial estimates, catalog bylines and essays — not crowdsourced star ratings or invented user counts. The twin site, Build Something Agents Want, keeps the same entity slugs for machines.
+      </p>
+      <p>
+        Every product page answers a buying question in the opening paragraph, then walks H2 to H3 with a capability snapshot, pricing as publicly stated, and links to alternatives. Public catalog pages render from committed seed JSON, so the site is readable before secrets land — including by AI crawlers that do not execute JavaScript or a 3D canvas.
+      </p>
+      <h3>Why two sites</h3>
+      <p>
+        People and agents do not want the same page. People want prose, comparisons, and a magazine that does not look like purple SaaS. Agents want matrices, SKILL.md, CSV, and OpenAPI. Same graph, two contracts.
+      </p>
       <h2>Categories</h2>
       <ul>
         {cats.map((c) => (

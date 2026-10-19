@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { allProducts } from "@bs/db";
-import { JsonLd, STILLS } from "@bs/ui";
+import { JsonLd } from "@bs/ui";
 import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 import { ProductCard } from "../components/product-card";
 
@@ -14,44 +14,22 @@ export default function Page() {
   return (
     <article>
       <div className="opening">
-        <p className="kicker">same entity graph · different contract</p>
-        <h1>A catalog for agents, not a reskinned brochure</h1>
+        <h1>Find software your agents can use.</h1>
         <p className="standfirst">
-          Capability matrices, SKILL.md, OpenAPI, and a CC BY 4.0 dataset — around a live obsidian relic. We do not ship a fake MCP manifest.
+          Capability matrices, SKILL.md, OpenAPI and downloadable catalog data.
         </p>
         <p className="hero-actions">
-          <Link href="/products" className="btn">Approach the catalog</Link>
-          <Link href="/signup" className="btn ghost">Enter</Link>
+          <Link href="/products" className="btn">Browse catalog</Link>
+          <Link href="/for-agents">Developer resources</Link>
         </p>
       </div>
       <JsonLd data={[
         breadcrumbJsonLd("agents", [{ name: "Home", path: "/" }]),
         itemListJsonLd("agents", "Highest agent Twin Scores", products.map((p) => ({ name: p.name, path: `/products/${p.slug}` }))),
       ]} />
-      <figure className="fallback-relic">
-        <img
-          src={STILLS.agents.hero}
-          alt="Obsidian relic with gold filament circuitry, lit by moonlight in a night exhibition hall"
-          width={1536}
-          height={1024}
-        />
-      </figure>
       <div className="prose">
+        <h2>Developer resources</h2>
         <p>Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.</p>
-        <p>The catalog records the bylines Edu Tor, Maya Chen and Jonas Okonkwo. Their professional history and firsthand product evaluations are not independently verified in this evidence register. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.</p>
-        <p>
-          Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs, Twin Scores, and editorial rules. Use this site when you need to call an API, write a skill file, or download scores. Use the people twin when you need a comparison essay. Developer resources are titled “Build Something Agents Want developer resources”.
-        </p>
-        <p>
-          Public JSON API: <Link href="/api/v1/products">GET /api/v1/products</Link>
-          {" · "}
-          <Link href="/api/v1/products/chatgpt">GET /api/v1/products/chatgpt</Link>
-          {" · "}
-          <Link href="/openapi.json">openapi.json</Link>
-          {" · "}
-          <Link href="/llms.txt">llms.txt</Link>
-          . Errors are RFC 9457 <code>application/problem+json</code> with <code>code</code>, <code>detail</code>, and <code>status</code> (400/404/405 on <code>/api/v1/*</code>).
-        </p>
         <div className="contracts not-prose">
           <Link className="card" href="/for-agents">
             <p className="kicker">Skill files</p>
@@ -75,12 +53,28 @@ export default function Page() {
           </Link>
         </div>
         <h2>Highest agent Twin Scores</h2>
-        <h3>Editorial, not user-count ratings</h3>
       </div>
       <div className="gallery-grid not-prose">
         {products.map((p) => (
-          <ProductCard key={p.slug} product={p} titleTag="h2" />
+          <ProductCard key={p.slug} product={p} titleTag="h3" />
         ))}
+      </div>
+      <div className="prose">
+        <h2>About the catalog</h2>
+        <p>The catalog records the bylines Edu Tor, Maya Chen and Jonas Okonkwo. Their professional history and firsthand product evaluations are not independently verified in this evidence register. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.</p>
+        <p>
+          Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs, Twin Scores, and editorial rules. Use this site when you need to call an API, write a skill file, or download scores. Use the people twin when you need a comparison essay. Developer resources are titled “Build Something Agents Want developer resources”.
+        </p>
+        <p>
+          Public JSON API: <Link href="/api/v1/products">GET /api/v1/products</Link>
+          {" · "}
+          <Link href="/api/v1/products/chatgpt">GET /api/v1/products/chatgpt</Link>
+          {" · "}
+          <Link href="/openapi.json">openapi.json</Link>
+          {" · "}
+          <Link href="/llms.txt">llms.txt</Link>
+          . Errors are RFC 9457 <code>application/problem+json</code> with <code>code</code>, <code>detail</code>, and <code>status</code> (400/404/405 on <code>/api/v1/*</code>).
+        </p>
       </div>
       <p className="prose">
         <Link href="/for-agents">Build Something Agents Want developer resources</Link>

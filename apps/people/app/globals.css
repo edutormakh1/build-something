@@ -1,4 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import "@bs/ui/people.css";
+
+/* The imported baseline emits preflight followed by the shared component layer. */
+@tailwind utilities;

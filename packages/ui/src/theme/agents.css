@@ -1,28 +1,29 @@
 @import "./base.css";
-:root {
-  color-scheme: dark;
-  --site: agents;
-  --paper: #07060b;
-  --ivory: #161821;
-  --ink: #e6ebf2;
-  --oxblood: #e8c96a;
-  --bronze: #d4b15a;
-  --bronze-deep: #c9a227;
-  --limestone: #1a1d28;
-  --rule: rgba(197, 212, 234, 0.16);
-  --moss: #8ea0b8;
-  --mute: #8b95a4;
-  --muted: #8b95a4;
-  --highlight: rgba(197, 212, 234, 0.05);
-  --shadow: rgba(0, 0, 0, 0.5);
-  --glow: rgba(232, 201, 106, 0.22);
-  --vitrine: rgba(16, 14, 24, 0.62);
-  --hairline: rgba(197, 212, 234, 0.16);
-  --grain-opacity: 0.14;
-  --grain-blend: overlay;
-  --font-display: var(--font-display-loaded, "Fraunces"), "Iowan Old Style", Palatino, serif;
-  --font-sans: var(--font-sans-loaded, "Archivo"), "Avenir Next", "Segoe UI", sans-serif;
-  --ease-museum: cubic-bezier(0.22, 1, 0.36, 1);
-}
 
-html { background: var(--paper); color: var(--ink); }
+:root {
+  color-scheme: light;
+  --site: agents;
+  --paper: #f3f5f2;
+  --ink: #242924;
+  --mute: #525d55;
+  --link: #3d5448;
+  --rule: #c3ccc5;
+  --surface: #ffffff;
+  --highlight: #e5ebe6;
+  --input-rule: #737e72;
+  --error: #853b35;
+  /* Legacy aliases keep existing route markup on the same neutral palette. */
+  --ivory: var(--surface);
+  --oxblood: var(--link);
+  --bronze: var(--link);
+  --bronze-deep: var(--ink);
+  --limestone: var(--highlight);
+  --moss: var(--link);
+  --muted: var(--mute);
+  --hairline: var(--rule);
+  --vitrine: var(--paper);
+  --shadow: transparent;
+  --glow: transparent;
+  --gold: var(--link);
+  --moon: var(--mute);
+}
