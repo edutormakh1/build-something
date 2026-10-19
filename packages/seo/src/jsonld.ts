@@ -1,4 +1,5 @@
 import type { Article, Author, Product, Review } from "@bs/db";
+import { nativeScore } from "./native-score";
 import { abs, ORG_NAME, ORG_TAGLINE, siteUrl, type SiteId } from "./sites";
 
 function orgId(site: SiteId): string {
@@ -18,11 +19,6 @@ export function orgJsonLd(site: SiteId) {
     url: siteUrl(site),
     description: ORG_TAGLINE[site],
     email: site === "people" ? "editor@buildsomethingpeoplewant.com" : "editor@buildsomethingagentswant.com",
-    founder: {
-      "@type": "Person",
-      name: "Edu Tor",
-      url: abs("people", "/authors/edu-tor"),
-    },
     sameAs: ["https://github.com/edutormakh1"],
   };
 }
@@ -67,7 +63,7 @@ export function datasetJsonLd() {
     "@id": `${abs("agents", "/for-agents")}#dataset`,
     name: "Twin Scores catalog",
     description:
-      "Editorial human and agent Twin Scores (0–100) plus capability matrices for worldwide software products. Staff composites, not user-count ratings. License CC BY 4.0.",
+      "Legacy editorial human and agent estimates (0–100) and catalog capability grades; documentation checks do not validate these scores. License CC BY 4.0.",
     url: abs("agents", "/for-agents"),
     license: "https://creativecommons.org/licenses/by/4.0/",
     creator: { "@id": orgId("agents") },
@@ -89,7 +85,9 @@ export function datasetJsonLd() {
 }
 
 export function softwareJsonLd(site: SiteId, product: Product, reviews: Review[]) {
-  const editorial = reviews.filter((r) => r.kind === "editorial" && r.status === "published");
+  // Preserve the existing three-argument interface; review rows do not establish
+  // an aggregate rating for the product's editorial Twin Scores.
+  void reviews;
   const url = abs(site, `/products/${product.slug}`);
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -109,23 +107,12 @@ export function softwareJsonLd(site: SiteId, product: Product, reviews: Review[]
       availability: "https://schema.org/OnlineOnly",
     },
   };
-  if (editorial.length) {
-    const score = site === "people" ? product.twin.human : product.twin.agent;
-    data.aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: (score / 20).toFixed(1),
-      bestRating: "5",
-      worstRating: "1",
-      ratingCount: editorial.length,
-      reviewCount: editorial.length,
-      description: "Editorial Twin Score converted to a 5-point scale. Not a user-count rating.",
-    };
-  }
   return data;
 }
 
 export function reviewJsonLd(site: SiteId, product: Product, review: Review, author: Author | undefined) {
-  const score = site === "people" ? review.scoreHuman ?? product.twin.human : review.scoreAgent ?? product.twin.agent;
+  const score = nativeScore(site === "people" ? review.scoreHuman : review.scoreAgent);
+  const hasScore = score !== undefined;
   return {
     "@context": "https://schema.org",
     "@type": "Review",
@@ -134,12 +121,14 @@ export function reviewJsonLd(site: SiteId, product: Product, review: Review, aut
     reviewBody: review.body.slice(0, 5000),
     datePublished: review.publishedAt,
     inLanguage: "en-US",
-    reviewRating: {
-      "@type": "Rating",
-      ratingValue: (score / 20).toFixed(1),
-      bestRating: "5",
-      worstRating: "1",
-    },
+    ...(hasScore ? {
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: score,
+        bestRating: 100,
+        worstRating: 0,
+      },
+    } : {}),
     author: {
       "@type": "Person",
       name: author?.name ?? "Build Something staff",
@@ -155,6 +144,12 @@ export function reviewJsonLd(site: SiteId, product: Product, review: Review, aut
 }
 
 export function personJsonLd(author: Author) {
+  const localOrigins: [string, SiteId][] = [
+    ["https://buildsomethingpeoplewant.com", "people"],
+    ["https://www.buildsomethingpeoplewant.com", "people"],
+    ["https://buildsomethingagentswant.com", "agents"],
+    ["https://www.buildsomethingagentswant.com", "agents"],
+  ];
   return {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -163,7 +158,10 @@ export function personJsonLd(author: Author) {
     jobTitle: author.role,
     description: author.bio,
     url: abs("people", `/authors/${author.slug}`),
-    sameAs: author.sameAs,
+    sameAs: author.sameAs.map((url) => {
+      const local = localOrigins.find(([origin]) => url === origin || url.startsWith(`${origin}/`));
+      return local ? `${siteUrl(local[1])}${url.slice(local[0].length)}` : url;
+    }),
     worksFor: { "@id": orgId("people") },
   };
 }

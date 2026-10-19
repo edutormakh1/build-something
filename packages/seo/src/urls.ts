@@ -4,10 +4,12 @@ import {
   allCategories,
   allProducts,
   catalog,
+  getReview,
   productsInCategory,
 } from "@bs/db";
 import type { SiteId } from "./sites";
 import { abs } from "./sites";
+import { curatedComparisons } from "./comparisons";
 
 export type UrlEntry = { path: string; title: string; lastmod?: string };
 
@@ -65,7 +67,7 @@ export function entityUrls(site: SiteId): UrlEntry[] {
     }
   }
   if (site === "people") {
-    for (const r of catalog.reviews.filter((x) => x.status === "published")) {
+    for (const r of catalog.reviews.filter((r) => getReview(r.slug))) {
       urls.push({ path: `/reviews/${r.slug}`, title: r.title, lastmod: dateOnly(r.publishedAt) ?? CATALOG_DAY });
     }
     for (const a of allAuthors()) {
@@ -74,10 +76,10 @@ export function entityUrls(site: SiteId): UrlEntry[] {
     for (const a of allArticles()) {
       urls.push({ path: `/blog/${a.slug}`, title: a.title, lastmod: dateOnly(a.updatedAt) ?? dateOnly(a.publishedAt) ?? CATALOG_DAY });
     }
-    for (const pair of catalog.comparePairs) {
+    for (const comparison of curatedComparisons()) {
       urls.push({
-        path: `/compare/${pair.a}-vs-${pair.b}`,
-        title: `${pair.a} vs ${pair.b}`,
+        path: comparison.path,
+        title: `${comparison.a.slug} vs ${comparison.b.slug}`,
         lastmod: CATALOG_DAY,
       });
     }
@@ -95,6 +97,21 @@ export function allCanonical(site: SiteId): UrlEntry[] {
     out.push(u);
   }
   return out;
+}
+
+export function sitemapEntries(site: SiteId, name: string): UrlEntry[] | undefined {
+  if (name !== "pages.xml" && name !== "products.xml" && name !== "editorial.xml") return undefined;
+  const editorialPages = site === "people"
+    ? ["/blog", "/methodology", "/editorial-policy", "/scorecard"]
+    : ["/methodology", "/scorecard", "/about", "/for-agents", "/api"];
+  return allCanonical(site).filter(({ path }) => {
+    const owner = editorialPages.includes(path) || (site === "people" && /^\/(?:blog|reviews|authors)\//.test(path))
+      ? "editorial.xml"
+      : /^\/(?:products|alternatives|skills|categories|best|compare)\//.test(path)
+        ? "products.xml"
+        : "pages.xml";
+    return owner === name;
+  });
 }
 
 function xmlEscape(value: string): string {

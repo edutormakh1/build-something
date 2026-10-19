@@ -12,9 +12,9 @@ export function hasRealSupabase(): boolean {
 }
 
 export function peopleSiteUrl(): string {
-  return process.env.NEXT_PUBLIC_PEOPLE_SITE_URL || "https://buildsomethingpeoplewant.com";
+  return process.env.NEXT_PUBLIC_PEOPLE_SITE_URL || "https://www.buildsomethingpeoplewant.com";
 }
 
 export function agentsSiteUrl(): string {
-  return process.env.NEXT_PUBLIC_AGENTS_SITE_URL || "https://buildsomethingagentswant.com";
+  return process.env.NEXT_PUBLIC_AGENTS_SITE_URL || "https://www.buildsomethingagentswant.com";
 }

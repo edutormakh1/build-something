@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Agent-side methodology",
   description:
-    "Agent Twin Scores weight API quality, MCP or tool surface, CLI, structured docs, machine auth, quotas, determinism, and skill packaging. Named staff assign them from public docs.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/methodology" },
+    "The intended agent rubric weights API quality, MCP or tool surface, CLI, structured docs, machine auth, quotas, determinism, and skill packaging. Retained scores lack attached firsthand evaluation records.",
+  alternates: { canonical: abs("agents", "/methodology") },
 };
 
 export default function Page() {
@@ -23,23 +23,23 @@ export default function Page() {
             "agents",
             "/methodology",
             "Agent-side methodology",
-            "How agent Twin Scores are assigned from public APIs, docs, and skill packaging — named staff, no fake UGC.",
+            "Legacy agent estimates and intended rubric dimensions; documentation review does not validate these scores.",
           ),
         ]}
       />
-      <p className="kicker">Who · How · Why · Edu Tor</p>
+      <p className="kicker">Attribution · Intended rubric · Evidence limits</p>
       <h1>Agent-side methodology</h1>
       <p>
-        Agent Twin Scores are editorial 0–100 composites that weight API quality, MCP or tool surface, CLI, structured docs, machine auth, quotas, determinism, and skill packaging. Named staff assign them from public products and public documentation — not from invented user counts and not from a 3D canvas.
+        Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores. The intended agent rubric weights API quality, MCP or tool surface, CLI, structured docs, machine auth, quotas, determinism, and skill packaging.
       </p>
       <h2>Who, how, and why</h2>
       <p>
-        Who: Edu Tor (editor), with staff writers Maya Chen and Jonas Okonkwo on the people twin. How: public apps, official docs, pricing pages, and capability matrices in the committed catalog. Why: a citable machine contract, not search bait.
+        The catalog records the bylines Edu Tor, Maya Chen and Jonas Okonkwo. Their professional history and firsthand product evaluations are not independently verified in this evidence register. The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.
       </p>
       <h3>SKILL.md and the dataset</h3>
       <p>
         Each product has a real SKILL.md derived from catalog facts, with explicit when-to-use and when-not-to-use. Download JSON/CSV under CC BY 4.0 from{" "}
-        <Link href="/dataset/twin-scores.json">/dataset/twin-scores.json</Link> and recompute. Rubric: <Link href="/scorecard">scorecard</Link>.
+        <Link href="/dataset/twin-scores.json">/dataset/twin-scores.json</Link>. The exports reproduce summaries and gaps from final catalog estimates; they do not contain the original scoring observations. Rubric: <Link href="/scorecard">scorecard</Link>.
       </p>
     </article>
   );

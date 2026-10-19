@@ -1,0 +1,1418 @@
+{
+  "title": "Documentation-backed access decisions for ten software products — evidence companion, checked 2026-10-17",
+  "status": "local draft; unpublished; independent review pending; no G01 or E02 completion claim",
+  "source_sha": "989addd145ab7f315d36c8bb30b8c487e57c9a67",
+  "input_sha256": {
+    "packages/db/seed/editorial-cohort-e02.json": "34ef1200bbc90cc420ef6320116d97d8181fb1a313abb958e620221f461a0af1",
+    "packages/db/seed/catalog.json": "f12a2d2efd1704aef5273c735a5e2a72bb6b5b161ef4d2dc93095d9035d3414a",
+    "packages/db/src/catalog.ts": "03266dcd5caae1d11101f93bc022039e5c4e89e90c74f480ecd6e443ae715dd8",
+    "packages/seo/src/sites.ts": "e8b7acf69ff74a4732d0a29e5b81a601101c7ffa52df41452d6df373ae09b9fc",
+    "packages/seo/src/comparisons.ts": "9a7ccb0b813c0a222297d0ab26e8d35b6408f027627a390bf676bd3152d025b2",
+    "packages/seo/src/cohort.ts": "02320cc516a45742537d3aaa8487eda1d7ef1959f014b2119c2a2ef946583514",
+    "apps/people/app/products/[slug]/page.tsx": "9bcb1564dc69ead619830141c13bbd7b1f6b2527be241f86060c0ec54e8a1962",
+    "apps/agents/app/products/[slug]/page.tsx": "250002c245c33067baa1cb9fa311c4f6ff511bec87691496949420c3747bbc05",
+    "apps/people/app/compare/[pair]/page.tsx": "849abda1917dbf987da465c91b976186253aa0318c070b84c39ee809c22ee397",
+    "apps/agents/app/skills/[slug]/page.tsx": "c029990333c5865efa2c829c200a3b26265b8daa9d7000678f1957004ff975ec",
+    "apps/agents/app/methodology/page.tsx": "62a5c99248b20115f26e0170974e9b41fe833c95e2b4acd3f0c2c624759adbc6",
+    "apps/agents/app/scorecard/page.tsx": "2cd8117b867cb2bab5a8800c9f3b857e1195d9be7dd71bb58ff71c0c31469ccb",
+    "apps/agents/app/dataset/twin-scores.json/route.ts": "28685eff2ec546981dfbfe4fe87a0da685e36942699094fa1d95441c52aa5e90",
+    "apps/agents/app/dataset/twin-scores.csv/route.ts": "3642b5ccd01e25bcb07c8fc8dc5dc6b75f73c27040af6f4ce892c732db48207f"
+  },
+  "source_provenance": {
+    "cohort_id": "E02",
+    "source_sha": "2e294a91503310a77ec54b6e4ffd5b80ba904351",
+    "review_status": "reviewed",
+    "review": {
+      "reviewer": "claudeAgent/claude-opus-5-5 (independent implementation review)",
+      "review_file": "E02-implementation-review2.md",
+      "reviewed_sha": "cc6ac9d5e6b818831f35655bbdf1e449866ed2cc"
+    },
+    "checked_on": "2026-10-17",
+    "method": "documentation review",
+    "researcher": "automated agent",
+    "responsible_human_editor": null,
+    "product_tested": false
+  },
+  "counts": {
+    "products": 10,
+    "comparisons": 5,
+    "groups": 2,
+    "product_claims": 29,
+    "documented": 19,
+    "unknown": 10
+  },
+  "limits": [
+    "Product not tested; documentation checks do not validate retained scores, grades or product quality.",
+    "Responsible human editor: unassigned. Automated research does not verify catalog bylines or professional identities.",
+    "Unknowns record the limits of this research, not proof that a feature is absent.",
+    "Documentation reflects the pages checked on 2026-10-17; current conditions, including legacy-key deprecation status, may differ.",
+    "Vendor documentation is linked and paraphrased; its redistribution licence was not established. Stack Overflow data/content rights remain ODbL/DbCL, with user contributions CC BY-SA. No source material is relicensed as the existing CC BY 4.0 dataset."
+  ],
+  "redistribution_rights_assessment": "Pending where unestablished. Own dated claim synthesis and primary links only; no vendor full text, research quotations or blanket third-party licence. Not legal advice.",
+  "groups": [
+    {
+      "id": "H1",
+      "title": "Human AI workbench, coding delegation and model API access",
+      "products": [
+        "chatgpt",
+        "claude",
+        "cursor",
+        "github-copilot",
+        "openai-platform",
+        "anthropic-api"
+      ],
+      "demand_status": "directional evidence only; search demand hypothesis"
+    },
+    {
+      "id": "H2",
+      "title": "Database previews and controlled frontend deployment",
+      "products": [
+        "supabase",
+        "neon",
+        "vercel",
+        "cloudflare"
+      ],
+      "demand_status": "workflow/category evidence; weaker brand-level search-demand hypothesis"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "title": "ChatGPT plan usage and API distinction",
+      "url": "https://learn.chatgpt.com/docs/pricing",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Not an exhaustive ChatGPT feature matrix; no subscription purchased or regional eligibility checked.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S02",
+      "title": "OpenAI developer quickstart",
+      "url": "https://developers.openai.com/api/docs/quickstart",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "No SDK installed or request sent; example existence does not validate models, latency, quotas or output quality.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S03",
+      "title": "OpenAI API overview",
+      "url": "https://developers.openai.com/api/reference/overview",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Documentation only; no credential created, scoped or tested. Not proof that a ChatGPT plan grants API billing.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S04",
+      "title": "Stack Overflow 2026 AI data",
+      "url": "https://survey.stackoverflow.co/2026/ai/data",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Self-reported question-specific developer sample, not search volume, comparison intent, our audience or causal market data.",
+      "rights": "Survey footer: ODbL1.0 data; DbCL1.0 contents; user contributions CC BY-SA"
+    },
+    {
+      "id": "S05",
+      "title": "Stack Overflow 2026 technology",
+      "url": "https://survey.stackoverflow.co/2026/technology",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Question bases differ; no brand-specific hosting/Neon/Supabase search demand follows. No extrapolation to all developers or 2025/2026 trend. The database-question base is not stated on this page; no denominator was inferred from57.9%.",
+      "rights": "Survey footer: ODbL1.0 data; DbCL1.0 contents; user contributions CC BY-SA"
+    },
+    {
+      "id": "S06",
+      "title": "Stack Overflow 2026 methodology",
+      "url": "https://survey.stackoverflow.co/2026/methodology",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Community-recruited/self-selected and self-reported sample; not a representative search panel. No raw survey data downloaded.",
+      "rights": "Survey footer: ODbL1.0 data; DbCL1.0 contents; user contributions CC BY-SA"
+    },
+    {
+      "id": "S07",
+      "title": "Claude paid-plan and API billing boundary",
+      "url": "https://support.claude.com/en/articles/9876003-i-have-a-paid-claude-subscription-pro-max-team-or-enterprise-plans-why-is-claude-api-usage-billed-separately-from-my-paid-claude-plan",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Monthly API credits for Max and Team are documented; credit amount, expiry, plan eligibility and regional terms were not verified. No account was checked.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S09",
+      "title": "Cursor Cloud Agents API v1",
+      "url": "https://cursor.com/docs/cloud-agent/api/endpoints",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "No task launched or repository connected; v0/v1 webhook difference must remain explicit. API feature existence does not validate the retained strong webhook grade.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S10",
+      "title": "GitHub Copilot on GitHub.com",
+      "url": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Cloud agent's documented use of a GitHub MCP server with repository context by default and additional MCP servers does not establish a callable endpoint for third-party agents. A generic external task API was not established; permissions, plan and task behavior were not tested.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S11",
+      "title": "Supabase API keys",
+      "url": "https://supabase.com/docs/guides/getting-started/api-keys",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Documentation review only; no keys were retrieved or rotated, no project was accessed and no RLS policy was tested. The legacy-key deprecation announcement was documented on 2026-10-17; check the current Supabase API-key page before relying on legacy anon/service_role keys. No revocation, key failure or migration was observed.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S12",
+      "title": "Supabase branching",
+      "url": "https://supabase.com/docs/guides/deployment/branching",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "No branch created, copied or merged; not a guarantee that every configuration is data-free. Account cost/plan restrictions not verified.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S13",
+      "title": "Neon manage branches",
+      "url": "https://neon.com/docs/manage/branches",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "No branch or database accessed; isolation, deletion, retention, performance and cost not tested.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S14",
+      "title": "Neon pricing and backend suite",
+      "url": "https://neon.com/pricing",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Marketing/plan listing does not establish feature parity with Supabase, general availability, account entitlement or tested auth behavior. No numeric prices recommended.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S15",
+      "title": "Vercel deployment REST endpoint",
+      "url": "https://vercel.com/docs/rest-api/deployments/create-a-new-deployment",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "The deployment operation is documented; no deployment was created or token issued, and Next build compatibility and cost were not tested.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S16",
+      "title": "Cloudflare Workers pricing",
+      "url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "No account tier, traffic or production CPU was measured. Rendered HTML is not automatically a direct static asset; advertised allowances alone do not establish a deployment's suitability for Workers Free.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S17",
+      "title": "Claude API overview",
+      "url": "https://platform.claude.com/docs/en/api/overview",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "The overview was read successfully; detailed Messages parameter schema was not retrieved. No API call, auth flow, credit, benchmark or production access verified. Do not confuse Claude Managed Agents beta /v1/agents with Cursor https://api.cursor.com/v1/agents; this dossier does not add a Managed Agents contract.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S18",
+      "title": "Vercel Hobby plan",
+      "url": "https://vercel.com/docs/plans/hobby",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "The published Hobby plan guidance requires personal non-commercial use. Account eligibility and applicable terms were not assessed; no legal determination, price, contract or account choice was made.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S19",
+      "title": "Cloudflare versions and deployments",
+      "url": "https://developers.cloudflare.com/workers/versions-and-deployments/",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "A documented command, never executed in this research. No deploy, traffic split, rollback or account operation performed.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S20",
+      "title": "Google canonical guidance",
+      "url": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "Guidance does not establish our index status, dictate cross-domain canonicalization for genuinely distinct content, or guarantee rankings.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    },
+    {
+      "id": "S21",
+      "title": "Google scaled-content policy",
+      "url": "https://developers.google.com/search/docs/essentials/spam-policies",
+      "checked_on": "2026-10-17",
+      "method": "documentation review",
+      "retrieval_status": "retrieved",
+      "limitations": "No claim that a particular existing page violates policy; supports reviewing the small cohort before any expansion, not a ranking guarantee.",
+      "rights": "No permission to redistribute full vendor prose, screenshots or code established. Link and paraphrase only."
+    }
+  ],
+  "products": [
+    {
+      "slug": "chatgpt",
+      "name": "ChatGPT",
+      "group_id": "H1",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/chatgpt",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/chatgpt",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/chatgpt",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "claude",
+      "name": "Claude",
+      "group_id": "H1",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/claude",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/claude",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/claude",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "cursor",
+      "name": "Cursor",
+      "group_id": "H1",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/cursor",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/cursor",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/cursor",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "github-copilot",
+      "name": "GitHub Copilot",
+      "group_id": "H1",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/github-copilot",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/github-copilot",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/github-copilot",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "openai-platform",
+      "name": "OpenAI Platform",
+      "group_id": "H1",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/openai-platform",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/openai-platform",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/openai-platform",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "anthropic-api",
+      "name": "Anthropic API",
+      "group_id": "H1",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/anthropic-api",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/anthropic-api",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/anthropic-api",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "supabase",
+      "name": "Supabase",
+      "group_id": "H2",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/supabase",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/supabase",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/supabase",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "neon",
+      "name": "Neon",
+      "group_id": "H2",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/neon",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/neon",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/neon",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "vercel",
+      "name": "Vercel",
+      "group_id": "H2",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/vercel",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/vercel",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/vercel",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    },
+    {
+      "slug": "cloudflare",
+      "name": "Cloudflare",
+      "group_id": "H2",
+      "links": {
+        "people": {
+          "url": "https://www.buildsomethingpeoplewant.com/products/cloudflare",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/people/app/products/[slug]/page.tsx"
+        },
+        "agents": {
+          "url": "https://www.buildsomethingagentswant.com/products/cloudflare",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/products/[slug]/page.tsx"
+        },
+        "skill": {
+          "url": "https://www.buildsomethingagentswant.com/skills/cloudflare",
+          "availability": "source-backed at pinned commit; no new HTTP verification",
+          "source_path": "apps/agents/app/skills/[slug]/page.tsx"
+        }
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "E02-chatgpt-C01",
+      "statement": "ChatGPT subscription usage and API token billing are separate access decisions.",
+      "source_ids": [
+        "S01"
+      ],
+      "scope": "ChatGPT app/subscription versus OpenAI API billing",
+      "version": "plans documented 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "The pricing page does not establish a complete app feature matrix or any account entitlement.",
+      "product_slug": "chatgpt",
+      "product_name": "ChatGPT",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://learn.chatgpt.com/docs/pricing"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-chatgpt-U01",
+      "statement": "Plan eligibility, regional availability and usable account quotas were not checked.",
+      "source_ids": [],
+      "scope": "ChatGPT account and plan",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "chatgpt",
+      "product_name": "ChatGPT",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-claude-C01",
+      "statement": "Claude app plans and Console serve separate purposes; the support page documents monthly API credits for Max and Team.",
+      "source_ids": [
+        "S07"
+      ],
+      "scope": "Claude app plans versus Console/API billing",
+      "version": "plan support checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "Credit amounts, expiry, eligibility and region were not verified; this is not an unlimited-usage promise.",
+      "product_slug": "claude",
+      "product_name": "Claude",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://support.claude.com/en/articles/9876003-i-have-a-paid-claude-subscription-pro-max-team-or-enterprise-plans-why-is-claude-api-usage-billed-separately-from-my-paid-claude-plan"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-claude-U01",
+      "statement": "Account access, usable credits and the full app feature set remain unknown.",
+      "source_ids": [],
+      "scope": "Claude account and plan",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "claude",
+      "product_name": "Claude",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-cursor-C01",
+      "statement": "Cursor documents POST https://api.cursor.com/v1/agents in the Cloud Agents v1 public beta, with Basic or Bearer authentication and user or service-account keys.",
+      "source_ids": [
+        "S09"
+      ],
+      "scope": "Cursor Cloud Agents task API; not Claude API",
+      "version": "v1 public beta",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No repository was connected and no task or credential was tested.",
+      "product_slug": "cursor",
+      "product_name": "Cursor",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://cursor.com/docs/cloud-agent/api/endpoints"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-cursor-C02",
+      "statement": "The v1 introduction describes webhooks as forthcoming, while legacy v0 documents webhook support.",
+      "source_ids": [
+        "S09"
+      ],
+      "scope": "Cursor Cloud Agents completion notifications",
+      "version": "v1 public beta versus legacy v0",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "The retained webhook grade is not evidence of v1 support; re-check beta documentation before use.",
+      "product_slug": "cursor",
+      "product_name": "Cursor",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://cursor.com/docs/cloud-agent/api/endpoints"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-cursor-U01",
+      "statement": "Repository entitlement, task results, latency and account limits remain unknown.",
+      "source_ids": [],
+      "scope": "Cursor repository/task execution",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "cursor",
+      "product_name": "Cursor",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-github-copilot-C01",
+      "statement": "Copilot cloud agent uses a GitHub MCP server with current-repository context by default and can connect to additional MCP servers.",
+      "source_ids": [
+        "S10"
+      ],
+      "scope": "MCP used by Copilot cloud agent; repository context",
+      "version": "GitHub cloud agent documentation checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "The source does not document an MCP endpoint for external agents. The catalog mcp:none grade is retained and was not re-evaluated.",
+      "product_slug": "github-copilot",
+      "product_name": "GitHub Copilot",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-github-copilot-U01",
+      "statement": "A generic external task API, external MCP endpoint and account entitlement were not established.",
+      "source_ids": [],
+      "scope": "External callers and repository permissions",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "github-copilot",
+      "product_name": "GitHub Copilot",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-openai-platform-C01",
+      "statement": "The quickstart demonstrates a Responses call and official SDKs including JavaScript and Python, with Java and Go marked beta.",
+      "source_ids": [
+        "S02"
+      ],
+      "scope": "OpenAI API quickstart and SDK examples",
+      "version": "quickstart checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "This is not an exhaustive SDK list; no SDK or request was executed.",
+      "product_slug": "openai-platform",
+      "product_name": "OpenAI Platform",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://developers.openai.com/api/docs/quickstart"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-openai-platform-C02",
+      "statement": "The API overview documents Bearer API keys or short-lived workload-identity access tokens and directs developers to keep keys out of client code.",
+      "source_ids": [
+        "S03"
+      ],
+      "scope": "OpenAI direct API authentication",
+      "version": "overview checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No credential, workload-identity flow or account permission was tested.",
+      "product_slug": "openai-platform",
+      "product_name": "OpenAI Platform",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://developers.openai.com/api/reference/overview"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-openai-platform-U01",
+      "statement": "Model quality, token costs, latency and account quotas were not evaluated.",
+      "source_ids": [],
+      "scope": "Chosen OpenAI model and account",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "openai-platform",
+      "product_name": "OpenAI Platform",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-anthropic-api-C01",
+      "statement": "The overview documents POST https://api.anthropic.com/v1/messages with Bearer authentication, a supported legacy x-api-key fallback, and required anthropic-version and content-type headers.",
+      "source_ids": [
+        "S17"
+      ],
+      "scope": "Claude direct API overview; not a Managed Agents contract",
+      "version": "overview checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "The detailed Messages parameter schema was not retrieved. No API request or authentication flow was tested.",
+      "product_slug": "anthropic-api",
+      "product_name": "Anthropic API",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://platform.claude.com/docs/en/api/overview"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-anthropic-api-C02",
+      "statement": "anthropic-workspace-id is required with multi-workspace keys, optional with single-workspace keys and not used with WIF tokens.",
+      "source_ids": [
+        "S17"
+      ],
+      "scope": "Claude API workspace header conditional on credential type",
+      "version": "overview checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No workspace credential or routing behavior was tested.",
+      "product_slug": "anthropic-api",
+      "product_name": "Anthropic API",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://platform.claude.com/docs/en/api/overview"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-anthropic-api-C03",
+      "statement": "Claude app plans and Console/API billing are separate; Max and Team have monthly API credits documented in support guidance.",
+      "source_ids": [
+        "S07"
+      ],
+      "scope": "App subscription versus API entitlement",
+      "version": "support checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No amount, expiry or account eligibility was verified.",
+      "product_slug": "anthropic-api",
+      "product_name": "Anthropic API",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [
+        "https://support.claude.com/en/articles/9876003-i-have-a-paid-claude-subscription-pro-max-team-or-enterprise-plans-why-is-claude-api-usage-billed-separately-from-my-paid-claude-plan"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-anthropic-api-U01",
+      "statement": "The full Messages parameter schema, selected-model quality, costs and account limits remain unknown.",
+      "source_ids": [],
+      "scope": "Detailed Messages schema and API workload",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "anthropic-api",
+      "product_name": "Anthropic API",
+      "group_id": "H1",
+      "group_title": "Human AI workbench, coding delegation and model API access",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-supabase-C01",
+      "statement": "Publishable keys identify public app components; backend secret keys bypass RLS, while user authentication is separate.",
+      "source_ids": [
+        "S11"
+      ],
+      "scope": "Supabase app key versus elevated backend secret and user auth",
+      "version": "API-key guidance checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No project, key or RLS policy was accessed or tested; this does not authorize credential migration.",
+      "product_slug": "supabase",
+      "product_name": "Supabase",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://supabase.com/docs/guides/getting-started/api-keys"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-supabase-C02",
+      "statement": "The API-key page checked on 2026-10-17 announces legacy anon/service_role key deprecation by the end of 2026.",
+      "source_ids": [
+        "S11"
+      ],
+      "scope": "Dated legacy-key deprecation announcement",
+      "version": "documentary statement as of 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "Status as documented on 2026-10-17; check the current Supabase API-key page before relying on legacy anon/service_role keys. No failure, revocation, key rotation or migration was observed.",
+      "product_slug": "supabase",
+      "product_name": "Supabase",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://supabase.com/docs/guides/getting-started/api-keys"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-supabase-C03",
+      "statement": "New preview branches have no data or storage objects by default; seeding or Include data can change that starting state.",
+      "source_ids": [
+        "S12"
+      ],
+      "scope": "Supabase preview branch data initialization",
+      "version": "branching guidance checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No branch was created, copied or merged; account cost and plan restrictions were not verified.",
+      "product_slug": "supabase",
+      "product_name": "Supabase",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://supabase.com/docs/guides/deployment/branching"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-supabase-U01",
+      "statement": "Project-specific permissions, RLS enforcement, preview cost and data isolation remain untested.",
+      "source_ids": [],
+      "scope": "Supabase account/project and branch behavior",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "supabase",
+      "product_name": "Supabase",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-neon-C01",
+      "statement": "Neon describes a child branch as a copy-on-write clone and documents branch operations through Console, CLI and an API requiring an API key.",
+      "source_ids": [
+        "S13"
+      ],
+      "scope": "Neon branch management; not application database credentials",
+      "version": "branch guidance checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No branch or database was accessed; retention, deletion, isolation, performance and cost were not tested.",
+      "product_slug": "neon",
+      "product_name": "Neon",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://neon.com/docs/manage/branches"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-neon-C02",
+      "statement": "The Launch and Scale Backend lists advertise Managed Better Auth, Object Storage, Functions and AI Gateway alongside Lakebase Postgres.",
+      "source_ids": [
+        "S14"
+      ],
+      "scope": "Neon advertised backend plan listings",
+      "version": "Launch/Scale Backend lists checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "This rejects a database-only description without establishing availability, entitlement or parity with Supabase; rendered page variants were observed.",
+      "product_slug": "neon",
+      "product_name": "Neon",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://neon.com/pricing"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-neon-U01",
+      "statement": "Account service availability, branch cost and operational isolation remain unknown.",
+      "source_ids": [],
+      "scope": "Neon account and preview workload",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "neon",
+      "product_name": "Neon",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-vercel-C01",
+      "statement": "Vercel documents POST https://api.vercel.com/v13/deployments with Bearer token authentication.",
+      "source_ids": [
+        "S15"
+      ],
+      "scope": "Vercel deployment management API",
+      "version": "v13 reference checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No token was issued and no deployment or build compatibility was tested.",
+      "product_slug": "vercel",
+      "product_name": "Vercel",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://vercel.com/docs/rest-api/deployments/create-a-new-deployment"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-vercel-C02",
+      "statement": "The Hobby documentation limits the plan to personal non-commercial use and describes pausing after limits.",
+      "source_ids": [
+        "S18"
+      ],
+      "scope": "Vercel Hobby plan guidance",
+      "version": "plan documentation checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "This is not a determination of project eligibility, legal advice or a total-cost calculation.",
+      "product_slug": "vercel",
+      "product_name": "Vercel",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://vercel.com/docs/plans/hobby"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-vercel-U01",
+      "statement": "Project eligibility, adapter compatibility, total cost and deployment outcome were not established.",
+      "source_ids": [],
+      "scope": "Vercel project/account and runtime",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "vercel",
+      "product_name": "Vercel",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-cloudflare-C01",
+      "statement": "Workers Free lists 100,000 requests per day and 10 ms CPU per invocation; direct static-asset requests have separate treatment from Worker execution.",
+      "source_ids": [
+        "S16"
+      ],
+      "scope": "Cloudflare Workers request/CPU allowances versus direct static assets",
+      "version": "pricing documentation checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No traffic, account tier or CPU was measured; rendered HTML is not automatically a direct static asset, and advertised allowances alone do not establish a deployment's suitability for Workers Free.",
+      "product_slug": "cloudflare",
+      "product_name": "Cloudflare",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://developers.cloudflare.com/workers/platform/pricing/"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-cloudflare-C02",
+      "statement": "By default wrangler deploy creates a version and sends all traffic to it; separate upload and promotion operations allow staged deployment.",
+      "source_ids": [
+        "S19"
+      ],
+      "scope": "Cloudflare Workers version upload and traffic promotion",
+      "version": "version/deployment guidance checked 2026-10-17",
+      "checked_on": "2026-10-17",
+      "evidence_status": "documented",
+      "limitations": "No command, deployment, split or rollback was executed.",
+      "product_slug": "cloudflare",
+      "product_name": "Cloudflare",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [
+        "https://developers.cloudflare.com/workers/versions-and-deployments/"
+      ],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    },
+    {
+      "id": "E02-cloudflare-U01",
+      "statement": "Actual application CPU, adapter compatibility, account allowance and total cost remain unknown.",
+      "source_ids": [],
+      "scope": "Cloudflare application runtime and account",
+      "version": "not established",
+      "checked_on": "2026-10-17",
+      "evidence_status": "unknown",
+      "limitations": "No product or account tested. An unchecked capability is unknown, not evidence of absence.",
+      "product_slug": "cloudflare",
+      "product_name": "Cloudflare",
+      "group_id": "H2",
+      "group_title": "Database previews and controlled frontend deployment",
+      "source_urls": [],
+      "method": "documentation review",
+      "researcher": "automated agent",
+      "responsible_human_editor": null,
+      "responsible_human_editor_status": "unassigned",
+      "product_tested": false
+    }
+  ],
+  "comparisons": [
+    {
+      "a": "chatgpt",
+      "b": "claude",
+      "path": "/compare/chatgpt-vs-claude",
+      "question": "App workflow or backend integration: which access decision comes first?",
+      "decision_checks": [
+        "Separate subscriptions from backend billing before comparing allowances.",
+        "Check plan-specific credits and feature needs; these documents do not identify a quality winner."
+      ],
+      "rows": [
+        {
+          "topic": "App and API billing",
+          "a_claim_ids": [
+            "E02-chatgpt-C01"
+          ],
+          "b_claim_ids": [
+            "E02-claude-C01"
+          ]
+        },
+        {
+          "topic": "Account entitlement not checked",
+          "a_claim_ids": [
+            "E02-chatgpt-U01"
+          ],
+          "b_claim_ids": [
+            "E02-claude-U01"
+          ]
+        }
+      ],
+      "related_paths": [
+        "/products/chatgpt",
+        "/products/claude",
+        "/products/openai-platform",
+        "/products/anthropic-api",
+        "/compare/openai-platform-vs-anthropic-api",
+        "/categories/ai-assistants"
+      ],
+      "people_canonical": {
+        "url": "https://www.buildsomethingpeoplewant.com/compare/chatgpt-vs-claude",
+        "availability": "source-backed at pinned commit; no new HTTP verification",
+        "source_path": "apps/people/app/compare/[pair]/page.tsx"
+      }
+    },
+    {
+      "a": "cursor",
+      "b": "github-copilot",
+      "path": "/compare/cursor-vs-github-copilot",
+      "question": "Do you need an API-triggered task or repository-native delegation?",
+      "decision_checks": [
+        "Check beta/version boundaries, repository permission and review workflow.",
+        "An endpoint not established in this research is unknown, not proof that no API exists."
+      ],
+      "rows": [
+        {
+          "topic": "Documented task surface and MCP roles",
+          "a_claim_ids": [
+            "E02-cursor-C01"
+          ],
+          "b_claim_ids": [
+            "E02-github-copilot-C01"
+          ]
+        },
+        {
+          "topic": "Completion and permission limits",
+          "a_claim_ids": [
+            "E02-cursor-C02",
+            "E02-cursor-U01"
+          ],
+          "b_claim_ids": [
+            "E02-github-copilot-U01"
+          ]
+        }
+      ],
+      "related_paths": [
+        "/products/cursor",
+        "/products/github-copilot",
+        "/categories/developer-tools"
+      ],
+      "people_canonical": {
+        "url": "https://www.buildsomethingpeoplewant.com/compare/cursor-vs-github-copilot",
+        "availability": "source-backed at pinned commit; no new HTTP verification",
+        "source_path": "apps/people/app/compare/[pair]/page.tsx"
+      }
+    },
+    {
+      "a": "vercel",
+      "b": "cloudflare",
+      "path": "/compare/vercel-vs-cloudflare",
+      "question": "Which operation publishes changes and which limits need verification?",
+      "decision_checks": [
+        "Review permissions, publication target and rollback before executing a management operation.",
+        "Check plan terms, adapter compatibility and observed request/CPU cost before choosing a platform."
+      ],
+      "rows": [
+        {
+          "topic": "Publication operations",
+          "a_claim_ids": [
+            "E02-vercel-C01"
+          ],
+          "b_claim_ids": [
+            "E02-cloudflare-C02"
+          ]
+        },
+        {
+          "topic": "Plan and execution boundaries",
+          "a_claim_ids": [
+            "E02-vercel-C02"
+          ],
+          "b_claim_ids": [
+            "E02-cloudflare-C01"
+          ]
+        },
+        {
+          "topic": "Unmeasured workload fit",
+          "a_claim_ids": [
+            "E02-vercel-U01"
+          ],
+          "b_claim_ids": [
+            "E02-cloudflare-U01"
+          ]
+        }
+      ],
+      "related_paths": [
+        "/products/vercel",
+        "/products/cloudflare",
+        "/categories/infrastructure"
+      ],
+      "people_canonical": {
+        "url": "https://www.buildsomethingpeoplewant.com/compare/vercel-vs-cloudflare",
+        "availability": "source-backed at pinned commit; no new HTTP verification",
+        "source_path": "apps/people/app/compare/[pair]/page.tsx"
+      }
+    },
+    {
+      "a": "supabase",
+      "b": "neon",
+      "path": "/compare/supabase-vs-neon",
+      "question": "Should a preview start without data or as a clone of existing state?",
+      "decision_checks": [
+        "Choose the preview data policy before comparing branch mechanisms.",
+        "Distinguish management credentials from app/user access and verify cleanup and cost.",
+        "Advertised services do not prove tested feature parity or isolation."
+      ],
+      "rows": [
+        {
+          "topic": "Preview starting state",
+          "a_claim_ids": [
+            "E02-supabase-C03"
+          ],
+          "b_claim_ids": [
+            "E02-neon-C01"
+          ]
+        },
+        {
+          "topic": "Credential and service boundaries",
+          "a_claim_ids": [
+            "E02-supabase-C01",
+            "E02-supabase-C02"
+          ],
+          "b_claim_ids": [
+            "E02-neon-C02"
+          ]
+        },
+        {
+          "topic": "Operational unknowns",
+          "a_claim_ids": [
+            "E02-supabase-U01"
+          ],
+          "b_claim_ids": [
+            "E02-neon-U01"
+          ]
+        }
+      ],
+      "related_paths": [
+        "/products/supabase",
+        "/products/neon",
+        "/categories/infrastructure"
+      ],
+      "people_canonical": {
+        "url": "https://www.buildsomethingpeoplewant.com/compare/supabase-vs-neon",
+        "availability": "source-backed at pinned commit; no new HTTP verification",
+        "source_path": "apps/people/app/compare/[pair]/page.tsx"
+      }
+    },
+    {
+      "a": "openai-platform",
+      "b": "anthropic-api",
+      "path": "/compare/openai-platform-vs-anthropic-api",
+      "question": "Which direct API contract must the backend implement?",
+      "decision_checks": [
+        "Select credential type, endpoint and versioning requirements before implementation.",
+        "Review model price and quality separately; the retrieved overview is not a complete schema comparison."
+      ],
+      "rows": [
+        {
+          "topic": "Authentication and workspace scope",
+          "a_claim_ids": [
+            "E02-openai-platform-C02"
+          ],
+          "b_claim_ids": [
+            "E02-anthropic-api-C01",
+            "E02-anthropic-api-C02"
+          ]
+        },
+        {
+          "topic": "Examples versus contract gaps",
+          "a_claim_ids": [
+            "E02-openai-platform-C01",
+            "E02-openai-platform-U01"
+          ],
+          "b_claim_ids": [
+            "E02-anthropic-api-C03",
+            "E02-anthropic-api-U01"
+          ]
+        }
+      ],
+      "related_paths": [
+        "/products/openai-platform",
+        "/products/anthropic-api",
+        "/products/chatgpt",
+        "/products/claude",
+        "/categories/developer-tools"
+      ],
+      "people_canonical": {
+        "url": "https://www.buildsomethingpeoplewant.com/compare/openai-platform-vs-anthropic-api",
+        "availability": "source-backed at pinned commit; no new HTTP verification",
+        "source_path": "apps/people/app/compare/[pair]/page.tsx"
+      }
+    }
+  ],
+  "agents_artifacts": {
+    "methodology": {
+      "url": "https://www.buildsomethingagentswant.com/methodology",
+      "availability": "source-backed at pinned commit; no new HTTP verification",
+      "source_path": "apps/agents/app/methodology/page.tsx"
+    },
+    "scorecard": {
+      "url": "https://www.buildsomethingagentswant.com/scorecard",
+      "availability": "source-backed at pinned commit; no new HTTP verification",
+      "source_path": "apps/agents/app/scorecard/page.tsx"
+    },
+    "legacy_dataset_json": {
+      "url": "https://www.buildsomethingagentswant.com/dataset/twin-scores.json",
+      "availability": "source-backed at pinned commit; no new HTTP verification",
+      "source_path": "apps/agents/app/dataset/twin-scores.json/route.ts"
+    },
+    "legacy_dataset_csv": {
+      "url": "https://www.buildsomethingagentswant.com/dataset/twin-scores.csv",
+      "availability": "source-backed at pinned commit; no new HTTP verification",
+      "source_path": "apps/agents/app/dataset/twin-scores.csv/route.ts"
+    },
+    "legacy_dataset_metadata": {
+      "license": "CC BY 4.0",
+      "generatedAt": "2026-08-25",
+      "limits": "Legacy estimates and capability projection; no E02 claim register or original scoring observations. Cannot reproduce a product benchmark."
+    }
+  }
+}

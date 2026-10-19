@@ -1,3 +1,4 @@
+import { abs } from "@bs/seo";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -10,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const c = getCategory(slug);
-  return { title: c?.name || "Not found", alternates: { canonical: `https://buildsomethingagentswant.com/categories/${slug}` } };
+  return { title: c?.name || "Not found", alternates: { canonical: abs("agents", `/categories/${slug}`) } };
 }
 export default async function Page({ params }: Props) {
   const { slug } = await params;
@@ -23,6 +24,7 @@ export default async function Page({ params }: Props) {
       <p>{c.description}</p>
       <h2>Entities</h2>
       <h3>Same slugs as the people twin</h3>
+      <p>Legacy editorial estimates; no firsthand test record attached.</p>
       <ul>
         {products.map((p) => (
           <li key={p.slug}><Link href={`/products/${p.slug}`}>{p.name}</Link> · agent {p.twin.agent}</li>

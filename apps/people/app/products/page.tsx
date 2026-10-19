@@ -2,14 +2,14 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { allProducts } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { itemListJsonLd, breadcrumbJsonLd } from "@bs/seo";
+import { abs, itemListJsonLd, breadcrumbJsonLd } from "@bs/seo";
 import { ProductCard } from "../../components/product-card";
 
 export const metadata: Metadata = {
   title: "All products",
   description:
     "Browse 70+ worldwide software products with editorial Twin Scores for humans and agents. Not a star-rating marketplace.",
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/products" },
+  alternates: { canonical: abs("people", "/products") },
 };
 
 export default function ProductsPage({

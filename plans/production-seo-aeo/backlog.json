@@ -1,0 +1,527 @@
+{
+  "version": 1,
+  "as_of": "2026-10-16",
+  "goal": "Finish and launch the two-site product; build measurable original SEO/AEO discovery.",
+  "initial_execution_task": "L01",
+  "independent_local_queue": [
+    "L01",
+    "S01",
+    "S02",
+    "C01",
+    "S03",
+    "P01",
+    "E01",
+    "A01",
+    "AEO01",
+    "E02"
+  ],
+  "items": [
+    {
+      "id": "L01",
+      "priority": "P0",
+      "title": "Revisar y guardar la migración existente",
+      "depends_on": [],
+      "scope": [
+        "apps/*/{open-next.config.ts,wrangler.jsonc,package.json}",
+        "packages/{auth,ui}/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "acceptance": "Comprobar diff y versiones coherentes; pnpm install --frozen-lockfile, pnpm test, pnpm build:cloudflare y pnpm check:cloudflare pasan desde el checkpoint; conservar fuentes y variables. No certificar despliegue.",
+      "risk": "T2",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Lead run L01-review1.md (independent xAI reviewer); local install/tests/types/dry-runs and local Worker smoke passed. No deployment.",
+      "review_sha": "941b7d0f51dc6d83cc1f8c2396296eb1e9074e76",
+      "blocked_by_access": []
+    },
+    {
+      "id": "S01",
+      "priority": "P0",
+      "title": "Proteger entidades y estados HTTP públicos",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "packages/db/src/catalog.ts",
+        "packages/seo/src/api.ts",
+        "packages/seo/src/markdown.ts",
+        "packages/seo/src/urls.ts",
+        "apps/people/app/authors/[slug]/page.tsx",
+        "apps/people/app/reviews/[slug]/page.tsx",
+        "apps/agents/app/skills/[slug]/raw/route.ts",
+        "tests/publication.test.ts"
+      ],
+      "acceptance": "Primero propuesta del comportamiento público. Fixtures publicados/no publicados/desconocidos; HTML, Markdown, API y skill raw no exponen borradores; comparaciones inexistentes no devuelven 200. Revisión de contrato antes de cambiar rutas públicas.",
+      "risk": "T3 proposal",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Lead run S01-review1.md, independent isolated review;65 tests/types/probe pass, no findings.",
+      "review_sha": "49795472ed84a98eccc64163ce7bc0c19da067a4",
+      "blocked_by_access": []
+    },
+    {
+      "id": "S02",
+      "priority": "P0",
+      "title": "Representar honestamente puntajes y reseñas",
+      "depends_on": [
+        "L01",
+        "S01"
+      ],
+      "scope": [
+        "packages/seo/src/jsonld.ts",
+        "packages/seo/src/llms.ts",
+        "packages/seo/src/markdown.ts",
+        "apps/people/app/products/[slug]/page.tsx",
+        "apps/agents/app/products/[slug]/page.tsx",
+        "apps/people/app/reviews/[slug]/page.tsx",
+        "apps/people/app/page.tsx",
+        "apps/people/app/scorecard/page.tsx",
+        "apps/agents/app/scorecard/page.tsx",
+        "apps/people/app/methodology/page.tsx",
+        "tests/ratings.test.ts",
+        "packages/db/seed/catalog.json (rubric.notes sentence and fake-ugc-editorial-policy schema paragraph only)"
+      ],
+      "acceptance": "Sin AggregateRating compuesto no sustentado ni estrellas de respaldo en notas sin score; el marcado coincide con el contenido visible. Tests con reseña puntuada/no puntuada y nota documental. Validación del marcado sin prometer rich results. Corregir las afirmaciones obsoletas de AggregateRating en home, scorecards, metodología, llms/Markdown, rubric.notes y sólo el párrafo de schema del artículo fake-ugc-editorial-policy; conservar scores/autores y los demás campos.",
+      "risk": "T2",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Fresh isolated Codex reviewer round2, review-round2-393d357-independent/review.txt;164tests/types/lint/builds/dryruns,76HTTP and mocked browserflows PASS. Same-family limitation disclosed; real Supabase/hosting settings pending.",
+      "review_sha": "393d357c1c16819b1f67d7554fbd240db6a88b86",
+      "blocked_by_access": []
+    },
+    {
+      "id": "S03",
+      "priority": "P0",
+      "title": "Normalizar comparaciones y canonical",
+      "depends_on": [
+        "S01",
+        "S02"
+      ],
+      "scope": [
+        "packages/seo/src/sites.ts",
+        "packages/seo/src/comparisons.ts",
+        "packages/seo/src/urls.ts",
+        ".env.example",
+        "apps/people/wrangler.jsonc",
+        "apps/agents/wrangler.jsonc",
+        "tests/site-urls.test.ts",
+        "tests/comparisons.test.ts",
+        "apps/people/app/compare/[pair]/page.tsx",
+        "apps/people/app/products/[slug]/page.tsx",
+        "apps/people/app/alternatives/[slug]/page.tsx",
+        "packages/seo/src/markdown.ts",
+        "packages/seo/src/llms.ts",
+        "apps/people/app/md/[[...path]]/route.ts",
+        "apps/agents/app/md/[[...path]]/route.ts",
+        "tests/publication.test.ts",
+        "tests/comparison-representations.test.ts",
+        "apps/people/app/products/page.tsx",
+        "apps/people/app/categories/[slug]/page.tsx",
+        "apps/people/app/best/[slug]/page.tsx",
+        "apps/people/app/authors/[slug]/page.tsx",
+        "apps/people/app/blog/page.tsx",
+        "apps/people/app/blog/[slug]/page.tsx",
+        "apps/people/app/about/page.tsx",
+        "apps/people/app/editorial-policy/page.tsx",
+        "apps/people/app/contact/page.tsx",
+        "apps/people/app/for-agents/page.tsx",
+        "apps/people/app/api/page.tsx",
+        "apps/people/app/page.tsx",
+        "apps/people/app/reviews/[slug]/page.tsx",
+        "apps/people/app/scorecard/page.tsx",
+        "apps/people/app/methodology/page.tsx",
+        "apps/agents/app/page.tsx",
+        "apps/agents/app/products/page.tsx",
+        "apps/agents/app/products/[slug]/page.tsx",
+        "apps/agents/app/categories/[slug]/page.tsx",
+        "apps/agents/app/skills/[slug]/page.tsx",
+        "apps/agents/app/about/page.tsx",
+        "apps/agents/app/methodology/page.tsx",
+        "apps/agents/app/scorecard/page.tsx",
+        "apps/agents/app/for-agents/page.tsx",
+        "apps/agents/app/api/page.tsx",
+        "apps/people/app/robots.ts",
+        "apps/people/app/feed.xml/route.ts",
+        "apps/people/app/atom.xml/route.ts",
+        "apps/people/app/.well-known/ai-catalog.json/route.ts",
+        "apps/agents/app/robots.ts",
+        "apps/agents/app/feed.xml/route.ts",
+        "apps/agents/app/atom.xml/route.ts",
+        "apps/agents/app/.well-known/ai-catalog.json/route.ts",
+        "apps/agents/app/.well-known/agent-skills/index.json/route.ts",
+        "packages/ui/src/footer.tsx",
+        "apps/people/app/layout.tsx",
+        "apps/agents/app/layout.tsx",
+        "apps/people/components/experience.tsx",
+        "apps/agents/components/experience.tsx",
+        "apps/people/components/chrome.tsx",
+        "apps/agents/components/chrome.tsx",
+        "packages/seo/src/jsonld.ts",
+        "scripts/check-canonicals.mjs",
+        "packages/seo/src/index.ts (Lead export wiring only)",
+        "packages/auth/src/env.ts (Lead two www fallback strings only)",
+        "apps/people/app/submit/page.tsx",
+        "apps/people/worker.mjs",
+        "apps/agents/worker.mjs",
+        "packages/seo/src/negotiate.ts",
+        "tests/worker-negotiation.test.ts"
+      ],
+      "acceptance": "Propuesta S03 aprobada: preservar los25pares curados y hostswww observados. Resolver compartido; reverse308, self/malformed/unknown/private404; uncuratedpublished200noindex. HTML/Markdown comparten estados/canonical; sitemap y enlaces sólo pares curados. Corregir metadata/discovery/feed destinations conservando identidades de suscripción. Crawl HTTP local real de canonical/status/robots/feeds sobre fuente estabilizada; revisión independiente integrada. Reservas exactas por slice en run/S03-reservations.json; sitemap/API source sólo objetivos de verificación salvo extensión expresa. Extensiones revisadas: canonical propio de /submit y normalizador Worker de transporte RSC antes de Next, con .mjs y main como únicos cambios de entrada. Integración local en dac025a:368tests y395HTTP; no constituyen aceptación independiente ni despliegue.",
+      "risk": "T2; contract proposal where needed",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Fresh isolated cross-family Claude round1 S03-E01-implementation-review1.md;368tests/lint/types/freshbuilds/dryruns39smoke;716 independent targetedHTTP,409/411checks matching-host run,2baseline sitemap duplicates. No blockers. Hosted checks/P01/AEO01 still pending.",
+      "review_sha": "76aaf8236075e2c91533bdef888e1dcc9451fb1f",
+      "blocked_by_access": []
+    },
+    {
+      "id": "E01",
+      "priority": "P0",
+      "title": "Crear registro de evidencia y auditar afirmaciones",
+      "depends_on": [
+        "S02"
+      ],
+      "scope": [
+        "packages/db/seed/catalog.json",
+        "packages/db/seed/evidence.json",
+        "tests/fixtures/e01-repair-manifest.json",
+        "tests/editorial-preservation.test.ts",
+        "tests/editorial-arithmetic.test.ts",
+        "packages/ui/src/twin-score.tsx",
+        "packages/seo/src/markdown.ts",
+        "packages/seo/src/llms.ts",
+        "packages/seo/src/jsonld.ts",
+        "tests/editorial-evidence.test.ts",
+        "tests/editorial-shared-representations.test.ts",
+        "apps/people/app/page.tsx",
+        "apps/people/app/about/page.tsx",
+        "apps/people/app/methodology/page.tsx",
+        "apps/people/app/editorial-policy/page.tsx",
+        "apps/people/app/scorecard/page.tsx",
+        "apps/people/app/authors/[slug]/page.tsx",
+        "apps/people/app/reviews/[slug]/page.tsx",
+        "apps/people/app/products/[slug]/page.tsx",
+        "apps/people/app/best/[slug]/page.tsx",
+        "apps/people/app/api/page.tsx",
+        "apps/people/app/for-agents/page.tsx",
+        "tests/editorial-people-representations.test.ts",
+        "apps/agents/app/page.tsx",
+        "apps/agents/app/about/page.tsx",
+        "apps/agents/app/methodology/page.tsx",
+        "apps/agents/app/scorecard/page.tsx",
+        "apps/agents/app/products/[slug]/page.tsx",
+        "apps/agents/app/categories/[slug]/page.tsx",
+        "apps/agents/app/api/page.tsx",
+        "apps/agents/app/for-agents/page.tsx",
+        "tests/editorial-agents-representations.test.ts",
+        "apps/people/app/reviews/page.tsx",
+        "apps/people/components/auth-forms.tsx",
+        "README.md",
+        "tests/editorial-submission-copy.test.ts"
+      ],
+      "acceptance": "Propuesta E01 aprobada y cinco slices implementados, pendientes de revisión independiente. Sidecar interno con fuente/fecha/método/responsable/límites;208spans permitidos con inversión exacta. Conservar scores/grades/IDs/statuses/fechas/nombres/URLs de fuentes/orden/pesos. Identidades no verificadas, estimaciones heredadas y notas documentales parafraseadas; corregir aritmética y propagación de descripciones. HTML/Markdown/JSON-LD/llms y ambas apps describen límites sin inventar pruebas ni publicación automática. Auth-forms sólo cinco textos; no cambios de API/SQL/solicitudes/permisos ni validación de RLS remota. Paridad completa del fallback Markdown queda en AEO01.",
+      "risk": "T2; schema/publication escalation if expanded",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Fresh isolated cross-family Claude round1 S03-E01-implementation-review1.md;368tests/lint/types/freshbuilds/dryruns39smoke;716 independent targetedHTTP,409/411checks matching-host run,2baseline sitemap duplicates. No blockers. Hosted checks/P01/AEO01 still pending. Scope-limited: N4/N5 residual unsupported copy is E01F, not accepted as corrected.",
+      "review_sha": "76aaf8236075e2c91533bdef888e1dcc9451fb1f",
+      "blocked_by_access": []
+    },
+    {
+      "id": "A01",
+      "priority": "P0",
+      "title": "Resolver recuperación de contraseña existente",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "apps/agents/app/auth/recovery/route.ts",
+        "apps/agents/app/reset-password/actions.ts",
+        "apps/agents/app/reset-password/page.tsx",
+        "apps/agents/components/auth-forms.tsx",
+        "apps/agents/middleware.ts",
+        "apps/agents/next.config.ts",
+        "apps/people/app/auth/recovery/route.ts",
+        "apps/people/app/login/page.tsx",
+        "apps/people/app/reset-password/actions.ts",
+        "apps/people/app/reset-password/page.tsx",
+        "apps/people/components/auth-forms.tsx",
+        "apps/people/middleware.ts",
+        "apps/people/next.config.ts",
+        "packages/auth/package.json",
+        "packages/auth/src/middleware.ts",
+        "packages/auth/src/recovery.ts",
+        "tests/fixtures/recovery-fetch-mock.cjs",
+        "tests/recovery-ui.test.ts",
+        "tests/recovery.test.ts"
+      ],
+      "acceptance": "Propuesta A01 aprobada y recuperación local revisada: callback del mismo origen, sesión validada y actualización de contraseña con autorización del servidor. Tests mock y browser con Auth simulado, Workers sin configuración real; no pruebas contra bases remotas. Aceptación local al SHA indicado; allowlists/SMTP/cookies desplegadas y cuentas reales siguen pendientes de acceso autorizado.",
+      "risk": "T3 proposal",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Fresh isolated Codex reviewer round2, review-round2-393d357-independent/review.txt;164tests/types/lint/builds/dryruns,76HTTP and mocked browserflows PASS. Same-family limitation disclosed; real Supabase/hosting settings pending.",
+      "review_sha": "393d357c1c16819b1f67d7554fbd240db6a88b86",
+      "blocked_by_access": []
+    },
+    {
+      "id": "C01",
+      "priority": "P0",
+      "title": "Agregar controles válidos y rendimiento de lanzamiento",
+      "depends_on": [
+        "L01"
+      ],
+      "scope": [
+        "package.json",
+        "apps/people/package.json",
+        "apps/agents/package.json",
+        "pnpm-lock.yaml",
+        "eslint.config.mjs",
+        ".github/workflows/checks.yml",
+        "scripts/smoke-cloudflare.mjs",
+        "tests/cloudflare-smoke.test.ts (only if meaningful runner behavior needs verification)"
+      ],
+      "acceptance": "Lint válido para Next 15, tipos por app, tests, builds y dry-run en CI. Smoke HTTP reproducible cubre ambas apps y variación HTML/Markdown. Medir móvil, fallos WebGL y tamaño/CPU sin inventar valores ni evaluar contra bases remotas. Registrar el baseline real: next lint de Next15 existe pero está deprecado y pide configuración interactiva. Investigar escrituras al caché estático de OpenNext con repro; proponer un cambio antes de ampliar el alcance del adapter. Excepciones de lint sólo en archivos específicos y documentadas.",
+      "risk": "T2",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "Independent xAI reviewer C01-review1.md, durable final timelineitem200; frozeninstall/lint65tests/types/freshbuilds/dryruns39HTTP PASS. Transport run status stale after final report; preserved full verdict before cleanup. Mobile P01 pending.",
+      "review_sha": "5a996c12bcb132f5e8799a76e52d08204629c94e",
+      "blocked_by_access": []
+    },
+    {
+      "id": "AEO01",
+      "priority": "P1",
+      "title": "Alinear HTML Markdown y recursos para agentes",
+      "depends_on": [
+        "S01",
+        "S03"
+      ],
+      "scope": [
+        "packages/seo/src/{markdown,llms,api,robots}.ts",
+        "apps/*/app/md/",
+        "apps/agents/app/{skills,dataset,.well-known}/",
+        "tests/"
+      ],
+      "acceptance": "Mismas entidades/hechos y estados entre representaciones; evitar fallback vacío en páginas canónicas; query/search según contrato; crawlers de búsqueda permitidos sin afirmar que training bots mejoran SEO. Mantener contratos existentes o preparar propuesta específica.",
+      "risk": "T2/T3 for contract changes",
+      "status": "in_progress",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [],
+      "implementation_status": "U three-file extraction integrated6fd00eb plus Leadpublicexports; independentimplementationreview stillrequired. M/S pending."
+    },
+    {
+      "id": "P01",
+      "priority": "P0",
+      "title": "Corregir inestabilidad y coste móvil medidos",
+      "depends_on": [
+        "C01",
+        "S03"
+      ],
+      "scope": [
+        "apps/agents/app/page.tsx",
+        "apps/agents/app/globals.css",
+        "packages/ui/src/theme/base.css",
+        "packages/ui/src/theme/agents.css",
+        "packages/ui/src/nav.tsx",
+        "packages/ui/src/motion/relic-mark.tsx",
+        "packages/ui/src/motion/relic.tsx"
+      ],
+      "acceptance": "Partir de las trazas locales C01: Agents presentó LCP4.288s y desplazamiento0.261 con throttling/software GPU; no son métricas de usuarios. Atribuir los desplazamientos con nodos/rectángulos y medir CLS con ventanas de sesión. Corregir la causa concreta mediante geometría/carga/animación mínima, conservar contenido y navegación sin WebGL/JS. Comparar varias muestras reproducibles antes/después en ambas apps; objetivo local CLS<=0.1 sin empeorar People y reducir el coste dominante observado. Documentar límites y separar métricas locales de CWV de campo. No editar imágenes ni contratar optimización remota sin propuesta concreta de archivos/coste.",
+      "risk": "T2",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "P01-implementation-review3.md PASS scoped: CSSCLSfix + reviewed concretecostproposal. Actual image/CPUreduction remainsfutureA1/A2/B.",
+      "review_sha": "9224e21e9daf51d18c85431cff66788fa3432850",
+      "blocked_by_access": []
+    },
+    {
+      "id": "D01",
+      "priority": "P0",
+      "title": "Autenticar y publicar Workers de prueba",
+      "depends_on": [
+        "L01",
+        "S01",
+        "S02",
+        "S03",
+        "C01"
+      ],
+      "scope": [
+        "apps/people/wrangler.preview.jsonc",
+        "apps/agents/wrangler.preview.jsonc",
+        "apps/people/worker.mjs",
+        "apps/agents/worker.mjs",
+        "packages/seo/src/preview.ts",
+        "tests/preview-response.test.ts",
+        "tests/preview-deployment.test.ts",
+        "scripts/cloudflare-preview.mjs",
+        "scripts/smoke-cloudflare-preview.mjs",
+        "package.json (Lead scripts wiring only)",
+        ".github/workflows/checks.yml (Lead separate no-secrets job only)"
+      ],
+      "acceptance": "Acceso a cuenta permanente, variables públicas de Supabase en build, sin secretos privilegiados en cliente; preview noindex; URLs alojadas y smoke checks reales; consumo de CPU/peticiones observado. No sustituirlo por deployment temporal. Cuenta autenticada: inventariar Workers existentes y publicar con nombres preview distintos. No reemplazar los Workers actuales ni su servicio API sin reconciliar versiones/bindings y rollback.",
+      "risk": "T3; hosting already authorized",
+      "status": "in_progress",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [],
+      "operational_status": "Two new permanent previews deployed e012f52;639hostedHTTP PASS; CPUtails/freefitness/plan/logcoverage unresolved; freshhostedreview running. Existing5Workers unchanged. No DNS/Auth/paidupgrade."
+    },
+    {
+      "id": "D02",
+      "priority": "P0",
+      "title": "Activar dominios con rollback",
+      "depends_on": [
+        "D01",
+        "A01",
+        "E01",
+        "P01",
+        "E01F"
+      ],
+      "scope": [
+        "DNS zones",
+        "Cloudflare Worker domains",
+        "deployment documentation"
+      ],
+      "acceptance": "Snapshot de DNS y destino anterior; conservar correo/verificación. HTTPS, host preferido, redirects y rutas validados. Pruebas locales no usan bases remotas; cualquier comprobación de cuenta debe respetar el entorno autorizado. Rollback registrado; Vercel se retira sólo después de validar.",
+      "risk": "T3; domain cutover already authorized",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [
+        "Cloudflare/DNS account"
+      ]
+    },
+    {
+      "id": "M01",
+      "priority": "P1",
+      "title": "Establecer línea de base de búsqueda y uso",
+      "depends_on": [
+        "D02"
+      ],
+      "scope": [
+        "Search Console",
+        "Bing Webmaster Tools",
+        "privacy-conscious analytics/report artifacts"
+      ],
+      "acceptance": "Propiedades verificadas y sitemaps enviados en cuentas autorizadas. Comprobar y registrar en Search Console la inclusión en funciones generativas de Search según la guía vigente; habilitarla si está disponible y falta. Capturar por separado el informe Generative AI performance y la analítica clásica (URLs canónicas/indexadas, consultas, impresiones, clics y rendimiento), con fecha y ventanas. Si el control, informe o acceso no está disponible, registrar la limitación y dejar esa comprobación pendiente; no sustituirla por métricas clásicas ni inventar tráfico, causalidad o consentimiento.",
+      "risk": "T2; account access dependency",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": [
+        "Search Console/Bing accounts"
+      ]
+    },
+    {
+      "id": "E02",
+      "priority": "P1",
+      "title": "Publicar primera cohorte diferenciada",
+      "depends_on": [
+        "E01",
+        "S03",
+        "AEO01"
+      ],
+      "scope": [
+        "packages/db/seed/",
+        "apps/*/app/{products,categories}/",
+        "apps/people/app/{compare,best,alternatives}/"
+      ],
+      "acceptance": "Validar demanda y elegir diez productos, cinco pares y dos grupos como hipótesis inicial. Datos originales verificables, límites y comparaciones accionables; enlaces contextuales; twin pages con valor distinto y política de duplicados. Revisor certifica evidencia antes de indexar más páginas.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "G01",
+      "priority": "P2",
+      "title": "Crear activos citables y propuestas de distribución",
+      "depends_on": [
+        "E02"
+      ],
+      "scope": [
+        "apps/agents/app/dataset/",
+        "packages/seo/src/jsonld.ts",
+        "research/distribution artifacts"
+      ],
+      "acceptance": "Dataset con método, fecha, fuentes y licencia compatible; resultados reproducibles, no benchmarks inventados. Preparar lugares y mensajes pertinentes para distribución; no enviar comunicaciones ni comprar enlaces sin autorización.",
+      "risk": "T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "M02",
+      "priority": "P1",
+      "title": "Evaluar crecimiento y siguiente cohorte",
+      "depends_on": [
+        "M01",
+        "E02"
+      ],
+      "scope": [
+        "measurement/report artifacts",
+        "plans/production-seo-aeo/"
+      ],
+      "acceptance": "Comparar ventanas 7/28 días y cohortes desde baseline. Muestrear citas AEO con pregunta, motor, fecha, región y URL. Decidir qué mejorar o dejar de publicar usando datos; revisión30/60/90 desde salida real sin scheduler ni promesas de ranking.",
+      "risk": "T1/T2",
+      "status": "pending",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": null,
+      "review_sha": null,
+      "blocked_by_access": []
+    },
+    {
+      "id": "E01F",
+      "priority": "P0",
+      "title": "Cerrar afirmaciones editoriales residuales de la revisión",
+      "depends_on": [
+        "E01"
+      ],
+      "scope": [
+        "packages/db/seed/catalog.json (exact11spans/6fields/one-titleexception)",
+        "apps/people/app/blog/page.tsx (exact3spans)",
+        "tests/fixtures/e01f-repair-manifest.json",
+        "tests/editorial-preservation.test.ts (strict additive inverse/replay wiring)",
+        "tests/editorial-followup.test.ts"
+      ],
+      "acceptance": "Propuesta acotada con spans before/after, preservación de todo otro dato y manifest/proyección explícitos; corregir investigación/identidad no sustentada y repetición/referencia a cálculos inexistentes, sin inventar datos o experiencia. Tests reales de HTML/metadata/Markdown; revisión independiente antes de producción.",
+      "risk": "T2 narrow reviewed extension",
+      "status": "passed",
+      "agent_role": "worker",
+      "review_required": true,
+      "review_evidence": "D01-E01F-implementation-review1.md independentPASS:434tests/types/lint/freshbuilds/localHTTP and independent14span/208manifestpreservationproof.",
+      "review_sha": "e012f52e93dc0448bf23b74fc1969ba6792c2b59",
+      "blocked_by_access": []
+    }
+  ],
+  "execution_policy": {
+    "parallelism": "At most two workers. Dependency readiness alone does not authorize parallel edits.",
+    "file_ownership": "Before dispatch, expand each task scope (including tests, lockfiles and new files) into an explicit file reservation in its brief/worklog. Two tasks may overlap only after the first commits and releases ownership; otherwise run them sequentially. Unknown or directory-wide overlap defaults to sequential execution.",
+    "scope_changes": "A worker stops at its boundary and returns a concrete scope-extension proposal. The lead reviews dependencies and reservations before authorizing the extension; new irreversible behavior retains its proposal gate.",
+    "briefs": "Create a task-specific brief before every dispatch. L01, S01, S02, S03, A01 and C01 briefs are prepared; later tasks receive briefs after their prerequisites are reviewed."
+  }
+}

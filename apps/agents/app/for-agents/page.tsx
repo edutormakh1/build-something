@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Build Something Agents Want developer resources",
   description:
     "Developer resources for the Twin Score catalog: API, SKILL.md, dataset, OpenAPI, llms.txt. When to use and when not.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/for-agents" },
+  alternates: { canonical: abs("agents", "/for-agents") },
 };
 
 export default function Page() {
@@ -32,6 +32,9 @@ export default function Page() {
       <p>
         This page is the named developer-resources hub for the product. Use it when you need machine contracts for the Twin Score catalog: slugs, scores, capability matrices, SKILL.md, OpenAPI, and a CC BY 4.0 dataset. Do not use it when you need a human comparison essay — that is the people twin.
       </p>
+      <p>Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.</p>
+      <p>The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.</p>
+      <p>Dataset JSON and CSV retain the catalog estimates and capability grades. The exports reproduce summaries and gaps from final catalog estimates; they do not contain the original scoring observations.</p>
       <h2>When to use</h2>
       <ul>
         <li>GET /api/v1/products and /api/v1/products/{"{slug}"}</li>

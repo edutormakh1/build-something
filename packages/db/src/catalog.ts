@@ -8,7 +8,7 @@ export function allProducts(): Product[] {
 }
 
 export function getProduct(slug: string): Product | undefined {
-  return catalog.products.find((p) => p.slug === slug);
+  return catalog.products.find((p) => p.slug === slug && p.status === "published");
 }
 
 export function allCategories(): Category[] {
@@ -34,13 +34,16 @@ export function getAuthor(slug: string): Author | undefined {
 }
 
 export function reviewsFor(product: string): Review[] {
+  if (!getProduct(product)) return [];
   return catalog.reviews.filter(
     (r) => r.product === product && r.status === "published",
   );
 }
 
 export function getReview(slug: string): Review | undefined {
-  return catalog.reviews.find((r) => r.slug === slug);
+  return catalog.reviews.find(
+    (r) => r.slug === slug && r.status === "published" && Boolean(getProduct(r.product)),
+  );
 }
 
 export function allArticles(): Article[] {

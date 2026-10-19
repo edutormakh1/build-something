@@ -9,11 +9,12 @@
     ".": "./src/index.ts",
     "./browser": "./src/browser.ts",
     "./server": "./src/server.ts",
-    "./middleware": "./src/middleware.ts"
+    "./middleware": "./src/middleware.ts",
+    "./recovery": "./src/recovery.ts"
   },
   "dependencies": {
     "@supabase/ssr": "0.5.2",
     "@supabase/supabase-js": "2.49.1",
-    "next": "15.5.24"
+    "next": "15.5.28"
   }
 }

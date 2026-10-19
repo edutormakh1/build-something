@@ -2,12 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { allArticles, getAuthor } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, itemListJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Journal",
-  description: "Original research and editorial essays from Build Something People Want. Named authors, 1500+ word pieces.",
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/blog" },
+  description: "Editorial essays and analysis of retained Twin Score estimates from Build Something People Want. Bylines are catalog attributions; firsthand product testing is not documented.",
+  alternates: { canonical: abs("people", "/blog") },
 };
 
 export default function Page() {
@@ -20,10 +20,10 @@ export default function Page() {
       ]} />
       <h1>The journal</h1>
       <p>
-        Long-form English essays on Twin Scores, agentic publishing, and original 2026 research. Every piece has a named author. We do not publish thin listicles with invented user counts.
+        Long-form English essays on Twin Scores and agentic publishing. The articles summarize retained editorial estimates and documented product facts. Bylines are catalog attributions, not verified identities or credentials. We do not publish thin listicles with invented user counts.
       </p>
       <h2>Essays</h2>
-      <h3>Original research first</h3>
+      <h3>Catalog analysis and evidence limits</h3>
       <ul>
         {posts.map((p) => {
           const a = getAuthor(p.author);

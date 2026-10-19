@@ -1,0 +1,13 @@
+# INERT EXAMPLE: do not install/enable during local implementation/review.
+[Unit]
+Description=Build Something initial nocturnal schedule
+
+[Timer]
+OnCalendar=*-*-* 03:00:00 America/Argentina/Buenos_Aires
+AccuracySec=1min
+Persistent=false
+Unit=build-something-nightly.service
+# Skip missed nights. No daytime boot catchup, WakeSystem or linger setup.
+
+[Install]
+WantedBy=timers.target

@@ -1,4 +1,5 @@
 import {
+  allArticles,
   allProducts,
   catalog,
   getArticle,
@@ -9,14 +10,31 @@ import {
   productsInCategory,
   reviewsFor,
 } from "@bs/db";
-import { ORG_NAME, ORG_TAGLINE, siblingUrl, siteUrl, type SiteId } from "./sites";
+import { abs, ORG_NAME, ORG_TAGLINE, siblingUrl, siteUrl, type SiteId } from "./sites";
 import { allCanonical } from "./urls";
+import { resolveComparison, type ComparisonPage } from "./comparisons";
+import { nativeScore } from "./native-score";
+import { RESEARCH_LIMITS, SCORE_LIMITS, SUBMISSION_LIMITS, peopleContactContent, peopleEditorialPolicyContent } from "./page-content";
+import { getCohortProduct, getCohortComparison, COHORT_LEGACY_CONTENT_LABEL, type CohortProduct, type CohortComparison, type CohortProvenance, type CohortClaim, type CohortSource } from "./cohort";
 
 function h(level: number, text: string): string {
   return `${"#".repeat(level)} ${text}`;
 }
 
-export function pageMarkdown(site: SiteId, pathname: string): { status: number; body: string } | { status: 410; body: string } | { status: 404; body: string } {
+function score(value: unknown): number | "n/a" {
+  return nativeScore(value) ?? "n/a";
+}
+
+function withScoreLimits(body: string): string {
+  return body.includes(SCORE_LIMITS) ? body : `${body}\n${SCORE_LIMITS}\n`;
+}
+
+export type MarkdownResult =
+  | { status: 200; body: string; canonicalPath?: string; robots?: string }
+  | { status: 308; body: ""; location: string }
+  | { status: 404 | 410; body: string };
+
+export function pageMarkdown(site: SiteId, pathname: string): MarkdownResult {
   const path = pathname.replace(/\/$/, "") || "/";
   const retired = catalog.retiredSlugs.find((s) => path.endsWith("/" + s) || path.includes("/" + s + "/"));
   if (retired && (path.includes("/products/") || path.includes("/skills/") || path.includes("/alternatives/"))) {
@@ -28,7 +46,14 @@ export function pageMarkdown(site: SiteId, pathname: string): { status: number; 
   if (path === "/methodology") return { status: 200, body: methodologyMd(site) };
   if (path === "/scorecard") return { status: 200, body: scorecardMd(site) };
   if (path === "/about") return { status: 200, body: aboutMd(site) };
+  if (path === "/api") return { status: 200, body: apiMd(site) };
   if (path === "/for-agents") return { status: 200, body: forAgentsMd(site) };
+  if (site === "people") {
+    if (path === "/editorial-policy") return { status: 200, body: editorialPolicyMd() };
+    if (path === "/contact") return { status: 200, body: contactMd() };
+    if (path === "/blog") return { status: 200, body: journalMd() };
+    if (path === "/submit") return { status: 200, body: submitMd() };
+  }
 
   const prod = path.match(/^\/products\/([^/]+)$/);
   if (prod) {
@@ -49,8 +74,18 @@ export function pageMarkdown(site: SiteId, pathname: string): { status: number; 
       if (!c) return { status: 404, body: notFoundMd(site, path) };
       return { status: 200, body: bestMd(c.slug) };
     }
-    const cmp = path.match(/^\/compare\/([^/]+)-vs-([^/]+)$/);
-    if (cmp) return { status: 200, body: compareMd(cmp[1], cmp[2]) };
+    const cmp = path.match(/^\/compare\/([^/]+)$/);
+    if (cmp) {
+      const result = resolveComparison(cmp[1]);
+      if (result.kind === "not-found") {
+        return { status: 404, body: notFoundMd(site, path) };
+      }
+      if (result.kind === "redirect") return { status: 308, location: result.path, body: "" };
+      return {
+        status: 200, body: compareMd(result), canonicalPath: result.path,
+        ...(result.indexable ? {} : { robots: "noindex, follow" }),
+      };
+    }
     const alt = path.match(/^\/alternatives\/([^/]+)$/);
     if (alt) {
       const p = getProduct(alt[1]);
@@ -94,34 +129,105 @@ export function pageMarkdown(site: SiteId, pathname: string): { status: number; 
   return { status: 404, body: notFoundMd(site, path) };
 }
 
+function editorialPolicyMd(): string {
+  const content = peopleEditorialPolicyContent;
+  return `${h(1, content.title)}\n\n${content.openingParagraph}\n\n${h(2, content.independenceHeading)}\n\n${content.independenceParagraph}\n\n${h(3, content.aiAssistanceHeading)}\n\n${content.aiAssistanceParagraph}\n`;
+}
+
+function contactMd(): string {
+  const content = peopleContactContent;
+  return `${h(1, "Contact")}\n\n${content.openingParagraph}\n\n${h(2, content.whatToIncludeHeading)}\n\n${content.whatToIncludeParagraph}\n\n${h(3, content.agentsHeading)}\n\n${content.agentsParagraphPrefix}${abs("agents", "/for-agents")}${content.agentsParagraphSuffix}\n`;
+}
+
+function journalMd(): string {
+  const entries = allArticles().map(article => `- [${article.title}](/blog/${article.slug}) — ${getAuthor(article.author)?.name ?? article.author} · ${article.publishedAt}\n\n${article.description}`).join("\n\n");
+  return `${h(1, "Blog")}\n\nEditorial essays and analysis of retained Twin Score estimates. Bylines are catalog attributions; firsthand product testing is not documented.\n\n${h(2, "Essays")}\n\n${entries}\n`;
+}
+
+function submitMd(): string {
+  return `${h(1, "Submit a product")}\n\nCreate an account, then complete the business profile if you want to request a listing. The listing pitch requires at least 400 characters. Listings remain editorial decisions. Use the HTML submission page for your current account state and form.\n\n${SUBMISSION_LIMITS}\n\n${h(2, "Next steps")}\n\n- [Create an account](/signup)\n- [Log in](/login)\n- [HTML submission page](/submit)\n- [Editorial policy](/editorial-policy)\n`;
+}
+
+function resourceLinksMd(site: SiteId): string {
+  const example = allProducts()[0];
+  return [
+    ["API index", abs(site, "/api/v1")],
+    ["Published products JSON", abs(site, "/api/v1/products")],
+    ...(example ? [[`Reviews for ${example.name}`, abs(site, `/api/v1/reviews?product=${example.slug}`)]] : []),
+    ["OpenAPI", abs(site, "/openapi.json")],
+    ["API catalog", abs(site, "/.well-known/api-catalog")],
+    ["llms.txt", abs(site, "/llms.txt")],
+    ["llms-full.txt", abs(site, "/llms-full.txt")],
+    ["Agents skill index", abs("agents", "/.well-known/agent-skills/index.json")],
+    ["Twin Score dataset JSON", abs("agents", "/dataset/twin-scores.json")],
+    ["Twin Score dataset CSV", abs("agents", "/dataset/twin-scores.csv")],
+  ].map(([label, url]) => `- [${label}](${url})`).join("\n");
+}
+
 function homeMd(site: SiteId): string {
   const top = allProducts()
     .slice()
     .sort((a, b) => (site === "people" ? b.twin.human - a.twin.human : b.twin.agent - a.twin.agent))
     .slice(0, 12)
-    .map((p) => `- [${p.name}](/products/${p.slug}) — Twin Score human ${p.twin.human}, agent ${p.twin.agent}`)
+    .map((p) => `- [${p.name}](/products/${p.slug}) — Twin Score human ${score(p.twin.human)}, agent ${score(p.twin.agent)}`)
     .join("\n");
   const lead =
     site === "people"
-      ? "Build Something People Want is a worldwide editorial directory of software scored for humans and agents. A Twin Score is two staff numbers from 0 to 100 on a public rubric — not crowdsourced stars and not invented user counts. The twin site keeps the same entity slugs for machines."
+      ? "Build Something People Want is a worldwide editorial directory of software scored for humans and agents. A Twin Score is two retained legacy editorial estimates from 0 to 100 — not crowdsourced stars and not invented user counts. The twin site keeps the same entity slugs for machines."
       : "Build Something Agents Want is the machine-first twin of Build Something People Want. Same product slugs and Twin Scores; capability matrices, SKILL.md, OpenAPI, and a CC BY 4.0 dataset instead of magazine prose. We do not ship a fake MCP manifest.";
-  return `${h(1, ORG_NAME[site])}\n\n${lead}\n\n${h(2, "How Twin Scores work")}\n\n${h(3, "Two numbers, one entity")}\n\nEvery product has a human score and an agent score assigned by named staff using public apps and public docs. AggregateRating in JSON-LD is only those editorial composites. Meaning lives in server-rendered HTML even when a 3D canvas is present.\n\n${h(2, "Featured products")}\n\n${top}\n\nSee also: [methodology](/methodology), [scorecard](/scorecard), twin site ${siblingUrl(site)}.\n`;
+  return withScoreLimits(`${h(1, ORG_NAME[site])}\n\n${lead}\n\n${h(2, "How Twin Scores work")}\n\n${h(3, "Two numbers, one entity")}\n\n${RESEARCH_LIMITS} We do not emit AggregateRating for Twin Scores. A scored review uses its own audience score on the native 0–100 scale. Meaning lives in server-rendered HTML even when a 3D canvas is present.\n\n${h(2, "Featured products")}\n\n${top}\n\nSee also: [methodology](/methodology), [scorecard](/scorecard), twin site ${siblingUrl(site)}.\n`);
 }
 
 function productsIndexMd(site: SiteId): string {
   const rows = allProducts()
-    .map((p) => `- [${p.name}](/products/${p.slug}) (${p.vendor}) human ${p.twin.human} / agent ${p.twin.agent}`)
+    .map((p) => `- [${p.name}](/products/${p.slug}) (${p.vendor}) human ${score(p.twin.human)} / agent ${score(p.twin.agent)}`)
     .join("\n");
-  return `${h(1, "All products")}\n\nA worldwide catalog of ${allProducts().length} software products with Twin Scores for humans and agents. Filter on the HTML site; this markdown list is complete.\n\n${h(2, "Directory")}\n\n${h(3, "Published entities")}\n\n${rows}\n`;
+  return withScoreLimits(`${h(1, "All products")}\n\nA worldwide catalog of ${allProducts().length} software products with Twin Scores for humans and agents. Filter on the HTML site; this markdown list is complete.\n\n${h(2, "Directory")}\n\n${h(3, "Published entities")}\n\n${rows}\n`);
+}
+
+function documentaryText(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\|/g, "\\|");
+}
+
+function documentaryProvenanceMd(dossier: CohortProvenance): string {
+  return `Responsible human editor: unassigned. Researcher: ${dossier.researcher}. Method: ${dossier.method}. Checked: ${dossier.checked_on}. Product not tested.\n\nUnknowns describe the limits of this documentation review, not proof that a feature is absent. Documentation checks do not validate retained scores or grades.`;
+}
+
+function documentaryClaimMd(claim: CohortClaim, sources: CohortSource[]): string {
+  const links = claim.source_ids.map(id => {
+    const source = sources.find(source => source.id === id);
+    return source ? `[${id}](${source.url})` : "";
+  }).join(", ") || "Unknown; no supporting source established for this claim.";
+  return `**${claim.id} — ${claim.evidence_status}**: ${documentaryText(claim.statement)} Documentation checked: ${claim.checked_on}. Scope: ${documentaryText(claim.scope)}. Version: ${documentaryText(claim.version)}. Limitations: ${documentaryText(claim.limitations)} Sources: ${links}`;
+}
+
+function documentaryLinksMd(dossier: CohortProduct | CohortComparison, site: SiteId): string {
+  const sources = dossier.sources.map(source => `- [${source.id}: ${documentaryText(source.title)}](${source.url}). Checked: ${source.checked_on}. Limits: ${documentaryText(source.limitations)}`).join("\n");
+  const related = dossier.related_paths.map(path => `- [${path}](${site === "agents" && path.startsWith("/compare/") ? abs("people", path) : path})`).join("\n");
+  return `### Primary documentation\n\n${sources}\n\n### Related decisions\n\n${related}`;
+}
+
+function productDossierMd(dossier: CohortProduct, site: SiteId): string {
+  const decision = site === "people"
+    ? `${documentaryText(dossier.people.question)}\n\n${dossier.people.decision_checks.map(check => `- ${documentaryText(check)}`).join("\n")}`
+    : `${documentaryText(dossier.agents.surface)}\n\n### Preflight\n\n${dossier.agents.preflight.map(check => `- ${documentaryText(check)}`).join("\n")}\n\n### Stop conditions\n\n${dossier.agents.stop_conditions.map(condition => `- ${documentaryText(condition)}`).join("\n")}`;
+  return `${COHORT_LEGACY_CONTENT_LABEL}\n\n## Documentation dossier\n\n${decision}\n\n${documentaryProvenanceMd(dossier)}\n\n### Claims and unknowns\n\n${dossier.claims.map(claim => documentaryClaimMd(claim, dossier.sources)).join("\n\n")}\n\n${documentaryLinksMd(dossier, site)}\n\n`;
+}
+
+function comparisonDossierMd(dossier: CohortComparison, a: string, b: string): string {
+  const cell = (ids: string[]) => dossier.claims.filter(claim => ids.includes(claim.id)).map(claim => documentaryClaimMd(claim, dossier.sources)).join("; ");
+  const rows = dossier.rows.map(row => `| ${documentaryText(row.topic)} | ${cell(row.a_claim_ids)} | ${cell(row.b_claim_ids)} |`).join("\n");
+  return `${COHORT_LEGACY_CONTENT_LABEL}\n\n## Documentation dossier\n\n${documentaryText(dossier.question)}\n\n${dossier.decision_checks.map(check => `- ${documentaryText(check)}`).join("\n")}\n\n${documentaryProvenanceMd(dossier)}\n\n| Decision boundary | ${a} | ${b} |\n|---|---|---|\n${rows}\n\n${documentaryLinksMd(dossier, "people")}\n\n`;
 }
 
 function productMd(site: SiteId, slug: string): string {
   const p = getProduct(slug)!;
   const cap = p.capabilities;
+  const dossier = getCohortProduct(slug);
   const revs = reviewsFor(slug)
-    .map((r) => `- [${r.title}](/reviews/${r.slug}) (${r.kind})`)
+    .map((r) => `- [${r.title}](${site === "people" ? `/reviews/${r.slug}` : abs("people", `/reviews/${r.slug}`)}) (${r.kind})`)
     .join("\n");
-  return `${h(1, p.name)}\n\n${p.longDescription}\n\n${h(2, "Twin Score")}\n\nHuman ${p.twin.human}. Agent ${p.twin.agent}. Updated ${p.twin.updated}. Rubric: /scorecard.\n\n${h(3, "Capability matrix")}\n\n- API: ${cap.api}\n- MCP: ${cap.mcp}\n- CLI: ${cap.cli}\n- Docs: ${cap.docs}\n- Auth: ${cap.auth}\n- SDKs: ${cap.sdks.join(", ") || "none listed"}\n\n${h(2, "Facts")}\n\nVendor ${p.vendor}. Founded ${p.founded}. HQ ${p.headquarters}. Pricing: ${p.pricing}. Website: ${p.website}.\n\n${h(2, "Editorial reviews")}\n\n${revs || "None yet."}\n\nTwin page: ${siblingUrl(site)}/products/${slug}\n`;
+  return withScoreLimits(`${h(1, p.name)}\n\n${p.longDescription}\n\n${dossier ? productDossierMd(dossier, site) : ""}${h(2, "Twin Score")}\n\nHuman ${score(p.twin.human)}. Agent ${score(p.twin.agent)}. Catalog score date ${p.twin.updated}. Rubric: /scorecard.\n\n${h(3, "Capability matrix")}\n\n- API: ${cap.api}\n- MCP: ${cap.mcp}\n- CLI: ${cap.cli}\n- Docs: ${cap.docs}\n- Auth: ${cap.auth}\n- SDKs: ${cap.sdks.join(", ") || "none listed"}\n\n${h(2, "Facts")}\n\nVendor ${p.vendor}. Founded ${p.founded}. HQ ${p.headquarters}. Pricing: ${p.pricing}. Website: ${p.website}.\n\n${h(2, "Editorial reviews")}\n\n${revs || "None yet."}\n\n${h(2, "Agent resources")}\n\n- [SKILL.md](${abs("agents", `/skills/${slug}`)})\n- [Raw skill download](${abs("agents", `/skills/${slug}/raw`)})\n\nTwin page: ${siblingUrl(site)}/products/${slug}\n`);
 }
 
 function categoryMd(site: SiteId, slug: string): string {
@@ -137,20 +243,15 @@ function bestMd(slug: string): string {
   const items = productsInCategory(slug)
     .slice()
     .sort((a, b) => b.twin.human - a.twin.human)
-    .map((p, i) => `${i + 1}. [${p.name}](/products/${p.slug}) — human Twin Score ${p.twin.human}`)
+    .map((p, i) => `${i + 1}. [${p.name}](/products/${p.slug}) — human Twin Score ${score(p.twin.human)}`)
     .join("\n");
-  return `${h(1, `Best ${c.name} software in 2026`)}\n\nEditorial ranking by human Twin Score for ${c.name}. Not a paid placement list and not a fake user poll.\n\n${h(2, "Ranked list")}\n\n${h(3, "How we ordered it")}\n\nWe sort published catalog products in this category by the human Twin Score. Agent scores live on the twin site.\n\n${items}\n`;
+  return withScoreLimits(`${h(1, `Best ${c.name} software in 2026`)}\n\nRanking by retained legacy editorial estimates for ${c.name}. Not a paid placement list and not a fake user poll.\n\n${h(2, "Ranked list")}\n\n${h(3, "How we ordered it")}\n\nWe sort published catalog products in this category by the human Twin Score. Agent scores live on the twin site.\n\n${items}\n`);
 }
 
-function compareMd(a: string, b: string): string {
-  const pa = getProduct(a);
-  const pb = getProduct(b);
-  if (!pa || !pb) return notFoundMd("people", `/compare/${a}-vs-${b}`);
-  const pair = catalog.comparePairs.find(
-    (x) => (x.a === a && x.b === b) || (x.a === b && x.b === a),
-  );
-  const intro = pair?.intro ?? `${pa.name} versus ${pb.name} compared on Twin Scores.`;
-  return `${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${pa.twin.human} | ${pa.twin.agent} |\n| ${pb.name} | ${pb.twin.human} | ${pb.twin.agent} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`;
+function compareMd({ a: pa, b: pb, intro: curatedIntro }: ComparisonPage): string {
+  const intro = curatedIntro ?? `${pa.name} versus ${pb.name} compared on Twin Scores.`;
+  const dossier = getCohortComparison(pa.slug, pb.slug);
+  return withScoreLimits(`${h(1, `${pa.name} vs ${pb.name}`)}\n\n${intro}\n\n${dossier ? comparisonDossierMd(dossier, pa.name, pb.name) : ""}${h(2, "Twin Scores")}\n\n| Product | Human | Agent |\n|---|---:|---:|\n| ${pa.name} | ${score(pa.twin.human)} | ${score(pa.twin.agent)} |\n| ${pb.name} | ${score(pb.twin.human)} | ${score(pb.twin.agent)} |\n\n${h(3, "Capability snapshot")}\n\n${pa.name} API ${pa.capabilities.api}, CLI ${pa.capabilities.cli}. ${pb.name} API ${pb.capabilities.api}, CLI ${pb.capabilities.cli}.\n\nRead each product: /products/${pa.slug} and /products/${pb.slug}.\n`);
 }
 
 function altMd(slug: string): string {
@@ -158,35 +259,39 @@ function altMd(slug: string): string {
   const alts = p.alternatives
     .map(getProduct)
     .filter((x): x is NonNullable<typeof x> => Boolean(x))
-    .map((x) => `- [${x.name}](/products/${x.slug}) — human ${x.twin.human}, agent ${x.twin.agent}`)
+    .map((x) => `- [${x.name}](/products/${x.slug}) — human ${score(x.twin.human)}, agent ${score(x.twin.agent)}`)
     .join("\n");
-  return `${h(1, `Alternatives to ${p.name}`)}\n\n${p.name} is made by ${p.vendor}. These editorial alternatives share a job-to-be-done, not an affiliate relationship.\n\n${h(2, "Shortlist")}\n\n${h(3, "Why these")}\n\nWe link only to other published catalog entities.\n\n${alts}\n`;
+  return withScoreLimits(`${h(1, `Alternatives to ${p.name}`)}\n\n${p.name} is made by ${p.vendor}. These editorial alternatives share a job-to-be-done, not an affiliate relationship.\n\n${h(2, "Shortlist")}\n\n${h(3, "Why these")}\n\nWe link only to other published catalog entities.\n\n${alts}\n`);
 }
 
 function reviewMd(slug: string): string {
   const r = getReview(slug)!;
   const p = getProduct(r.product);
   const author = getAuthor(r.author);
-  return `${h(1, r.title)}\n\n${r.body}\n\n${h(2, "About this review")}\n\nKind: ${r.kind}. Status: ${r.status}. Author: ${author?.name ?? r.author}. Product: ${p?.name ?? r.product}. ${r.sourceUrl ? `Source: ${r.sourceUrl}` : "Staff editorial; not UGC."}\n\n${h(3, "Scores")}\n\nHuman ${r.scoreHuman ?? "n/a"}; agent ${r.scoreAgent ?? "n/a"}.\n`;
+  return withScoreLimits(`${h(1, r.title)}\n\n${r.body}\n\n${h(2, "About this review")}\n\n${r.kind === "public_quote" ? "Public documentation note (editorial paraphrase). Unscored documentation note." : "Review attribution recorded in the catalog; no firsthand test record attached."} Kind: ${r.kind}. Status: ${r.status}. Author: ${author?.name ?? r.author}. Product: ${p?.name ?? r.product}. ${r.sourceUrl ? `Source: ${r.sourceUrl}` : "Catalog editorial attribution; not UGC."}\n\n${h(3, "Scores")}\n\nHuman ${score(r.scoreHuman)}; agent ${score(r.scoreAgent)}.\n`);
 }
 
 function authorMd(slug: string): string {
   const a = getAuthor(slug)!;
-  return `${h(1, a.name)}\n\n${a.bio}\n\n${h(2, "Credentials")}\n\n${a.credentials}\n\n${h(3, "Role")}\n\n${a.role}\n`;
+  return `${h(1, a.name)}\n\n${a.bio}\n\n${h(2, "Attribution and evidence status")}\n\n${a.credentials}\n\n${h(3, "Role")}\n\n${a.role}\n`;
 }
 
 function methodologyMd(site: SiteId): string {
-  return `${h(1, "Methodology")}\n\nTwin Scores are editorial 0–100 composites on a public rubric, assigned by named staff (Edu Tor, Maya Chen, Jonas Okonkwo) using public products, public documentation, and public pricing pages. We do not scrape app-store stars, invent user counts, or sell placement.\n\n${h(2, "Sources")}\n\nPublic apps, docs, pricing pages, and official APIs. Optional public_quote rows require a source URL. User and agent reviews stay pending until an admin approves them.\n\n${h(3, "Updates")}\n\nScores carry an updated date. The seed JSON is the source of truth until Supabase secrets land. Who: named staff. How: public artifacts on a published rubric. Why: a citable directory, not search bait.\n\nSite: ${siteUrl(site)}\n`;
+  return withScoreLimits(`${h(1, "Methodology")}\n\n${SCORE_LIMITS} ${RESEARCH_LIMITS} We do not scrape app-store stars, invent user counts, or sell placement.\n\n${h(2, "Sources")}\n\nDated documentation checks support only their cited claims. Optional public_quote rows are editorial paraphrases with a source URL, not direct quotations or user testimony. ${SUBMISSION_LIMITS}\n\n${h(3, "Updates")}\n\nScores retain their original catalog dates. Public catalog pages read the committed catalog. Account submissions are separate and do not publish automatically. The exports reproduce summaries and gaps from final estimates; they do not contain the original scoring observations.\n\nSite: ${siteUrl(site)}\n`);
 }
 
 function scorecardMd(site: SiteId): string {
   const hDims = catalog.rubric.human.map((d) => `- ${d.label} (${d.weight}%)`).join("\n");
   const aDims = catalog.rubric.agent.map((d) => `- ${d.label} (${d.weight}%)`).join("\n");
-  return `${h(1, "Twin Score rubric")}\n\n${catalog.rubric.notes}\n\n${h(2, "Human dimensions")}\n\n${hDims}\n\n${h(3, "Agent dimensions")}\n\n${aDims}\n\nDownload: ${site === "agents" ? "/dataset/twin-scores.json" : siblingUrl("people") + "/dataset/twin-scores.json"}\n`;
+  return withScoreLimits(`${h(1, "Twin Score rubric")}\n\n${catalog.rubric.notes}\n\n${h(2, "Human dimensions")}\n\n${hDims}\n\n${h(3, "Agent dimensions")}\n\n${aDims}\n\nDownload: ${site === "agents" ? "/dataset/twin-scores.json" : siblingUrl("people") + "/dataset/twin-scores.json"}\n`);
 }
 
 function aboutMd(site: SiteId): string {
-  return `${h(1, `About ${ORG_NAME[site]}`)}\n\n${ORG_TAGLINE[site]} Founded as an editorial project by Edu Tor. Two domains, one entity graph. Worldwide English, not a local directory.\n\n${h(2, "What we are not")}\n\nWe are not an affiliate roundup mill, not a fake review marketplace, and not a purple SaaS landing page.\n\n${h(3, "Contact")}\n\neditor@${site === "people" ? "buildsomethingpeoplewant.com" : "buildsomethingagentswant.com"}\n`;
+  return withScoreLimits(`${h(1, `About ${ORG_NAME[site]}`)}\n\n${ORG_TAGLINE[site]} ${RESEARCH_LIMITS} Two domains, one entity graph. Worldwide English, not a local directory.\n\n${h(2, "What we are not")}\n\nWe are not an affiliate roundup mill, not a fake review marketplace, and not a purple SaaS landing page.\n\n${h(3, "Contact")}\n\neditor@${site === "people" ? "buildsomethingpeoplewant.com" : "buildsomethingagentswant.com"}\n`);
+}
+
+function apiMd(site: SiteId): string {
+  return withScoreLimits(`${h(1, "API docs")}\n\nPublic JSON API sourced from the committed catalog. No key is required for read. Numeric scores and capability grades are retained catalog judgments; documentation checks do not validate product quality.\n\n${RESEARCH_LIMITS}\n\nEndpoints: ${abs(site, "/api/v1")}, ${abs(site, "/api/v1/products")}, ${abs(site, "/api/v1/reviews")}. OpenAPI: ${abs(site, "/openapi.json")}. Errors retain RFC 9457 application/problem+json.\n\nDataset JSON includes rubric notes; CSV contains the same legacy numeric estimates without a separate evidence record.\n\n${h(2, "Public resources")}\n\n${resourceLinksMd(site)}\n`);
 }
 
 function forAgentsMd(site: SiteId): string {
@@ -194,29 +299,30 @@ function forAgentsMd(site: SiteId): string {
     site === "agents"
       ? "Build Something Agents Want developer resources"
       : "For agents";
-  return `${h(1, title)}\n\nMachine-readable catalog, Twin Score dataset, OpenAPI, llms.txt, and SKILL.md files. Use these when you need structured facts. Do not use them when you need a human screenshot walkthrough — that lives on the people site.\n\n${h(2, "When to use")}\n\n- You need slugs, Twin Scores, and capability matrices\n- You need SKILL.md for a product\n- You need RFC 9457 errors from the API\n\n${h(3, "When not to use")}\n\n- You want fake UGC\n- You want an unofficial MCP we did not ship\n- You want Argentina-local listings; this directory is worldwide\n`;
+  return withScoreLimits(`${h(1, title)}\n\nMachine-readable catalog, Twin Score dataset, OpenAPI, llms.txt, and SKILL.md files. ${RESEARCH_LIMITS} Dataset exports retain legacy estimates; they reproduce summaries, not the original scoring observations. Use these when you need structured facts. Do not use them when you need a human screenshot walkthrough — that lives on the people site.\n\n${h(2, "When to use")}\n\n- You need slugs, Twin Scores, and capability matrices\n- You need SKILL.md for a product\n- You need RFC 9457 errors from the API\n\n${h(3, "When not to use")}\n\n- You want fake UGC\n- You want an unofficial MCP we did not ship\n- You want Argentina-local listings; this directory is worldwide\n\n${h(2, "Public resources")}\n\n${resourceLinksMd(site)}\n\n- [People journal](${abs("people", "/blog")})\n- [Editorial policy](${abs("people", "/editorial-policy")})\n`);
 }
 
 export function skillMd(slug: string): string {
   const p = getProduct(slug);
   if (!p) return "";
   const cap = p.capabilities;
-  return `---
+  const dossier = getCohortProduct(slug);
+  return withScoreLimits(`---
 name: ${p.slug}
-description: Operate ${p.name} as an agent using public APIs, CLIs, and docs. Twin Score agent ${p.twin.agent}.
+description: Operate ${p.name} as an agent using public APIs, CLIs, and docs. Twin Score agent ${score(p.twin.agent)}.
 ---
 
 # ${p.name} skill
 
 ${p.longDescription}
 
-## When to use
+${dossier ? productDossierMd(dossier, "agents") : ""}## When to use
 
 Use this skill when a user asks to integrate, script, or evaluate ${p.name} (${p.vendor}).
 
 ## When not to use
 
-Do not claim an MCP server exists unless the capability matrix says so (current MCP level: ${cap.mcp}). Do not invent user-count ratings.
+${dossier ? "See the cohort dossier and its limits for documented MCP roles and access scope. Legacy capability grades do not establish a callable external MCP endpoint." : `Do not claim an MCP server exists unless the capability matrix says so (current MCP level: ${cap.mcp}).`} Do not invent user-count ratings.
 
 ## Capability matrix
 
@@ -244,12 +350,12 @@ ${p.website}
 
 ## Twin Score
 
-Human ${p.twin.human}. Agent ${p.twin.agent}. Updated ${p.twin.updated}. Rubric: https://buildsomethingagentswant.com/scorecard
+Human ${score(p.twin.human)}. Agent ${score(p.twin.agent)}. Catalog score date ${p.twin.updated}. Rubric: ${abs("agents", "/scorecard")}
 
 ## Alternatives
 
-${p.alternatives.map((s) => `- ${s}`).join("\n")}
-`;
+${p.alternatives.filter((slug) => getProduct(slug)).map((slug) => `- ${slug}`).join("\n")}
+`);
 }
 
 export function notFoundMd(site: SiteId, path: string): string {

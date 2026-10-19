@@ -1,0 +1,731 @@
+{
+  "version": 1,
+  "source_sha": "5ef5dc00d844d353690bef979dd76808cc9aad0e",
+  "baseline_catalog_sha256": "3141b0797fc9af3acbe96efc58b726f366eac3e811ee138c2e3e3a34c4db8b1a",
+  "observed_date": "2026-10-16",
+  "status": "data repair implemented; independent implementation review pending; not product verification",
+  "researcher": "Codex agent — documentation review",
+  "responsible_human_editor": null,
+  "method_limits": {
+    "documentation_review": "Vendor documentation supports exactly the recorded claim on the observed date, not experiential product quality.",
+    "catalog_arithmetic": "Derived from preserved legacy numbers; reproducible arithmetic does not validate the underlying estimates.",
+    "responsible_editor": "Unassigned pending human/editorial review; Codex research is not attributed to the existing catalog authors.",
+    "unknown": "Not checked or not established; never silently treat unknown as no/none."
+  },
+  "authors": {
+    "edu-tor": {
+      "name": "Edu Tor",
+      "identity_status": "unverified",
+      "credentials_status": "unverified",
+      "original_assertions": {
+        "role": "Founder and editor-in-chief",
+        "bio": "Edu Tor edits Build Something People Want and Build Something Agents Want. He scores software the way it is actually used: a human sitting at a keyboard, and an agent calling an API. Based worldwide, he has spent a decade shipping catalogs, developer tools, and editorial reviews rather than affiliate roundups.",
+        "credentials": "Editor-in-chief, Build Something; former product and growth operator; public methodology author for the Twin Score rubric."
+      },
+      "firsthand_tests": [],
+      "responsible_human_editor": null,
+      "limits": "A catalog attribution is not identity, employment or firsthand-use verification; absence of records does not prove a false identity."
+    },
+    "maya-chen": {
+      "name": "Maya Chen",
+      "identity_status": "unverified",
+      "credentials_status": "unverified",
+      "original_assertions": {
+        "role": "Staff writer, developer tools",
+        "bio": "Maya Chen covers developer tools, infrastructure, and the unglamorous work of authentication, databases, and deploy pipelines. She writes from first-hand use: CLIs, dashboards, and the docs that either unblock a Monday morning or waste it.",
+        "credentials": "Staff writer covering developer tools; former platform engineer; focuses on API quality, CLI ergonomics, and incident-ready documentation."
+      },
+      "firsthand_tests": [],
+      "responsible_human_editor": null,
+      "limits": "A catalog attribution is not identity, employment or firsthand-use verification; absence of records does not prove a false identity."
+    },
+    "jonas-okonkwo": {
+      "name": "Jonas Okonkwo",
+      "identity_status": "unverified",
+      "credentials_status": "unverified",
+      "original_assertions": {
+        "role": "Staff writer, AI products",
+        "bio": "Jonas Okonkwo reviews AI assistants, research engines, and generative tools as products rather than demos. He tests instruction-following, citation behavior, tool use, and what happens when the model is wrong in front of a customer.",
+        "credentials": "Staff writer covering AI products; evaluates assistants on groundedness, tool use, and operational limits rather than launch-day screenshots."
+      },
+      "firsthand_tests": [],
+      "responsible_human_editor": null,
+      "limits": "A catalog attribution is not identity, employment or firsthand-use verification; absence of records does not prove a false identity."
+    }
+  },
+  "products": {
+    "chatgpt": {
+      "slug": "chatgpt",
+      "name": "ChatGPT",
+      "topic_hypothesis": "H1",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 88,
+        "agent": 90,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "chatgpt-editorial-human",
+        "chatgpt-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "jonas-okonkwo",
+        "maya-chen"
+      ],
+      "documentation_evidence_ids": [
+        "P01"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "claude": {
+      "slug": "claude",
+      "name": "Claude",
+      "topic_hypothesis": "H1",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 86,
+        "agent": 92,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "claude-editorial-human",
+        "claude-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "jonas-okonkwo",
+        "maya-chen"
+      ],
+      "documentation_evidence_ids": [
+        "P03"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "cursor": {
+      "slug": "cursor",
+      "name": "Cursor",
+      "topic_hypothesis": "H1",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 90,
+        "agent": 84,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "cursor-editorial-human",
+        "cursor-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P04"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "github-copilot": {
+      "slug": "github-copilot",
+      "name": "GitHub Copilot",
+      "topic_hypothesis": "H1",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 84,
+        "agent": 72,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "github-copilot-editorial-human",
+        "github-copilot-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P05"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "openai-platform": {
+      "slug": "openai-platform",
+      "name": "OpenAI Platform",
+      "topic_hypothesis": "H1",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 74,
+        "agent": 95,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "openai-platform-editorial-human",
+        "openai-platform-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P02"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "anthropic-api": {
+      "slug": "anthropic-api",
+      "name": "Anthropic API",
+      "topic_hypothesis": "H1",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 72,
+        "agent": 94,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "anthropic-api-editorial-human",
+        "anthropic-api-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P03"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "supabase": {
+      "slug": "supabase",
+      "name": "Supabase",
+      "topic_hypothesis": "H2",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 86,
+        "agent": 93,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "supabase-editorial-human",
+        "supabase-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P06"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "neon": {
+      "slug": "neon",
+      "name": "Neon",
+      "topic_hypothesis": "H2",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 81,
+        "agent": 92,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "neon-editorial-human",
+        "neon-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P07",
+        "P08"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "vercel": {
+      "slug": "vercel",
+      "name": "Vercel",
+      "topic_hypothesis": "H2",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 88,
+        "agent": 87,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "vercel-editorial-human",
+        "vercel-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P09"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    },
+    "cloudflare": {
+      "slug": "cloudflare",
+      "name": "Cloudflare",
+      "topic_hypothesis": "H2",
+      "catalog_status": "published",
+      "legacy_twin": {
+        "human": 80,
+        "agent": 93,
+        "updated": "2026-08-01"
+      },
+      "score_provenance": "existing editorial estimate; no per-dimension observations, evaluator test log or reproduction formula found; preserved, not validated",
+      "existing_review_ids": [
+        "cloudflare-editorial-human",
+        "cloudflare-editorial-agent"
+      ],
+      "existing_review_bylines": [
+        "maya-chen",
+        "edu-tor"
+      ],
+      "documentation_evidence_ids": [
+        "P10"
+      ],
+      "hands_on_tests": [],
+      "numeric_score_changes_proposed": false,
+      "publication_status_change_proposed": false,
+      "unresolved": [
+        "All other product biography, headquarters, founded-year, capability grades and pricing details remain unverified unless an evidence record explicitly supports them.",
+        "Actual user experience, accessibility, reliability, support, output quality, integration success, quota behavior and latency have not been tested."
+      ],
+      "responsible_human_editor": null,
+      "observed_date": "2026-10-16",
+      "researcher": "Codex agent — documentation review",
+      "method": "documentation review"
+    }
+  },
+  "documentation_sources": [
+    {
+      "id": "P01",
+      "product_slugs": [
+        "chatgpt"
+      ],
+      "source_url": "https://learn.chatgpt.com/docs/pricing",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "The current official plan page lists Free, Go, Plus, Pro, Business, Edu and Enterprise and distinguishes API token prices from subscription usage.",
+      "source_locator": "Pricing introduction",
+      "limits": "No plan purchased; region, account eligibility, prices and included usage not verified. Does not prove every third-party ChatGPT integration must use an API key.",
+      "proposed_correction": "Refresh outdated Team-only plan naming in the cohort pricing copy; distinguish chat plan entitlements from API usage without claiming they can never interact."
+    },
+    {
+      "id": "P02",
+      "product_slugs": [
+        "openai-platform"
+      ],
+      "source_url": "https://developers.openai.com/api/docs/quickstart",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "The developer quickstart documents API-key setup and official SDKs, including JavaScript and Python.",
+      "source_locator": "Create and export an API key; Install the OpenAI SDK",
+      "limits": "No API request or key creation; no speed, quality, quota or score validation.",
+      "proposed_correction": "Retain programmatic API access as a documented fact; remove popularity claims such as almost every demo starts here unless separately sourced."
+    },
+    {
+      "id": "P03",
+      "product_slugs": [
+        "claude",
+        "anthropic-api"
+      ],
+      "source_url": "https://support.claude.com/en/articles/9876003-i-have-a-paid-claude-subscription-pro-max-team-or-enterprise-plans-why-is-claude-api-usage-billed-separately-from-my-paid-claude-plan",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "Claude apps and Console/API have separate access and billing; current guidance says Max and Team plans include monthly API credits.",
+      "source_locator": "Paid Claude subscription versus Claude Console explanation",
+      "limits": "No account, billing or credit eligibility checked; not a Messages API schema source. Two attempted Messages documentation URLs could not be retrieved; no endpoint claim is accepted from them.",
+      "proposed_correction": "Include Max and qualify the blanket separation statement: app subscriptions and Console API are separate products, with current Max/Team monthly API-credit entitlements described by the vendor."
+    },
+    {
+      "id": "P04",
+      "product_slugs": [
+        "cursor"
+      ],
+      "source_url": "https://cursor.com/docs/cloud-agent/api/endpoints",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "Cursor documents a Cloud Agents API with POST /v1/agents and Basic or Bearer authentication using user or service-account API keys.",
+      "source_locator": "Cloud Agents API prerequisites; Create An Agent",
+      "limits": "No agent launched, repository connected or API request sent; availability and quotas not tested. No ordinal capability or Twin Score change follows from endpoint existence.",
+      "proposed_correction": "Replace editor-only or teams-only access shorthand with an explicit separately documented Cloud Agents API surface; note endpoint version and plan/access caveats."
+    },
+    {
+      "id": "P05",
+      "product_slugs": [
+        "github-copilot"
+      ],
+      "source_url": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "GitHub documents a Copilot cloud agent that researches repositories and edits files/runs tests in an ephemeral cloud environment; it supports configured MCP context.",
+      "source_locator": "Delegating work; Security and permissions/context access",
+      "limits": "No GitHub task or account action; no success-rate, speed, plan entitlement or arbitrary external task API claim tested. MCP client support is not proof that Copilot hosts an MCP server.",
+      "proposed_correction": "Remove categorical primarily in-editor/not an autonomous repo operator framing. State IDE/chat and delegated cloud repository workflows, without assigning a new score or equating MCP client and server roles."
+    },
+    {
+      "id": "P06",
+      "product_slugs": [
+        "supabase"
+      ],
+      "source_url": "https://supabase.com/docs/guides/getting-started/api-keys",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "Supabase documents publishable and secret keys; anon and service_role are legacy types. Secret keys are backend-only and bypass Row Level Security.",
+      "source_locator": "API key types table; Postgres roles and Row Level Security",
+      "limits": "Documentation only; no project settings or database accessed. Existing installed SDK/recovery implementation not migrated.",
+      "proposed_correction": "Update catalog auth prose to distinguish current publishable/secret and legacy anon/service_role keys, application keys from user JWTs, and server-only elevated access; do not rotate this app’s keys."
+    },
+    {
+      "id": "P07",
+      "product_slugs": [
+        "neon"
+      ],
+      "source_url": "https://neon.com/docs/manage/branches",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "Neon documents branch management through Console, CLI and API; API requests require an API key.",
+      "source_locator": "Branching with the Neon API",
+      "limits": "No branch or database created; branch isolation, latency and cost not tested.",
+      "proposed_correction": null
+    },
+    {
+      "id": "P08",
+      "product_slugs": [
+        "neon"
+      ],
+      "source_url": "https://neon.com/pricing",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "The retrieved pricing page lists Free, Launch and Scale and advertises managed auth, object storage and functions alongside Postgres.",
+      "source_locator": "Plan cards and Backend feature lists",
+      "limits": "A vendor listing is not tested feature parity or universal availability. Typical-spend examples are not fixed subscription prices; no exhaustive enterprise-contract conclusion.",
+      "proposed_correction": "Replace the old Free/Launch/Scale/Business list with a dated nonexhaustive current-plan summary. Remove the unsupported exclusive contrast that Auth+Storage buyers must choose Supabase because Neon only provides Postgres."
+    },
+    {
+      "id": "P09",
+      "product_slugs": [
+        "vercel"
+      ],
+      "source_url": "https://vercel.com/docs/rest-api/deployments/create-a-new-deployment",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "Vercel documents deployment creation at POST https://api.vercel.com/v13/deployments with bearer-token authentication.",
+      "source_locator": "Create a new deployment; Authentication",
+      "limits": "No deployment sent; no quota, build compatibility, pricing or performance verified.",
+      "proposed_correction": null
+    },
+    {
+      "id": "P10",
+      "product_slugs": [
+        "cloudflare"
+      ],
+      "source_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "source_kind": "primary official vendor documentation",
+      "observed_date": "2026-10-16",
+      "method": "documentation review",
+      "researcher": "Codex E01 research worker; not the catalog byline author",
+      "human_editor_responsible": null,
+      "result": "supported by retrieved documentation; product not tested",
+      "supported_claim": "Workers pricing lists a Free allowance of 100000 requests/day and 10ms CPU per invocation; static asset requests have separate free treatment.",
+      "source_locator": "Workers Standard pricing table and footnotes",
+      "limits": "No account plan, real request consumption or Next/OpenNext CPU tested. This does not prove the production app fits Free. Do not mix CDN-plan pricing with Workers compute limits.",
+      "proposed_correction": "Split CDN/DNS plan context from Workers request/CPU pricing and R2 charges in prose; preserve the current hosting validation gate."
+    }
+  ],
+  "topic_hypotheses": [
+    {
+      "id": "H1",
+      "hypothesis": "Choosing a human AI workbench and its separately documented coding/model automation surface",
+      "products": [
+        "chatgpt",
+        "claude",
+        "cursor",
+        "github-copilot",
+        "openai-platform",
+        "anthropic-api"
+      ],
+      "why_defensible": "Existing chat/IDE/API entities and three curated comparisons let the audit distinguish seat access, cloud repository tasks, and model API billing.",
+      "demand_status": "hypothesis pending validation; no volume, traffic, keyword difficulty or ranking claim"
+    },
+    {
+      "id": "H2",
+      "hypothesis": "Choosing backend and deployment surfaces that people configure and agents can automate",
+      "products": [
+        "supabase",
+        "neon",
+        "vercel",
+        "cloudflare"
+      ],
+      "why_defensible": "Existing backend/deployment pairs expose concrete API credentials, branch/deployment operations and cost-unit differences.",
+      "demand_status": "hypothesis pending validation; no search-account or demand dataset available"
+    }
+  ],
+  "comparison_pairs": [
+    {
+      "a": "chatgpt",
+      "b": "claude",
+      "path": "/compare/chatgpt-vs-claude",
+      "stored_orientation_preserved": true,
+      "intro_status": "existing text not independently verified; future rewrite must use cited facts",
+      "topic_hypothesis": "H1"
+    },
+    {
+      "a": "cursor",
+      "b": "github-copilot",
+      "path": "/compare/cursor-vs-github-copilot",
+      "stored_orientation_preserved": true,
+      "intro_status": "existing text not independently verified; future rewrite must use cited facts",
+      "topic_hypothesis": "H1"
+    },
+    {
+      "a": "openai-platform",
+      "b": "anthropic-api",
+      "path": "/compare/openai-platform-vs-anthropic-api",
+      "stored_orientation_preserved": true,
+      "intro_status": "existing text not independently verified; future rewrite must use cited facts",
+      "topic_hypothesis": "H1"
+    },
+    {
+      "a": "supabase",
+      "b": "neon",
+      "path": "/compare/supabase-vs-neon",
+      "stored_orientation_preserved": true,
+      "intro_status": "existing text not independently verified; future rewrite must use cited facts",
+      "topic_hypothesis": "H2"
+    },
+    {
+      "a": "vercel",
+      "b": "cloudflare",
+      "path": "/compare/vercel-vs-cloudflare",
+      "stored_orientation_preserved": true,
+      "intro_status": "existing text not independently verified; future rewrite must use cited facts",
+      "topic_hypothesis": "H2"
+    }
+  ],
+  "catalog_arithmetic": {
+    "method": "read-only Python statistics over published products, grouped by primary category only; no app/test command",
+    "is_empirical_product_evaluation": false,
+    "product_count": 72,
+    "human_review_firsthand_assertion_count": 72,
+    "median_human_minus_agent": -2.0,
+    "category_summary": [
+      {
+        "category": "ai-assistants",
+        "count": 7,
+        "mean_human": 81,
+        "mean_agent": 75.57142857142857,
+        "mean_gap": 5.428571428571429
+      },
+      {
+        "category": "developer-tools",
+        "count": 11,
+        "mean_human": 82.63636363636364,
+        "mean_agent": 84.9090909090909,
+        "mean_gap": -2.272727272727273
+      },
+      {
+        "category": "design",
+        "count": 9,
+        "mean_human": 84.88888888888889,
+        "mean_agent": 66,
+        "mean_gap": 18.88888888888889
+      },
+      {
+        "category": "productivity",
+        "count": 9,
+        "mean_human": 83.44444444444444,
+        "mean_agent": 71.33333333333333,
+        "mean_gap": 12.11111111111111
+      },
+      {
+        "category": "infrastructure",
+        "count": 13,
+        "mean_human": 81.15384615384616,
+        "mean_agent": 88.07692307692308,
+        "mean_gap": -6.923076923076923
+      },
+      {
+        "category": "automation",
+        "count": 3,
+        "mean_human": 83.66666666666667,
+        "mean_agent": 79,
+        "mean_gap": 4.666666666666667
+      },
+      {
+        "category": "marketing",
+        "count": 5,
+        "mean_human": 76.8,
+        "mean_agent": 83.2,
+        "mean_gap": -6.4
+      },
+      {
+        "category": "communications",
+        "count": 6,
+        "mean_human": 82.5,
+        "mean_agent": 79.66666666666667,
+        "mean_gap": 2.8333333333333335
+      },
+      {
+        "category": "payments",
+        "count": 1,
+        "mean_human": 84,
+        "mean_agent": 96,
+        "mean_gap": -12
+      },
+      {
+        "category": "data",
+        "count": 8,
+        "mean_human": 77,
+        "mean_agent": 86.25,
+        "mean_gap": -9.25
+      }
+    ]
+  },
+  "unavailable_sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/api/messages",
+      "result": "retrieval error; not evidence"
+    },
+    {
+      "url": "https://docs.claude.com/en/api/messages",
+      "result": "retrieval error; not evidence"
+    }
+  ]
+}

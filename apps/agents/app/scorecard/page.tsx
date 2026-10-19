@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { catalog } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, datasetJsonLd, webPageJsonLd } from "@bs/seo";
 
 export const metadata: Metadata = {
   title: "Twin Score rubric (agent view)",
   description:
-    "Two numbers, public weights, no star widget with a fake rater count. JSON-LD AggregateRating is staff editorial only.",
-  alternates: { canonical: "https://buildsomethingagentswant.com/scorecard" },
+    "Two editorial scores on a native 0–100 scale and public weights. We do not emit AggregateRating for Twin Scores.",
+  alternates: { canonical: abs("agents", "/scorecard") },
 };
 
 export default function Page() {
@@ -31,8 +31,9 @@ export default function Page() {
       />
       <h1>Twin Score rubric (agent view)</h1>
       <p>
-        A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. JSON-LD AggregateRating is staff editorial only. {catalog.rubric.notes}
+        A Twin Score is two editorial numbers from 0 to 100, not a five-star widget with a made-up rater count. A scored review uses its own audience score on the native 0–100 scale; unscored reviews have no reviewRating. {catalog.rubric.notes}
       </p>
+      <p>The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned.</p>
       <h2>Agent dimensions</h2>
       <table>
         <thead>
@@ -60,7 +61,7 @@ export default function Page() {
       </ul>
       <p>
         Download <Link href="/dataset/twin-scores.json">twin-scores.json</Link> and{" "}
-        <Link href="/dataset/twin-scores.csv">twin-scores.csv</Link> (CC BY 4.0).
+        <Link href="/dataset/twin-scores.csv">twin-scores.csv</Link> (CC BY 4.0). The exports reproduce summaries and gaps from final catalog estimates; they do not contain the original scoring observations.
       </p>
     </article>
   );

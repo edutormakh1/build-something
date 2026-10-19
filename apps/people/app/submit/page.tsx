@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { abs } from "@bs/seo";
 import { createServerSupabase, hasRealSupabase } from "@bs/auth/server";
 import { BusinessProfileForm } from "../../components/auth-forms";
 
@@ -7,6 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Submit a product",
   description: "Request a listing. Sign in first; the long membership card is only for listing, not for entering the site.",
+  alternates: { canonical: abs("people", "/submit") },
 };
 
 export default async function Page() {

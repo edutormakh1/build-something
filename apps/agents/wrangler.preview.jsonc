@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "build-something-agents-preview",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-16",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "build-something-agents-preview"
+    }
+  ],
+  "vars": {
+    "BS_PREVIEW": "1",
+    "NEXT_PUBLIC_PEOPLE_SITE_URL": "https://build-something-people-preview.edutormakh.workers.dev",
+    "NEXT_PUBLIC_AGENTS_SITE_URL": "https://build-something-agents-preview.edutormakh.workers.dev",
+    "NEXT_PUBLIC_SUPABASE_URL": "http://127.0.0.1:9",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "public-anon-placeholder"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "preview_urls": false
+}

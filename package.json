@@ -7,13 +7,26 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint",
-    "test": "vitest run"
+    "lint": "eslint .",
+    "test": "vitest run",
+    "build:cloudflare": "pnpm --filter @bs/people build:cloudflare && pnpm --filter @bs/agents build:cloudflare",
+    "check:cloudflare": "pnpm --filter @bs/people check:cloudflare && pnpm --filter @bs/agents check:cloudflare",
+    "deploy:cloudflare": "pnpm --filter @bs/people deploy:cloudflare && pnpm --filter @bs/agents deploy:cloudflare",
+    "typecheck": "pnpm --filter @bs/people exec tsc --noEmit && pnpm --filter @bs/agents exec tsc --noEmit",
+    "smoke:cloudflare": "node scripts/smoke-cloudflare.mjs",
+    "cloudflare:preview:build": "node scripts/cloudflare-preview.mjs build",
+    "cloudflare:preview:check": "node scripts/cloudflare-preview.mjs check",
+    "cloudflare:preview:deploy": "node scripts/cloudflare-preview.mjs deploy",
+    "cloudflare:preview:smoke": "node scripts/smoke-cloudflare-preview.mjs"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9",
+    "@types/node": "^20.17.12",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.28",
     "turbo": "^2.3.3",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8",
-    "@types/node": "^20.17.12"
+    "vitest": "^2.1.8"
   }
 }

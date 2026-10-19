@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { allAuthors, catalog, getAuthor } from "@bs/db";
+import { allAuthors, catalog, getAuthor, getReview } from "@bs/db";
 import { JsonLd } from "@bs/ui";
-import { breadcrumbJsonLd, personJsonLd } from "@bs/seo";
+import { abs, breadcrumbJsonLd, personJsonLd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -16,14 +16,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: a.name,
     description: a.bio,
-    alternates: { canonical: `https://buildsomethingpeoplewant.com/authors/${a.slug}` },
+    alternates: { canonical: abs("people", `/authors/${a.slug}`) },
   };
 }
 export default async function Page({ params }: Props) {
   const { slug } = await params;
   const a = getAuthor(slug);
   if (!a) notFound();
-  const reviews = catalog.reviews.filter((r) => r.author === a.slug && r.status === "published").slice(0, 20);
+  const reviews = catalog.reviews.filter((r) => r.author === a.slug && getReview(r.slug)).slice(0, 20);
   const posts = catalog.articles.filter((p) => p.author === a.slug);
   return (
     <article className="prose">
@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
       ]} />
       <h1>{a.name}</h1>
       <p>{a.bio}</p>
-      <h2>Credentials</h2>
+      <h2>Attribution and evidence status</h2>
       <p>{a.credentials}</p>
       <h3>Role</h3>
       <p>{a.role}</p>

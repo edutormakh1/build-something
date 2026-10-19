@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { siblingUrl } from "@bs/seo";
 
 const LINKS: [string, string][] = [
   ["Catalog", "/products"],
@@ -37,7 +38,7 @@ export function Footer() {
   return (
     <footer className="site">
       <p>
-        Twin of <a href="https://buildsomethingpeoplewant.com">Build Something People Want</a>.
+        Twin of <a href={siblingUrl("agents")}>Build Something People Want</a>.
         Dataset CC BY 4.0. No fake MCP.
       </p>
       <p>

@@ -21,7 +21,7 @@ export default function Page() {
         </p>
       }
     >
-      <LoginForm nextPath="/account" resetUrl="https://buildsomethingpeoplewant.com/account" />
+      <LoginForm nextPath="/account" />
     </HallShell>
   );
 }

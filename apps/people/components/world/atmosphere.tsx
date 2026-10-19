@@ -1,36 +1,39 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import { usePathname } from "next/navigation";
 import * as THREE from "three";
+import { STILLS } from "@bs/ui";
 
 export function ReflectionRig() {
-  const hero = useTexture("/art/people-hero-3d.png");
-  const hall = useTexture("/art/login-hall-3d.png");
-  const brand = useTexture("/art/brand-mark-3d.png");
-  const scene = useThree((s) => s.scene);
   const path = usePathname();
+  const still =
+    path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/forgot")
+      ? STILLS.people.hall
+      : path.startsWith("/account")
+        ? STILLS.people.environmentMark
+        : STILLS.people.hero;
+  return (
+    <Suspense fallback={null}>
+      <ReflectionTexture url={still} />
+    </Suspense>
+  );
+}
 
+function ReflectionTexture({ url }: { url: string }) {
+  const texture = useTexture(url);
+  const scene = useThree((s) => s.scene);
   useLayoutEffect(() => {
-    for (const t of [hero, hall, brand]) {
-      t.colorSpace = THREE.SRGBColorSpace;
-      t.mapping = THREE.EquirectangularReflectionMapping;
-      t.needsUpdate = true;
-    }
-    const inner =
-      path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/forgot")
-        ? hall
-        : path.startsWith("/account")
-          ? brand
-          : hero;
-    scene.environment = inner;
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    texture.needsUpdate = true;
+    scene.environment = texture;
     return () => {
       scene.environment = null;
     };
-  }, [hero, hall, brand, scene, path]);
-
+  }, [texture, scene]);
   return null;
 }
 

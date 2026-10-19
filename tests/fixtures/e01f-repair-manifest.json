@@ -1,0 +1,268 @@
+{
+  "version": 1,
+  "accepted_e01_commit": "76aaf8236075e2c91533bdef888e1dcc9451fb1f",
+  "implementation_start_commit": "b09f5201e7d18479662c9b2be0035b5ab1b340be",
+  "baseline_files": {
+    "catalog": {
+      "path": "packages/db/seed/catalog.json",
+      "sha256": "562c8ffc668fbc819764ec182067fbe858bc373054dd874391034b33f4bb2952"
+    },
+    "listing": {
+      "path": "apps/people/app/blog/page.tsx",
+      "sha256": "a738db3937306c2d6e5305e5fe240dec03e808053dcc65f84ffd9ef06fe0688a"
+    },
+    "historical_manifest": {
+      "path": "tests/fixtures/e01-repair-manifest.json",
+      "sha256": "da022b6986eccbec878f96928cc164d14537b2e112463e179daf52f544c6d16f"
+    },
+    "preservation_test": {
+      "path": "tests/editorial-preservation.test.ts",
+      "sha256": "044eed9c49d399d4775a2784a54e91fdd14fc1353e98180ef2a7a53a8a4d2e01"
+    }
+  },
+  "baseline_canonical_sha256": "e7dca3df2badf1f22523adebaf4af8021d0cc5a08a11ad2b4122d6071397430d",
+  "after_file_sha256": "f12a2d2efd1704aef5273c735a5e2a72bb6b5b161ef4d2dc93095d9035d3414a",
+  "after_canonical_sha256": "99526b86dcafed9f27c1e8508a2369a6006b16ba7b9c842cb6fe139214bafd59",
+  "title_exception": {
+    "id": "C1",
+    "collection": "articles",
+    "key": "human-vs-agent-software-surfaces-2026",
+    "field": "title",
+    "before": "Human vs agent software surfaces in 2026: original Twin Score research",
+    "after": "Human vs agent software surfaces in 2026: retained Twin Score estimates"
+  },
+  "fields": [
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "title",
+      "before_hash": "87e0025b9ca1277d73592b2207b807ca77612d82014fafad90cd2b198b952e54",
+      "after_hash": "e69f2fd1b2798ca407c93256a50e3a542cc61bec1558015e80bb274e8bad07f5"
+    },
+    {
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "before_hash": "d27659b1501c95303802c8da6277a1b7e4b054c80c85091cee2bb2c6c1656f80",
+      "after_hash": "73b48b89fd7a03421e07059461a15e69e98b2868499006e1184d824f29ae5434"
+    },
+    {
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "before_hash": "5ff4cf88b5800d943e20327055f0397565da77349a0c1bbbb8eaf729c0ae9a19",
+      "after_hash": "291231a30dc5b95faa84e104e89971967512d18a7bc63dc1385569d771884de2"
+    },
+    {
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "before_hash": "350f7629ec2e6a929889672fd8ad45c8c0fb54263246dff7aa50e7f7d38d4086",
+      "after_hash": "e473832a9108ea92baac129e4fc1b88f4b809fdccac1387ab56f00a55709959f"
+    },
+    {
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "before_hash": "4a8f40965f7b3917384eaa65509f241786aa87fe55c32b38615bed1c1cc030b9",
+      "after_hash": "4fc312180432de57e844dfa9cc85955e84262281a6d2dcdc694f29b6239ca6a8"
+    },
+    {
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "before_hash": "e8062df25f1fa93e63722a0f1d11450419de2cb2a6d28d9f107a56a9c2b9324c",
+      "after_hash": "49dd81f4f89d42932a43f231db5cc9c4cd757388466419830d82bcbf8cf83ed1"
+    }
+  ],
+  "patches": [
+    {
+      "id": "C1",
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "title",
+      "before": "Human vs agent software surfaces in 2026: original Twin Score research",
+      "after": "Human vs agent software surfaces in 2026: retained Twin Score estimates",
+      "before_offset": 0,
+      "expected_before_occurrences": 1,
+      "after_offset": 0,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 341058,
+      "after_file_offset": 341058
+    },
+    {
+      "id": "C2",
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "before": "# Human vs agent software surfaces in 2026: original Twin Score research",
+      "after": "# Human vs agent software surfaces in 2026: retained Twin Score estimates",
+      "before_offset": 0,
+      "expected_before_occurrences": 1,
+      "after_offset": 0,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 341464,
+      "after_file_offset": 341465
+    },
+    {
+      "id": "C3",
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "before": " The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results. The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results. The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results.",
+      "after": "The bylines are catalog attributions; the CSV records retained estimates, not firsthand test results.",
+      "before_offset": 9310,
+      "expected_before_occurrences": 1,
+      "after_offset": 9366,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 350938,
+      "after_file_offset": 350995
+    },
+    {
+      "id": "C4",
+      "collection": "articles",
+      "key": "how-twin-score-rubric-works",
+      "field": "body",
+      "before": "Named editors update the JSON.",
+      "after": "The committed JSON is the public record; the responsible human editor is unassigned.",
+      "before_offset": 4547,
+      "expected_before_occurrences": 1,
+      "after_offset": 4547,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 379748,
+      "after_file_offset": 379600
+    },
+    {
+      "id": "C5",
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "before": "Editorial reviews, labeled as editorial, with a named staff author.",
+      "after": "Editorial reviews, labeled as editorial, with a catalog byline; staff status and author identities are unverified.",
+      "before_offset": 981,
+      "expected_before_occurrences": 1,
+      "after_offset": 981,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 404302,
+      "after_file_offset": 404208
+    },
+    {
+      "id": "C6",
+      "collection": "articles",
+      "key": "fake-ugc-editorial-policy",
+      "field": "body",
+      "before": "The original research table in our journal is the alternative:",
+      "after": "The journal's table summarizes retained editorial estimates:",
+      "before_offset": 2388,
+      "expected_before_occurrences": 1,
+      "after_offset": 2435,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 405730,
+      "after_file_offset": 405683
+    },
+    {
+      "id": "C7",
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "before": "### Original 2026 claim",
+      "after": "### Interpretation of retained estimates",
+      "before_offset": 2490,
+      "expected_before_occurrences": 1,
+      "after_offset": 2490,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 517175,
+      "after_file_offset": 517148
+    },
+    {
+      "id": "C8",
+      "collection": "articles",
+      "key": "chatgpt-vs-claude-vs-gemini-2026",
+      "field": "body",
+      "before": "No firsthand test log or per-dimension worksheet is attached; the following calculations summarize the retained estimates.",
+      "after": "No firsthand test log or per-dimension worksheet is attached; this discussion concerns retained estimates, not measured comparative performance.",
+      "before_offset": 2828,
+      "expected_before_occurrences": 1,
+      "after_offset": 2828,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 490558,
+      "after_file_offset": 490509
+    },
+    {
+      "id": "C9",
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "before": "our staff of three",
+      "after": "catalog bylines",
+      "before_offset": 7621,
+      "expected_before_occurrences": 1,
+      "after_offset": 7622,
+      "expected_after_occurrences": 2,
+      "before_file_offset": 349231,
+      "after_file_offset": 349233
+    },
+    {
+      "id": "C10",
+      "collection": "articles",
+      "key": "human-vs-agent-software-surfaces-2026",
+      "field": "body",
+      "before": "Do look at the named author bios. That is E-E-A-T as practice, not as a slogan.",
+      "after": "Do read the catalog bylines and their verification limits; a bio does not establish verified identity, credentials, or firsthand testing.",
+      "before_offset": 7974,
+      "expected_before_occurrences": 1,
+      "after_offset": 7972,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 349591,
+      "after_file_offset": 349590
+    },
+    {
+      "id": "C11",
+      "collection": "articles",
+      "key": "twin-score-gap-table-2026",
+      "field": "body",
+      "before": "named editors",
+      "after": "catalog bylines with unverified identities and credentials",
+      "before_offset": 3041,
+      "expected_before_occurrences": 1,
+      "after_offset": 3058,
+      "expected_after_occurrences": 1,
+      "before_file_offset": 517742,
+      "after_file_offset": 517732
+    }
+  ],
+  "listing": {
+    "path": "apps/people/app/blog/page.tsx",
+    "before_hash": "a738db3937306c2d6e5305e5fe240dec03e808053dcc65f84ffd9ef06fe0688a",
+    "after_hash": "a6a5122070d285a16266b70ac900de6d8810b5cda78b44945b48f90fa3cba010",
+    "patches": [
+      {
+        "id": "L1",
+        "before": "Original research and editorial essays from Build Something People Want. Named authors, 1500+ word pieces.",
+        "after": "Editorial essays and analysis of retained Twin Score estimates from Build Something People Want. Bylines are catalog attributions; firsthand product testing is not documented.",
+        "before_offset": 288,
+        "expected_before_occurrences": 1,
+        "after_offset": 288,
+        "expected_after_occurrences": 1
+      },
+      {
+        "id": "L2",
+        "before": "Long-form English essays on Twin Scores, agentic publishing, and original 2026 research. Every piece has a named author. We do not publish thin listicles with invented user counts.",
+        "after": "Long-form English essays on Twin Scores and agentic publishing. The articles summarize retained editorial estimates and documented product facts. Bylines are catalog attributions, not verified identities or credentials. We do not publish thin listicles with invented user counts.",
+        "before_offset": 852,
+        "expected_before_occurrences": 1,
+        "after_offset": 921,
+        "expected_after_occurrences": 1
+      },
+      {
+        "id": "L3",
+        "before": "Original research first",
+        "after": "Catalog analysis and evidence limits",
+        "before_offset": 1076,
+        "expected_before_occurrences": 1,
+        "after_offset": 1244,
+        "expected_after_occurrences": 1
+      }
+    ]
+  }
+}

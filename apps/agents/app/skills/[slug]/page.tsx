@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { allProducts, getProduct } from "@bs/db";
-import { skillMd } from "@bs/seo";
+import { abs, skillMd } from "@bs/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `SKILL.md for ${p.name}`,
     description: `Agent skill file for ${p.name}.`,
-    alternates: { canonical: `https://buildsomethingagentswant.com/skills/${p.slug}` },
+    alternates: { canonical: abs("agents", `/skills/${p.slug}`) },
   };
 }
 export default async function Page({ params }: Props) {

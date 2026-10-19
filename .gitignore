@@ -9,3 +9,12 @@ coverage
 tsconfig.tsbuildinfo
 hello.txt
 workspace.yaml
+
+# Cloudflare build output, local state and credentials
+.open-next
+.wrangler
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example

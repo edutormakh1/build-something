@@ -8,13 +8,15 @@ export function readTone(): Tone {
 
 export const STILLS = {
   people: {
-    mark: "/art/brand-mark-3d.png",
-    hero: "/art/people-hero-3d.png",
+    mark: "/art/brand-mark-display-v1.webp",
+    environmentMark: "/art/brand-mark-environment-v1.webp",
+    hero: "/art/people-hero-display-v1.webp",
     hall: "/art/login-hall-3d.png",
   },
   agents: {
-    mark: "/art/brand-mark-3d.png",
-    hero: "/art/agents-hero-3d.png",
+    mark: "/art/brand-mark-display-v1.webp",
+    environmentMark: "/art/brand-mark-environment-v1.webp",
+    hero: "/art/agents-hero-display-v1.webp",
     hall: "/art/login-hall-3d.png",
   },
 } as const;

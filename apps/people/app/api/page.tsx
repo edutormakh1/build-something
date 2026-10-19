@@ -1,10 +1,11 @@
+import { abs } from "@bs/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "API docs",
   description: "HTTP API for Twin Score products and reviews. RFC 9457 errors with code, detail, and status.",
-  alternates: { canonical: "https://buildsomethingpeoplewant.com/api" },
+  alternates: { canonical: abs("people", "/api") },
 };
 
 export default function Page() {
@@ -15,6 +16,8 @@ export default function Page() {
         Public JSON API sourced from the committed catalog. Errors use RFC 9457 <code>application/problem+json</code> with
         a stable <code>code</code>, <code>detail</code>, and <code>status</code>. No key required for read.
       </p>
+      <p>Twin Scores are legacy editorial estimates on a 0–100 scale. No firsthand product-test log or per-dimension scoring worksheet is attached to these retained scores. Dated documentation checks establish only the specific product facts they cite; they do not validate the scores.</p>
+      <p>The bylines are catalog attributions; this evidence register contains agent documentation review dated 2026-10-16, with a responsible human editor unassigned. Professional history and firsthand product evaluations are not independently verified in this evidence register. Dataset JSON includes rubric notes; CSV retains the same numeric estimates without a separate evidence record. These exports do not contain the original scoring observations.</p>
       <h2>Endpoints</h2>
       <ul>
         <li><Link href="/api/v1">GET /api/v1</Link> — discovery</li>
@@ -28,7 +31,7 @@ export default function Page() {
       <p>
         Unknown routes and slugs return 404, invalid slugs return 400, and unsupported methods return 405 — all as
         problem+json. The machine-first twin documents the same graph at{" "}
-        <a href="https://buildsomethingagentswant.com/for-agents">Build Something Agents Want developer resources</a>.
+        <a href={abs("agents", "/for-agents")}>Build Something Agents Want developer resources</a>.
       </p>
     </article>
   );

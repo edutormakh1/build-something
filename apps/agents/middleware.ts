@@ -2,9 +2,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import { apiV1MethodGate, isNextInternalRequest, negotiate, shouldSkipAcceptNegotiation } from "@bs/seo";
 import { catalog } from "@bs/db";
 import { updateSession } from "@bs/auth/middleware";
+import { recoveryHeaders } from "@bs/auth/recovery";
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+  if (path === "/auth/recovery" || path === "/reset-password") {
+    return NextResponse.next({ headers: recoveryHeaders });
+  }
   const apiGate = apiV1MethodGate(req.method, path);
   if (apiGate) {
     return new NextResponse(apiGate.body, { status: apiGate.status, headers: apiGate.headers });
@@ -25,7 +29,9 @@ export async function middleware(req: NextRequest) {
     });
   }
   if (chosen === "text/markdown") {
-    const url = req.nextUrl.clone();
+    // Keep Next's exact request origin so this stays an internal rewrite.
+    // nextUrl normalizes 127.0.0.1 to localhost (see skipMiddlewareUrlNormalize).
+    const url = new URL(req.url);
     url.pathname = path === "/" ? "/md" : `/md${path}`;
     const res = NextResponse.rewrite(url);
     res.headers.set("vary", "Accept");
