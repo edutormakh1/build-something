@@ -1,0 +1,23 @@
+# Distribution copy — local draft, unsent
+
+Three audience categories, no recipients or named placements selected: the supplied evidence establishes documentation sources, not placement opportunities. Relevance, editorial fit and redistribution rights remain pending. These messages offer the local [README](README.md), [29-row claims register](claims.json) and [reproducer](generate.mjs) for review, plus the exact existing links below. Existing URLs are source-backed at `989addd145ab7f315d36c8bb30b8c487e57c9a67`; no new GET verification. Product documentation was checked 2026-10-17; products were not tested, human editor unassigned, legacy scores not validated.
+
+## Developer-tool maintainers
+
+Proposed message: “We prepared a dated evidence companion distinguishing documented access boundaries from unknowns. Could this help readers separate API-triggered repository work from repository-native delegation? The claim IDs, primary links and explicit beta, permission and entitlement limits make the distinctions auditable. No task execution or capability grading was performed.”
+
+Offer: `E02-cursor-C01/C02/U01` and `E02-github-copilot-C01/U01` in the register; existing [Cursor vs GitHub Copilot](https://www.buildsomethingpeoplewant.com/compare/cursor-vs-github-copilot), [Cursor Agents dossier](https://www.buildsomethingagentswant.com/products/cursor) and [Copilot Agents dossier](https://www.buildsomethingagentswant.com/products/github-copilot). Reader benefit: distinguish v1 beta from legacy v0 completion support and MCP use inside an agent from a callable external endpoint. No named placement selected.
+
+## Agent integration documentation editors
+
+Proposed message: “Our local companion links dated authentication, workspace and preview-data statements to their primary documentation, alongside explicit unknowns. It may help integration readers identify what to check before writing a backend or creating a preview. The reproducible register preserves the original scope and limitations; it supplies no tested integration, full Messages schema or verified account entitlement.”
+
+Offer: the OpenAI Platform, Anthropic API, Supabase and Neon claim rows; existing [API comparison](https://www.buildsomethingpeoplewant.com/compare/openai-platform-vs-anthropic-api), [preview comparison](https://www.buildsomethingpeoplewant.com/compare/supabase-vs-neon), Agents [OpenAI skill](https://www.buildsomethingagentswant.com/skills/openai-platform), [Anthropic skill](https://www.buildsomethingagentswant.com/skills/anthropic-api), [Supabase skill](https://www.buildsomethingagentswant.com/skills/supabase) and [Neon skill](https://www.buildsomethingagentswant.com/skills/neon). Reader benefit: locate credential/version conditions and preview starting-state questions without treating documentation as operational proof. No named placement selected.
+
+## Comparison-resource editors
+
+Proposed message: “A dated evidence companion distinguishes documented access boundaries and unknowns for software buyers and agent developers. We can offer the local register and its reproduction method for review alongside five existing decision comparisons. They frame questions about access, delegation, APIs, preview data and publishing operations; they make no winner ranking, cost measurement or firsthand product-test claim.”
+
+Offer: existing [ChatGPT vs Claude](https://www.buildsomethingpeoplewant.com/compare/chatgpt-vs-claude), [Cursor vs GitHub Copilot](https://www.buildsomethingpeoplewant.com/compare/cursor-vs-github-copilot), [OpenAI Platform vs Anthropic API](https://www.buildsomethingpeoplewant.com/compare/openai-platform-vs-anthropic-api), [Supabase vs Neon](https://www.buildsomethingpeoplewant.com/compare/supabase-vs-neon) and [Vercel vs Cloudflare](https://www.buildsomethingpeoplewant.com/compare/vercel-vs-cloudflare). Agents [methodology](https://www.buildsomethingagentswant.com/methodology), [scorecard](https://www.buildsomethingagentswant.com/scorecard), [legacy JSON](https://www.buildsomethingagentswant.com/dataset/twin-scores.json) and [legacy CSV](https://www.buildsomethingagentswant.com/dataset/twin-scores.csv) explain retained estimates separately; those exports contain no original scoring observations or E02 claim register. Reader benefit: trace a comparison decision to dated claims and unresolved checks. No named placement selected.
+
+Nothing sent, published or purchased. No placement, backlink, response, traffic, demand, ranking, reuse or endorsement outcome exists from this draft. No vendor prose, research quotations or survey dataset is offered for redistribution; rights assessment and the companion's own licence decision remain pending where unestablished. Not legal advice.
