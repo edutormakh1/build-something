@@ -1,5 +1,7 @@
 import { createRequire } from "node:module";
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
+import { previewOrigins } from "../scripts/cloudflare-preview.mjs";
+import { validateRecoveryRedirect } from "../scripts/smoke-cloudflare-preview.mjs";
 import {
   completeRecovery, hasRecoveryConfig, recoveryPageState, recoveryRequestUrl,
   updateRecoveryPassword,
@@ -142,6 +144,26 @@ describe.each(["people", "agents"])("%s route/action integration", app => {
     const route = new AppRouteRouteModule({ definition: { kind: "APP_ROUTE", page: "/auth/recovery/route", pathname: "/auth/recovery", filename: "route", bundlePath: "" }, userland, resolvedPagePath: "/auth/recovery/route", distDir: ".next", relativeProjectDir: ".", nextConfigOutput: undefined });
     return route.handle(new NextRequest(url, { headers }), { renderOpts: { supportsDynamicResponse: true, experimental: {} }, sharedContext: { buildId: "mock-recovery" }, prerenderManifest: { preview: {} } });
   }
+  it.each([
+    ["local", "invalid"], ["local", "unavailable"],
+    ["hosted", "invalid"], ["hosted", "unavailable"],
+  ])("matches the preview smoke contract for %s no-code %s without Auth", async (mode, error) => {
+    vi.stubEnv(app === "people" ? "NEXT_PUBLIC_PEOPLE_SITE_URL" : "NEXT_PUBLIC_AGENTS_SITE_URL", previewOrigins[app]);
+    if (error === "unavailable") vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "public-anon-placeholder");
+    const origin = mode === "local" ? "http://localhost:36883" : previewOrigins[app];
+    const response = await invoke(`${origin}/auth/recovery?next=https://evil.invalid&redirect=//evil.invalid`, {
+      host: "evil.invalid", "x-forwarded-host": "evil.invalid", "x-forwarded-proto": "http",
+    });
+    expectRedirect(response, `${previewOrigins[app]}/reset-password?error=${error}`);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    expect(bytes.length).toBe(0);
+    expect(response.headers.get("set-cookie")).toBeNull();
+    validateRecoveryRedirect({ status: response.status, headers: Object.fromEntries(response.headers), rawHeaders: [...response.headers].flat(), bytes }, app, error);
+    expect(mocks.client).not.toHaveBeenCalled();
+    expect(supabase.auth.exchangeCodeForSession).not.toHaveBeenCalled();
+    expect(supabase.auth.getUser).not.toHaveBeenCalled();
+    expect(supabase.auth.updateUser).not.toHaveBeenCalled();
+  });
   it("retains all session cookies on the actual Next 303 response", async () => {
     supabase.auth.exchangeCodeForSession.mockImplementationOnce(async () => {
       const store = await cookies();

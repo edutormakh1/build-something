@@ -45,6 +45,23 @@ export function validatePreviewHeaders(rawHeaders, baselineVary, rejectRouterVar
   return rawVary;
 }
 
+export function validateRecoveryRedirect(response, app, error = "unavailable") {
+  assert.ok(Object.hasOwn(previewOrigins, app), "Expected people or agents");
+  assert.ok(["invalid", "unavailable"].includes(error), "Expected a recovery failure");
+  // The checked preview build binds this public origin even on local workerd.
+  // Transport remains loopback; a Location is inspected, never followed.
+  assert.equal(response.status, 303, "Recovery redirect status");
+  assert.equal(response.headers.location, `${previewOrigins[app]}/reset-password?error=${error}`, "Recovery redirect location");
+  assert.equal(response.bytes.length, 0, "Recovery redirect body must be empty");
+  assert.equal(response.headers["set-cookie"], undefined, "Recovery failure must not set cookies");
+  assert.ok(!response.rawHeaders.some((value, i) => i % 2 === 0 && value.toLowerCase() === "set-cookie"), "Recovery failure must not set raw cookies");
+  validatePreviewHeaders(response.rawHeaders);
+  assert.equal(response.headers["referrer-policy"], "no-referrer");
+  assert.equal(response.headers["cache-control"], "private, no-store");
+  assert.equal(response.headers.pragma, "no-cache");
+  assert.equal(response.headers.expires, "0");
+}
+
 export function createRequestBudget(planned = 900) {
   assert.ok(Number.isInteger(planned) && planned > 0 && planned <= 900);
   let count = 0;
@@ -248,15 +265,15 @@ export async function smokePreview(mode, options = {}) {
         assert.equal(new URL(slash.headers.location, origin).pathname, "/products/chatgpt");
         assert.equal(new URL(slash.headers.location, origin).origin, origin);
         await check(slash.headers.location, { type: "text/html" });
-        const callback = await check("/auth/recovery?code=dummy", { status: 303 });
-        assert.equal(callback.headers.location, `${origin}/reset-password?error=unavailable`);
+        for (const route of ["/auth/recovery?code=dummy", "/auth/recovery"]) {
+          const callback = await check(route, { status: 303 });
+          validateRecoveryRedirect(callback, app);
+        }
         const reset = await check("/reset-password?error=unavailable", { marker: "temporarily unavailable" });
         assert.ok(!/type="password"/.test(reset.body), "Unavailable reset must have no password form");
-        for (const response of [callback, reset]) {
-          assert.equal(response.headers["referrer-policy"], "no-referrer");
-          assert.equal(response.headers["cache-control"], "private, no-store");
-          assert.equal(response.headers.pragma, "no-cache"); assert.equal(response.headers.expires, "0");
-        }
+        assert.equal(reset.headers["referrer-policy"], "no-referrer");
+        assert.equal(reset.headers["cache-control"], "private, no-store");
+        assert.equal(reset.headers.pragma, "no-cache"); assert.equal(reset.headers.expires, "0");
         for (const route of ["/robots.txt", "/llms.txt", "/llms-full.txt", "/feed.xml", "/atom.xml", "/openapi.json", "/.well-known/api-catalog"]) await check(route);
         const index = await check("/sitemap.xml", { type: "application/xml" });
         const urls = new Set();

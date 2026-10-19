@@ -2,7 +2,8 @@ import { mkdtemp, mkdir, readFile, rm, writeFile, access, symlink } from "node:f
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { runPreview, previewSettings, safeEnvironment } from "../scripts/cloudflare-preview.mjs";
+import { runPreview, previewSettings, previewOrigins, safeEnvironment } from "../scripts/cloudflare-preview.mjs";
+import { validateRecoveryRedirect } from "../scripts/smoke-cloudflare-preview.mjs";
 
 let root: string;
 let calls: { args: string[]; options: { cwd: string; env: Record<string, string> } }[];
@@ -154,6 +155,50 @@ describe("isolated preview process and artifact lifecycle", () => {
 
 
 describe("preview HTTP evidence guards without network", () => {
+  function recoveryResponse(app = "people", error = "unavailable") {
+    const headers = {
+      location: `${previewOrigins[app]}/reset-password?error=${error}`,
+      "cache-control": "private, no-store", pragma: "no-cache", expires: "0",
+      "referrer-policy": "no-referrer", "x-robots-tag": "noindex, nofollow",
+    };
+    return { status: 303, headers, rawHeaders: Object.entries(headers).flat(), bytes: Buffer.alloc(0) };
+  }
+  it("accepts the recorded CI Location while the old loopback predicate fails", () => {
+    const recorded = "https://build-something-people-preview.edutormakh.workers.dev/reset-password?error=unavailable";
+    const oldExpected = "http://localhost:36883/reset-password?error=unavailable";
+    expect(recorded).not.toBe(oldExpected);
+    const response = recoveryResponse(); response.headers.location = recorded;
+    expect(() => validateRecoveryRedirect(response, "people")).not.toThrow();
+  });
+  it.each(["people", "agents"])("requires the exact configured %s Location, never loopback or a sibling/arbitrary origin", app => {
+    const expected = recoveryResponse(app).headers.location;
+    for (const location of [
+      "http://localhost:36883/reset-password?error=unavailable",
+      recoveryResponse(app === "people" ? "agents" : "people").headers.location,
+      `https://www.buildsomething${app}want.com/reset-password?error=unavailable`,
+      "https://attacker.invalid/reset-password?error=unavailable",
+      expected.replace("https:", "http:"), expected.replace("/reset-password", ":8443/reset-password"),
+      expected.replace("/reset-password", ".attacker.invalid/reset-password"),
+      "/reset-password?error=unavailable", expected.replace("unavailable", "invalid"),
+      expected + "&next=https://attacker.invalid", expected + "#token", expected.replace("/reset-password", "/other"),
+    ]) {
+      const response = recoveryResponse(app); response.headers.location = location;
+      expect(() => validateRecoveryRedirect(response, app)).toThrow(/location/);
+    }
+  });
+  it("rejects status/body/cookie/privacy regressions even with the right Location", () => {
+    expect(() => validateRecoveryRedirect({ ...recoveryResponse(), status: 302 }, "people")).toThrow(/status/);
+    expect(() => validateRecoveryRedirect({ ...recoveryResponse(), bytes: Buffer.from("leak") }, "people")).toThrow(/body/);
+    expect(() => validateRecoveryRedirect({ ...recoveryResponse(), headers: { ...recoveryResponse().headers, "set-cookie": "dummy=1" } }, "people")).toThrow(/cookies/);
+    expect(() => validateRecoveryRedirect({ ...recoveryResponse(), rawHeaders: [...recoveryResponse().rawHeaders, "Set-Cookie", "dummy=1"] }, "people")).toThrow(/cookies/);
+    for (const header of ["cache-control", "pragma", "expires", "referrer-policy"]) {
+      const response = recoveryResponse(); response.headers[header] = "unsafe";
+      expect(() => validateRecoveryRedirect(response, "people")).toThrow();
+    }
+    expect(() => validateRecoveryRedirect({ ...recoveryResponse(), rawHeaders: [] }, "people")).toThrow(/robots/);
+    expect(() => validateRecoveryRedirect(recoveryResponse(), "unknown")).toThrow();
+    expect(() => validateRecoveryRedirect(recoveryResponse(), "people", "success")).toThrow();
+  });
   it("rejects duplicate robot fields and any undeclared edge Vary delta", async () => {
     const { validatePreviewHeaders } = await import("../scripts/smoke-cloudflare-preview.mjs");
     expect(validatePreviewHeaders(["X-Robots-Tag", "noindex, nofollow", "Vary", "Accept"], "accept")).toBe("Accept");
