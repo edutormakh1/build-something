@@ -18,14 +18,21 @@ export default function HomePage() {
   const posts = allArticles().slice(0, 4);
   return (
     <article>
-      <div className="opening">
-        <h1>Find software for the way you work.</h1>
-        <p className="standfirst">
-          Explore products, comparisons and essays. Twin Scores are legacy editorial estimates.
-        </p>
-        <p className="hero-actions">
-          <Link href="/products" className="btn">Explore products</Link>
-        </p>
+      <div className="opening opening--mosaic">
+        <div className="opening-backdrop" aria-hidden="true">
+          {/* Preserve the supplied reference; framing belongs to CSS. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/art/catalog-mosaic-reference.png" alt="" aria-hidden="true" width="1298" height="506" loading="eager" fetchPriority="high" />
+        </div>
+        <div className="opening-copy">
+          <h1>Find software for the way you work.</h1>
+          <p className="standfirst">
+            Explore products, comparisons and essays. Twin Scores are legacy editorial estimates.
+          </p>
+          <p className="hero-actions">
+            <Link href="/products" className="btn">Explore products</Link>
+          </p>
+        </div>
       </div>
       <JsonLd
         data={[

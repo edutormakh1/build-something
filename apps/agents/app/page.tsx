@@ -13,15 +13,22 @@ export default function Page() {
   const products = allProducts().slice().sort((a, b) => b.twin.agent - a.twin.agent).slice(0, 12);
   return (
     <article>
-      <div className="opening">
-        <h1>Find software your agents can use.</h1>
-        <p className="standfirst">
-          Capability matrices, SKILL.md, OpenAPI and downloadable catalog data.
-        </p>
-        <p className="hero-actions">
-          <Link href="/products" className="btn">Browse catalog</Link>
-          <Link href="/for-agents">Developer resources</Link>
-        </p>
+      <div className="opening opening--mosaic">
+        <div className="opening-backdrop" aria-hidden="true">
+          {/* Preserve the supplied reference; framing belongs to CSS. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/art/catalog-mosaic-reference.png" alt="" aria-hidden="true" width="1298" height="506" loading="eager" fetchPriority="high" />
+        </div>
+        <div className="opening-copy">
+          <h1>Find software your agents can use.</h1>
+          <p className="standfirst">
+            Capability matrices, SKILL.md, OpenAPI and downloadable catalog data.
+          </p>
+          <p className="hero-actions">
+            <Link href="/products" className="btn">Browse catalog</Link>
+            <Link href="/for-agents">Developer resources</Link>
+          </p>
+        </div>
       </div>
       <JsonLd data={[
         breadcrumbJsonLd("agents", [{ name: "Home", path: "/" }]),
