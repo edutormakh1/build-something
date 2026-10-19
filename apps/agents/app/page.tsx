@@ -53,6 +53,7 @@ export default function Page() {
           </Link>
         </div>
         <h2>Highest agent Twin Scores</h2>
+        <p>Editorial, not user-count ratings.</p>
       </div>
       <div className="gallery-grid not-prose">
         {products.map((p) => (
