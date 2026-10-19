@@ -6,8 +6,8 @@ Ambos `www` canónicos sirven Next normal mediante Cloudflare Free + Tunnel desd
 `~/.local/share/build-something/releases/20261019-989addd`, fuente
 `989addd145ab7f315d36c8bb30b8c487e57c9a67`, AMB `wa5ad7fb4482cf57b`,
 puertos People 21775 y Agents 21776. Las unidades dedicadas
-`build-something-ui-people.service`, `build-something-ui-agents.service` y
-`build-something-prod-connector.service` quedaron enabled/active. Ubuntu debe
+`newbuild-something-ui-people.service`, `newbuild-something-ui-agents.service` y
+`newbuild-something-prod-connector.service` quedaron enabled/active. Ubuntu debe
 seguir conectado y despierto. La configuración/release `production-ed28` se
 conserva para rollback; sus apps anteriores en 21451/21452 están detenidas y
 deshabilitadas. El [README principal](../../README.md#active-production-hosting--19-october-2026)

@@ -18,8 +18,8 @@ HTTPS apex redirects to `www`, preserving paths and queries. The current domains
 
 The immutable installed release is `~/.local/share/build-something/releases/20261019-989addd`,
 with its own AMB identity `wa5ad7fb4482cf57b`: People listens on 21775 and Agents on 21776.
-The dedicated `build-something-ui-people.service`, `build-something-ui-agents.service` and
-`build-something-prod-connector.service` were recorded enabled and active at cutover. These are
+The dedicated `newbuild-something-ui-people.service`, `newbuild-something-ui-agents.service` and
+`newbuild-something-prod-connector.service` were recorded enabled and active at cutover. These are
 installed operational units; checked-in `.example` files are generic templates, not their configuration.
 Ubuntu must stay connected and awake to serve visitors. Cold-reboot recovery and sustained production
 performance have not been accepted; Free zone + Tunnel does not mean Workers Paid or unlimited capacity.
