@@ -2,12 +2,53 @@
 
 Worldwide Twin Score directory. Two sites, one catalog:
 
-- People (humans): https://buildsomethingpeoplewant.com — `apps/people`
-- Agents (machines): https://buildsomethingagentswant.com — `apps/agents`
+- People (humans): https://www.buildsomethingpeoplewant.com — `apps/people`
+- Agents (machines): https://www.buildsomethingagentswant.com — `apps/agents`
 
 Owner: Edu Tor ([edutormakh1](https://github.com/edutormakh1)). Remote: https://github.com/edutormakh1/build-something.git
 
 Public catalog pages read the committed `packages/db/seed/catalog.json`. Account submissions are separate and do not publish automatically. Twin Scores are retained legacy editorial estimates without attached firsthand test logs. No fake UGC.
+
+## Active production hosting — 19 October 2026
+
+Both canonical `www` sites serve the minimal Next.js UI and the owner's original mosaic from
+source `989addd145ab7f315d36c8bb30b8c487e57c9a67`. Requests flow through Cloudflare Free zones
+and Cloudflare Tunnel to two ordinary Next.js apps on Ubuntu. HTTP redirects to HTTPS;
+HTTPS apex redirects to `www`, preserving paths and queries. The current domains do not use Workers.
+
+The immutable installed release is `~/.local/share/build-something/releases/20261019-989addd`,
+with its own AMB identity `wa5ad7fb4482cf57b`: People listens on 21775 and Agents on 21776.
+The dedicated `build-something-ui-people.service`, `build-something-ui-agents.service` and
+`build-something-prod-connector.service` were recorded enabled and active at cutover. These are
+installed operational units; checked-in `.example` files are generic templates, not their configuration.
+Ubuntu must stay connected and awake to serve visitors. Cold-reboot recovery and sustained production
+performance have not been accepted; Free zone + Tunnel does not mean Workers Paid or unlimited capacity.
+
+Heavy candidate work is bounded to 03:00–06:00 `America/Argentina/Buenos_Aires`. The installed
+nightly runner remains pinned separately to `e46ad116345a6f93290bad815bcdf9ef986e2370` in
+`~/.local/share/build-something/nightly-source`, AMB `wa45c5a672e5dbbe2`. Its timer was activated,
+but activation does not prove a successful night. It does not pull source, verify facts, publish,
+promote a release or restart production. Future source changes are not automatically promoted;
+no current GitHub/CI production deployment credentials or automation are established here.
+See [the Ubuntu operating contract](ops/ubuntu/README.md).
+
+Supabase remains the account backend; the public catalog remains committed JSON. Hosting did not
+migrate the database or accept real login, recovery email/SMTP or Auth allowlists. Only the no-code
+recovery redirect (303 to the invalid-code page) passed. Scoped public-hosting reviews do not close
+full D02, Auth or SEO/AEO; Search Console, Bing, indexing, rankings, citations and revenue remain unmeasured.
+
+Rollback retains the old `production-ed28` configuration/release, while the old apps on 21451/21452
+are stopped and disabled. Vercel remains registrar and fallback, with projects, attachments and DNS
+retained. Keep the shared fallback at least until **2026-10-26T05:45:10.205629Z**, and through observed
+cache horizons; this date does not trigger deletion. The recorded Vercel fallback certificate expires
+24 November 2026 and automatic renewal is unknown. No renewal, billing change or Cloudflare Paid plan
+is authorized. All five old Workers and both preview Workers remain retained.
+
+The final evidence is `People-final-cutover-result-review1.md` and
+`Agents-final-cutover-result-review1.md` in the external Lead run
+`~/.lead/github.com/edutormakh1/build-something/runs/chore/cloudflare-hosting/`.
+The earlier `UI-production-989addd-result-review1.md` is an intermediate activation snapshot;
+its Agents-public/People-apex pending statements were superseded by those final hosting reviews.
 
 ## Stack
 
@@ -43,7 +84,11 @@ The apps use `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the
 `SUPABASE_SERVICE_ROLE_KEY` is privileged and is not required by the current app code. Never put it in
 `NEXT_PUBLIC_*`, browser bundles, committed files or public Wrangler vars. Keep private credentials in their existing secret store.
 
-## Hosting on Cloudflare Workers
+## Alternative / historical Cloudflare Workers hosting
+
+This retained runbook describes a separate OpenNext/Workers alternative, not the active
+Ubuntu + Tunnel deployment. `pnpm deploy:cloudflare` is not the ordinary production release path.
+The occupied-name, binding, security and rollback gates below still apply to any future Workers replacement.
 
 The two apps are configured to deploy as independent Workers using OpenNext. Supabase continues to provide accounts,
 profiles and pending review submissions; public reviews are read from the committed catalog. This hosting change does not migrate or modify the database.
@@ -82,7 +127,7 @@ The catalog can build without Supabase credentials. For a deployment with workin
 Keep the existing production project and data. The site origins in each Wrangler configuration
 are the existing domains, so links and password-reset redirects continue to target those domains.
 
-### Production replacement runbook
+### Alternative Workers production replacement runbook
 
 **Both configured production names are occupied.** The recorded account inventory found
 `build-something-people` and `build-something-agents` running a different implementation with an
@@ -144,8 +189,9 @@ Execute the following sequence for **one specifically reviewed target at a time*
 
 The normal migration is already authorized; these are evidence and target-review gates, not a new routine
 human approval flow. Missing account ownership/access or materially new irreversible scope must be resolved
-separately. Current account/zone status, CPU fit, full DNS/mail inventory, production Auth settings and target
-TLS/rollback readiness must be established before cutover; this document does not claim they are satisfied.
+separately. For any future Workers cutover, refresh account/zone status, Workers CPU fit, full DNS/mail inventory,
+production Auth settings and target TLS/rollback readiness; the Ubuntu hosting result does not satisfy
+these alternative-runtime gates.
 
 The configuration uses a read-only Workers Static Assets cache for build-time catalog pages,
 with cache interception to avoid loading the full Next.js server for cached pages. Account pages
@@ -170,8 +216,8 @@ Vercel remains a rollback option. Both projects build from this monorepo: root d
 
 Twin Pages + Twin Score + public rubric + downloadable CSV/JSON (CC BY 4.0) at:
 
-- https://buildsomethingagentswant.com/dataset/twin-scores.json
-- https://buildsomethingagentswant.com/dataset/twin-scores.csv
+- https://www.buildsomethingagentswant.com/dataset/twin-scores.json
+- https://www.buildsomethingagentswant.com/dataset/twin-scores.csv
 
 Developer resources page title: **Build Something Agents Want developer resources** (`/for-agents` on the agents site), linked from `llms.txt`.
 
