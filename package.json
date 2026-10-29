@@ -17,7 +17,8 @@
     "cloudflare:preview:build": "node scripts/cloudflare-preview.mjs build",
     "cloudflare:preview:check": "node scripts/cloudflare-preview.mjs check",
     "cloudflare:preview:deploy": "node scripts/cloudflare-preview.mjs deploy",
-    "cloudflare:preview:smoke": "node scripts/smoke-cloudflare-preview.mjs"
+    "cloudflare:preview:smoke": "node scripts/smoke-cloudflare-preview.mjs",
+    "env:run": "python3 scripts/project-env.py"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
