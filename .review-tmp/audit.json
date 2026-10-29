@@ -1,0 +1,428 @@
+{
+ "checks": {
+  "admissions128": true,
+  "results128": true,
+  "ordinalsContiguous": true,
+  "noOrphans_admissionResultParity": true,
+  "author96": true,
+  "reviewer32": true,
+  "reviewerAfterAuthor": true,
+  "reviewerExactOrder": true,
+  "noReadiness": true,
+  "noOtherRoles": true,
+  "allOk": true,
+  "noSetCookie": true,
+  "exactSingleNoindexAll": true,
+  "versionFrozen": true,
+  "noRedirectStatus": false,
+  "bytesWithin20MiB": true,
+  "grantSHAmatch": true,
+  "grantCases_people": true,
+  "grantMode600_people": true,
+  "grantCases_agents": true,
+  "grantMode600_agents": true,
+  "policyCaseRequestShape": true,
+  "gap>=1000": true,
+  "oneInFlight": true,
+  "http15s": true,
+  "firstHTTPmatchesBrief": true,
+  "within20minWindow": true,
+  "within90minSession": true,
+  "freezeBeforeHTTP": true,
+  "control59": true,
+  "controlsBeforeFreeze": true,
+  "rawBodyHashBytesMatch": true,
+  "rawHeadersConsistent": false,
+  "offlineAssertionReexec128": true,
+  "A07afterA02reviewer": true,
+  "noFatal": true,
+  "STOPunchanged": true,
+  "authorWTclean": true,
+  "authorWThead": true
+ },
+ "roleAppCounts": {
+  "author/people": 44,
+  "author/agents": 52,
+  "reviewer/people": 16,
+  "reviewer/agents": 16
+ },
+ "versionsFrozen": {
+  "people": "f351bd0f-0cd6-4b59-b405-17bbb1686eac",
+  "agents": "16fbf445-6cdc-444a-b1d4-465138378ebf"
+ },
+ "statusByRole": {
+  "author": {
+   "200": 76,
+   "303": 2,
+   "308": 1,
+   "404": 7,
+   "405": 2,
+   "204": 2,
+   "410": 2,
+   "406": 2,
+   "304": 2
+  },
+  "reviewer": {
+   "200": 27,
+   "303": 2,
+   "405": 2,
+   "404": 1
+  }
+ },
+ "reviewerGrantSHA": {
+  "people": "1af67f10dd85c429229229e3528819afa1999785180fef6e64f02e1995ef9772",
+  "agents": "20ff228459c95bbab32273560ece7ad455a2f1665cb5be760408bc6b8f89e2fd"
+ },
+ "policyCaseKeys": [
+  "accept",
+  "conditional",
+  "headers",
+  "id",
+  "location",
+  "method",
+  "route",
+  "status",
+  "type"
+ ],
+ "minGapMs": 1159,
+ "minIdleAfterValidationMs": 915,
+ "maxHttpMs": 1069,
+ "firstHTTP": "2026-10-17T21:44:50.587Z",
+ "lastAuthorHTTP": "2026-10-17T21:47:02.654Z",
+ "firstReviewerHTTP": "2026-10-17T21:53:14.562Z",
+ "lastReviewerAdmission": "2026-10-17T21:53:53.333Z",
+ "lastReviewerValidationEnded": "2026-10-17T21:53:53.590Z",
+ "sessionDeadline": "2026-10-17T22:17:33.987Z",
+ "sessionStarted": "2026-10-17T20:47:33.987Z",
+ "frozenAt": "2026-10-17T21:44:49.661Z",
+ "controlStatus": {
+  "200": 59
+ },
+ "offlineReexecFailures": 0,
+ "C07": [
+  {
+   "o": 7,
+   "app": "people",
+   "status": 200,
+   "mime": "text/x-component"
+  },
+  {
+   "o": 51,
+   "app": "agents",
+   "status": 200,
+   "mime": "text/x-component"
+  }
+ ],
+ "C20": [
+  {
+   "o": 20,
+   "role": "author",
+   "app": "people",
+   "method": "POST",
+   "status": 405,
+   "bytes": 266
+  },
+  {
+   "o": 64,
+   "role": "author",
+   "app": "agents",
+   "method": "POST",
+   "status": 405,
+   "bytes": 266
+  },
+  {
+   "o": 106,
+   "role": "reviewer",
+   "app": "people",
+   "method": "POST",
+   "status": 405,
+   "bytes": 266
+  },
+  {
+   "o": 122,
+   "role": "reviewer",
+   "app": "agents",
+   "method": "POST",
+   "status": 405,
+   "bytes": 266
+  }
+ ],
+ "revCases": [
+  {
+   "o": 97,
+   "app": "people",
+   "case": "C01",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 434
+  },
+  {
+   "o": 98,
+   "app": "people",
+   "case": "C03",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 304
+  },
+  {
+   "o": 99,
+   "app": "people",
+   "case": "C05",
+   "status": 200,
+   "mime": "text/markdown",
+   "ms": 187
+  },
+  {
+   "o": 100,
+   "app": "people",
+   "case": "C08",
+   "status": 200,
+   "mime": "text/x-component",
+   "ms": 182
+  },
+  {
+   "o": 101,
+   "app": "people",
+   "case": "C10",
+   "status": 200,
+   "mime": "text/x-component",
+   "ms": 197
+  },
+  {
+   "o": 102,
+   "app": "people",
+   "case": "C11",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 185
+  },
+  {
+   "o": 103,
+   "app": "people",
+   "case": "C14",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 347
+  },
+  {
+   "o": 104,
+   "app": "people",
+   "case": "C15",
+   "status": 303,
+   "mime": "",
+   "ms": 303
+  },
+  {
+   "o": 105,
+   "app": "people",
+   "case": "C17",
+   "status": 200,
+   "mime": "application/json",
+   "ms": 376
+  },
+  {
+   "o": 106,
+   "app": "people",
+   "case": "C20",
+   "status": 405,
+   "mime": "application/problem+json",
+   "ms": 163
+  },
+  {
+   "o": 107,
+   "app": "people",
+   "case": "C24",
+   "status": 200,
+   "mime": "text/plain",
+   "ms": 198
+  },
+  {
+   "o": 108,
+   "app": "people",
+   "case": "C32",
+   "status": 200,
+   "mime": "text/javascript",
+   "ms": 160
+  },
+  {
+   "o": 109,
+   "app": "people",
+   "case": "P01",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 187
+  },
+  {
+   "o": 110,
+   "app": "people",
+   "case": "P02",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 259
+  },
+  {
+   "o": 111,
+   "app": "people",
+   "case": "P03",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 207
+  },
+  {
+   "o": 112,
+   "app": "people",
+   "case": "P04",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 222
+  },
+  {
+   "o": 113,
+   "app": "agents",
+   "case": "C01",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 394
+  },
+  {
+   "o": 114,
+   "app": "agents",
+   "case": "C03",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 267
+  },
+  {
+   "o": 115,
+   "app": "agents",
+   "case": "C05",
+   "status": 200,
+   "mime": "text/markdown",
+   "ms": 159
+  },
+  {
+   "o": 116,
+   "app": "agents",
+   "case": "C08",
+   "status": 200,
+   "mime": "text/x-component",
+   "ms": 208
+  },
+  {
+   "o": 117,
+   "app": "agents",
+   "case": "C10",
+   "status": 200,
+   "mime": "text/x-component",
+   "ms": 172
+  },
+  {
+   "o": 118,
+   "app": "agents",
+   "case": "C11",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 212
+  },
+  {
+   "o": 119,
+   "app": "agents",
+   "case": "C14",
+   "status": 200,
+   "mime": "text/html",
+   "ms": 379
+  },
+  {
+   "o": 120,
+   "app": "agents",
+   "case": "C15",
+   "status": 303,
+   "mime": "",
+   "ms": 213
+  },
+  {
+   "o": 121,
+   "app": "agents",
+   "case": "C17",
+   "status": 200,
+   "mime": "application/json",
+   "ms": 194
+  },
+  {
+   "o": 122,
+   "app": "agents",
+   "case": "C20",
+   "status": 405,
+   "mime": "application/problem+json",
+   "ms": 189
+  },
+  {
+   "o": 123,
+   "app": "agents",
+   "case": "C24",
+   "status": 200,
+   "mime": "text/plain",
+   "ms": 190
+  },
+  {
+   "o": 124,
+   "app": "agents",
+   "case": "C32",
+   "status": 200,
+   "mime": "text/javascript",
+   "ms": 171
+  },
+  {
+   "o": 125,
+   "app": "agents",
+   "case": "A02",
+   "status": 200,
+   "mime": "text/markdown",
+   "ms": 170
+  },
+  {
+   "o": 126,
+   "app": "agents",
+   "case": "A05",
+   "status": 200,
+   "mime": "text/markdown",
+   "ms": 174
+  },
+  {
+   "o": 127,
+   "app": "agents",
+   "case": "A07",
+   "status": 200,
+   "mime": "text/markdown",
+   "ms": 196
+  },
+  {
+   "o": 128,
+   "app": "agents",
+   "case": "A11",
+   "status": 404,
+   "mime": "text/plain",
+   "ms": 161
+  }
+ ],
+ "STOPsha": "6afa962298616e25a5df3dc9f7354b6dca9aff1881265dc50565872d6f838efe",
+ "continuationV3sha": "6d8b36518f8e3d1e30023b20693a32d3d4b8a6611550f41c5f7c15fad986eea5",
+ "outputHashesSha": "00bbce703191ad97d9e03d7fa7ce084b8847ba64f4aae6471c95e22997a8e392",
+ "manifestType": "dict",
+ "fails": [
+  [
+   "noRedirectStatus",
+   null
+  ],
+  [
+   "rawHeadersConsistent",
+   [
+    15,
+    16,
+    59,
+    104,
+    120
+   ]
+  ]
+ ]
+}
